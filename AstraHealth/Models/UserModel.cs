@@ -2,7 +2,7 @@
 
 namespace AstraHealth.Models
 {
-    public class AkunModel
+    public class UserModel
     {
 
         public string username { get; set; }
