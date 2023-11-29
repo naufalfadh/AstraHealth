@@ -9,6 +9,5 @@ namespace AstraHealth.Models
 
         public string password { get; set; }
 
-        nopal kontol
     }
 }
