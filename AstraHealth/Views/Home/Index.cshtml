@@ -22,22 +22,57 @@
     <link rel="stylesheet" href="~/content/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="~/content/images/favicon.jpg" />
+    <style>
+        body {
+            background-image: url('content/images/IMG_Background.jpg');
+            background-size:100%;
+        }
+        /* Gaya tambahan untuk header */
+        header {
+            top: 0;
+            left: 0;
+            right: 0;
+            position: fixed;
+            height: 70px;
+            width: 100% !important;
+            padding: 10px 20px 10px 20px;
+            box-shadow: 0px 2px 0px 0px #EEE;
+            background-color: white;
+            z-index: 4;
+        }
+        
+
+            header img {
+                max-width: 150px; /* Lebar maksimum logo */
+        }
+        /* Gaya tambahan untuk footer */
+        footer {
+            background-color: #ffffff; /* Warna latar belakang footer */
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Header -->
+    <header>
+        <img src="~/content/images/IMG_Logo.png" alt="logo">
+    </header>
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
                 <div class="row flex-grow">
                     <div class="col-lg-6 d-flex align-items-center justify-content-center">
                         <div class="auth-form-transparent text-left p-3">
-                            <div class="brand-logo">
-                                <img src="~/content/images/logo.png" alt="logo">
-                            </div>
+                            
                             <h2>LOGIN</h2>
                             <form method="post" action="Home/Login">
                                 <div class="col-12">
-                                    <label asp-for="username" class="control-label">Username</label>
+                                    <label asp-for="username" class="control-label">Nama Akun</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend bg-transparent">
                                             <span class="input-group-text bg-transparent border-right-0">
@@ -50,7 +85,7 @@
                                 </div>
                                 <br>
                                 <div class="col-12">
-                                    <label asp-for="password" class="control-label">Password</label>
+                                    <label asp-for="password" class="control-label">Kata Sandi</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend bg-transparent">
                                             <span class="input-group-text bg-transparent border-right-0">
@@ -64,14 +99,17 @@
                                 <br>
                                 <br>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100" type="submit">Login</button>
+                                    <button class="btn btn-primary w-100" type="submit">Masuk</button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="col-lg-6 login-half-bg d-flex flex-row">
-                        <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; 2021  All rights reserved.</p>
-                    </div>
+                    <footer>
+                        <p class="text-black font-weight-medium text-right flex-grow align-self-end">
+                            Hak Cipta &copy; 2021 Semua hak dilindungi.
+                        </p>
+                    </footer>
+                      
                 </div>
             </div>
             <!-- content-wrapper ends -->
