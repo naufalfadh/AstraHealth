@@ -32,86 +32,124 @@
     <script src="~/content/vendors/chart.js/Chart.min.js"></script>
     <script src="~/content/vendors/progressbar.js/progressbar.min.js"></script>
     <script src="~/content/vendors/chartjs-plugin-datalabels/chartjs-plugin-datalabels.js"></script>
-    <script src="~/content/vendors/justgage/raphael-2.1.4.min.js"></script>ss
+    <script src="~/content/vendors/justgage/raphael-2.1.4.min.js"></script>
     <script src="~/content/vendors/justgage/justgage.js"></script>
     <script src="~/content/js/jquery.cookie.js" type="text/javascript"></script>
     <!-- Custom js for this page-->
     <script src="~/content/js/dashboard.js"></script>
     <!-- End custom js for this page-->
+
+    <style>
+        body {
+            background-image: url('content/images/IMG_Background.jpg');
+            background-size: 100%;
+        }
+
+        /* Gaya tambahan untuk footer */
+        footer {
+            background-color: #ffffff; /* Warna latar belakang footer */
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="horizontal-menu">
-        <nav class="navbar top-navbar col-lg-12 col-12 p-0">
-            <div class="container-fluid">
-                <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
-                    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
 
-                        <a class="navbar-brand brand-logo" href="index.html"><img src="~/content/images/IMG_Logo.png" alt="logo" /></a>
+        <div class="horizontal-menu">
+            <nav class="navbar top-navbar col-lg-12 col-12 p-0">
+                <div class="container-fluid">
+                    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
+                    <div class="logo-container">
+                        <img src="~/content/images/IMG_Logo.png" alt="logo" style="max-width: 150px;" />
                     </div>
-                    <ul class="navbar-nav navbar-nav-right">
-                        <li class="nav-item dropdown  d-lg-flex d-none">
-                            <button type="button" class="btn btn-inverse-primary btn-sm">Product </button>
-                        </li>
-                        <li class="nav-item dropdown d-lg-flex d-none">
-                            <a class="dropdown-toggle show-dropdown-arrow btn btn-inverse-primary btn-sm" id="nreportDropdown" href="#" data-bs-toggle="dropdown">
-                                Reports
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="nreportDropdown">
-                                <p class="mb-0 font-weight-medium float-left dropdown-header">Reports</p>
-                                <a class="dropdown-item">
-                                    <i class="mdi mdi-file-pdf text-primary"></i>
-                                    Pdf
+                        <ul class="navbar-nav navbar-nav-right">
+                            <li class="nav-item dropdown d-lg-flex d-none">
+                            <a class="nav-link collapsed" asp-controller="Dashboard" action="Index">
+                                <button type="button" class="btn btn-inverse-primary btn-sm">Dashboard</button>
                                 </a>
-                                <a class="dropdown-item">
-                                    <i class="mdi mdi-file-excel text-primary"></i>
-                                    Exel
+                            </li>
+                            <li class="nav-item dropdown d-lg-flex d-none">
+                                <button type="button" class="btn btn-inverse-primary btn-sm">Regisrasi Account</button>
+                            </li>
+                            <li class="nav-item dropdown d-lg-flex d-none">
+                                <a class="dropdown-toggle show-dropdown-arrow btn btn-inverse-primary btn-sm" id="nreportDropdown" href="#" data-bs-toggle="dropdown">
+                                    Laporan
                                 </a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown d-lg-flex d-none">
-                            <button type="button" class="btn btn-inverse-primary btn-sm">Settings</button>
-                        </li>
-                        <li class="nav-item nav-profile dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-                                <span class="nav-profile-name">Naufal</span>
-                                <span class="online-status"></span>
-                                <img src="~/content/images/faces/face29.jpg" alt="profile" />
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                                <a class="dropdown-item">
-                                    <i class="mdi mdi-settings text-primary"></i>
-                                    Settings
+                                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="nreportDropdown">
+                                    <p class="mb-0 font-weight-medium float-left dropdown-header">Laporan</p>
+                                    <a class="dropdown-item">
+                                        <i class="mdi mdi-file text-primary"></i>
+                                        Laporan Diagnosa Sakit
+                                    </a>
+                                    <a class="dropdown-item">
+                                        <i class="mdi mdi-file text-primary"></i>
+                                        Laporan Prodi Dan Departemen
+                                    </a>
+                                    <a class="dropdown-item">
+                                        <i class="mdi mdi-file text-primary"></i>
+                                        Laporan Pemakaian Obat
+                                    </a>
+                                    <a class="dropdown-item">
+                                        <i class="mdi mdi-file text-primary"></i>
+                                        Laporan Kecelakaan Dan Rujukan
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item nav-profile dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
+                                    <span class="nav-profile-name">Profile</span>
+                                    <span class="online-status"></span>
+                                    <img src="~/content/images/faces/face29.jpg" alt="profile" />
                                 </a>
-                                <a class="dropdown-item">
-                                    <i class="mdi mdi-logout text-primary"></i>
-                                    Logout
-                                </a>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="horizontal-menu-toggle">
-                        <span class="mdi mdi-menu"></span>
-                    </button>
+                                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                                   
+                                    <a class="dropdown-item">
+                                        <i class="mdi mdi-logout text-primary"></i>
+                                        Logout
+                                    </a>
+                                   
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                                data-toggle="horizontal-menu-toggle">
+                            <span class="mdi mdi-menu"></span>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </nav>
-
-    </div>
-
+            </nav>
+            <nav class="bottom-navbar">
+                <div class="container">
+                    <ul class="nav page-navigation">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" asp-controller="Dashboard" action="Index">
+                                <i class="mdi mdi-file-document-box menu-icon"></i>
+                                <span class="menu-title">Dashboard</span>
+                            </a>
+                        </li>
+                        <!-- ... (your existing code) ... -->
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    <!-- Header -->
+       
+        <footer>
+        <p class="text-black font-weight-medium text-right flex-grow align-self-end">
+            Hak Cipta &copy; 2023 Semua hak dilindungi.
+        </p>
+    </footer>
     <main id="main" class="main">
 
-
+      
         @RenderBody()
 
     </main><!-- End #main -->
 
-    <footer>
-        <p class="text-black font-weight-medium text-right flex-grow align-self-end">
-            Hak Cipta &copy; 2021 Semua hak dilindungi.
-        </p>
-    </footer>
+   
 </body>
-ssss
 </html>
