@@ -20,7 +20,7 @@ namespace AstraHealth.Models
             UserModel UserModel = new UserModel();
             try
             {
-                string query = "SELECT * FROM [user] WHERE username = @p1 AND password = @p2";
+                string query = "SELECT * FROM [ahl_msakun] WHERE akn_id = @p1 AND akn_password = @p2";
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", username);
                 command.Parameters.AddWithValue("@p2", password);
@@ -29,8 +29,8 @@ namespace AstraHealth.Models
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    UserModel.username = reader["username"].ToString();
-                    UserModel.password = reader["password"].ToString();       
+                    UserModel.username = reader["akn_id"].ToString();
+                    UserModel.password = reader["akn_password"].ToString();       
                     reader.Close();
                 }
                 else
@@ -54,7 +54,7 @@ namespace AstraHealth.Models
             List<UserModel> UserList = new List<UserModel>();
             try
             {
-                string query = "select * from [user]";
+                string query = "select * from [ahl_msakun]";
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -62,8 +62,8 @@ namespace AstraHealth.Models
                 {
                     UserModel User = new UserModel
                     {
-                        username = reader["username"].ToString(),
-                        password = reader["password"].ToString(),
+                        username = reader["akn_id"].ToString(),
+                        password = reader["akn_password"].ToString(),
                     };
                     UserList.Add(User);
                 }

@@ -9,8 +9,5 @@ namespace AstraHealth.Models
 
         public string password { get; set; }
 
-        public string role { get; set; }
-
-      
     }
 }

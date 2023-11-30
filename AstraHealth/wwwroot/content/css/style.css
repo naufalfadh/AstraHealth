@@ -12764,13 +12764,14 @@ fieldset:disabled .btn {
 }
 
 .navbar {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+    font-weight: 400;
+    padding-left: 30px;
+    padding-right: 30px;
+    z-index: 100;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background-color: white;
 }
 
 .navbar > .container,
