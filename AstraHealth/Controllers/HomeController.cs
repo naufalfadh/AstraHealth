@@ -33,10 +33,10 @@ namespace AstraHealth.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string username, string password)
+        public IActionResult Login(string akn_id, string akn_password)
         {
             // Pastikan bahwa username dan password valid
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(akn_id) || string.IsNullOrEmpty(akn_password))
             {
                 // Jika username atau password tidak valid, kembali ke halaman login atau tampilkan pesan kesalahan
                 TempData["ErrorMessage"] = "Username dan password harus diisi.";
@@ -44,7 +44,7 @@ namespace AstraHealth.Controllers
             }
 
             // Dapatkan data anggota berdasarkan username dan password
-            AkunModel akunModel = _akunRepository.getDataByUsernamePassword(username, password);
+            AkunModel akunModel = _akunRepository.getDataByUsernamePassword(akn_id, akn_password);
 
             if (akunModel == null)
             {
