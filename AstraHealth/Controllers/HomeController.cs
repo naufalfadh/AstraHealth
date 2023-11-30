@@ -2,17 +2,18 @@
 using Newtonsoft.Json;
 using AstraHealth.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication;
 
 namespace AstraHealth.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly User _userRepository;
+        private readonly Akun _akunRepository;
 
         public HomeController(IConfiguration configuration)
         {
-            _userRepository = new User(configuration);
+            _akunRepository = new Akun(configuration);
         }
 
         public IActionResult Index()
@@ -31,21 +32,43 @@ namespace AstraHealth.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-            [HttpPost]
-            public IActionResult Login(string username, string password)
+        [HttpPost]
+        public IActionResult Login(string username, string password)
+        {
+            // Pastikan bahwa username dan password valid
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                UserModel userModel = _userRepository.getDataByUsername_Password(username, password);
-                if (userModel != null)
-                {
-                    string serializedModel = JsonConvert.SerializeObject(userModel);
-
-                    HttpContext.Session.SetString("Identity", serializedModel);
-                    return RedirectToAction("Index", "Dashboard");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+                // Jika username atau password tidak valid, kembali ke halaman login atau tampilkan pesan kesalahan
+                TempData["ErrorMessage"] = "Username dan password harus diisi.";
+                return RedirectToAction("Index", "Home"); // Ganti "Account" dengan nama controller akun Anda
             }
+
+            // Dapatkan data anggota berdasarkan username dan password
+            AkunModel akunModel = _akunRepository.getDataByUsernamePassword(username, password);
+
+            if (akunModel == null)
+            {
+                // Jika data anggota tidak ditemukan, berarti kredensial salah
+                TempData["ErrorMessage"] = "Username atau password salah.";
+                return RedirectToAction("Index", "Home"); // Ganti "Account" dengan nama controller akun Anda
+            }
+
+            // Jika berhasil, atur sesi
+            string serializedModel = JsonConvert.SerializeObject(akunModel);
+            HttpContext.Session.SetString("Identity", serializedModel);
+            HttpContext.Session.SetString("Role", akunModel.akn_role); // Simpan peran dalam sesi
+
+            // Arahkan ke halaman Dashboard
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+        public IActionResult Logout()
+        {
+            // Hapus token otentikasi di sisi klien
+            HttpContext.SignOutAsync();
+
+            // Redirect pengguna ke halaman login
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
