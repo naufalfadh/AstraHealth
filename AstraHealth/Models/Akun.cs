@@ -16,21 +16,21 @@ namespace AstraHealth.Models
             _connection = new SqlConnection(_connectionString);
         }
 
-        public AkunModel getDataByUsernamePassword(string username, string password)
+        public AkunModel getDataByUsernamePassword(string akn_id, string akn_password)
         {
             AkunModel akunModel = new AkunModel();
             try
             {
-                string query = "SELECT * from ahl_msakun where akn_id = @p1 AND password=@p2";
+                string query = "SELECT * from ahl_msakun where akn_id = @p1 AND akn_password=@p2";
                 SqlCommand command = new SqlCommand(query, _connection);
-                command.Parameters.AddWithValue("@p1", username);
-                command.Parameters.AddWithValue("@p2", password);
+                command.Parameters.AddWithValue("@p1", akn_id);
+                command.Parameters.AddWithValue("@p2", akn_password);
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    akunModel.akn_id = Convert.ToInt32(reader["akn_id"]);
+                    akunModel.akn_id = reader["akn_id"].ToString();
                     akunModel.akn_nama = reader["akn_nama"].ToString();
                     akunModel.akn_password = reader["akn_password"].ToString();
                     akunModel.akn_role = reader["akn_role"].ToString();
