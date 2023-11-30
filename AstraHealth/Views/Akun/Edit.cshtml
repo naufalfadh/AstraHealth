@@ -1,0 +1,48 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model AstraHealth.Models.AkunModel
+@{
+    ViewData["Title"] = "Edit Akun";
+}
+
+<div class="content">
+    <div class="contrainer-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Edit Buku</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <div class="form-group">
+                                <label asp-for="akn_id" class="control-label">Username</label>
+                                <input asp-for="akn_id" class="form-control" />
+                                <span asp-validation-for="akn_id" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="akn_nama" class="control-label">Password</label>
+                                <input asp-for="akn_nama" class="form-control" />
+                                <span asp-validation-for="akn_nama" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="akn_password" class="control-label">Password</label>
+                                <input asp-for="akn_password" class="form-control" />
+                                <span asp-validation-for="akn_password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="akn_role" class="control-label">Role</label>
+                                <input asp-for="akn_role" class="form-control" />
+                                <span asp-validation-for="akn_role" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

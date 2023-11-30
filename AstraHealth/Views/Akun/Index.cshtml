@@ -1,0 +1,113 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<AstraHealth.Models.AkunModel>
+@{
+    ViewData["Title"] = "Master Akun";
+    int no = 1;
+}
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Master akun</h5>
+                    <hr />
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="row">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="bi bi-check-circle me-1"></i>
+                                <strong>Sukses!</strong> @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    }
+                    <a class="btn btn-primary" asp-action="Create">Tambah Akun</a>
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col">Password</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var akun in Model)
+                            {
+                                <tr>
+                                    <td>@(no++)</td>
+                                    <td>@akun.akn_id</td>
+                                    <td>@akun.akn_nama</td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" value="@akun.akn_password" readonly />
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword(this)">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@akun.akn_role</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger delete-button" data-id="@akun.akn_id"><i class="fas fa-trash"></i></button>
+                                        <a asp-asp-controller="akun" asp-action="Edit" asp-route-id="@akun.akn_id" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-info-circle"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function togglePassword(button) {
+        var input = $(button).closest('.input-group').find('input');
+        var type = input.attr('type') === 'password' ? 'text' : 'password';
+        input.attr('type', type);
+        $(button).find('i').toggleClass('fa-eye fa-eye-slash');
+    } 
+
+    $(document).ready(function () {
+        $(".delete-button").click(function () {
+            var akunId = $(this).data("id");
+
+            swal({
+                title: "Hapus akun?",
+                text: "Apakah anda yakin ingin menghapus akun ini?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "/akun/Delete/" + akunId, // Perbaiki URL dengan menambahkan tanda "/"
+                        type: "POST",
+                        success: function (data) {
+                            if (data.success) {
+                                swal("Sukses!", data.message, "success");
+                                location.reload();
+                            } else {
+                                swal("Gagal!", data.message, "error");
+                            }
+                        },
+                        error: function () {
+                            swal("Error", "Terjadi kesalahan saat menghapus akun.", "error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
