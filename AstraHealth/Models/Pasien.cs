@@ -19,7 +19,7 @@ namespace AstraHealth.Models
             List<PasienModel> pasienList = new List<PasienModel>();
             try
             {
-                string query = "select * from trregistrasi";
+                string query = "select * from ahl_trregistrasi";
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -58,7 +58,7 @@ namespace AstraHealth.Models
             PasienModel pasienModel = new PasienModel();
             try
             {
-                string query = "select * from trregistrasi where rgs_id = @p1";
+                string query = "select * from ahl_trregistrasi where rgs_id = @p1";
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
                 _connection.Open();
@@ -91,21 +91,20 @@ namespace AstraHealth.Models
         {
             try
             {
-                string query = "insert into trregistrasi values(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13)";
+                string query = "insert into ahl_trregistrasi values(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)";
                 SqlCommand command = new SqlCommand(query, _connection);
-                command.Parameters.AddWithValue("@p1", pasienModel.rgs_id_admin);
-                command.Parameters.AddWithValue("@p2", pasienModel.rgs_id_pasien);
-                command.Parameters.AddWithValue("@p3", pasienModel.rgs_nama_pasien);
-                command.Parameters.AddWithValue("@p4", pasienModel.rgs_prodi_atau_departemen);
-                command.Parameters.AddWithValue("@p5", pasienModel.rgs_keluhan);
-                command.Parameters.AddWithValue("@p6", pasienModel.rgs_tensi);
-                command.Parameters.AddWithValue("@p7", pasienModel.rgs_diagnosa);
-                command.Parameters.AddWithValue("@p8", pasienModel.rgs_obat);
-                command.Parameters.AddWithValue("@p9", pasienModel.rgs_jumlah_obat);
-                command.Parameters.AddWithValue("@p10", pasienModel.rgs_kecelakaan_kerja);
-                command.Parameters.AddWithValue("@p11", pasienModel.rgs_keterangan);
-                command.Parameters.AddWithValue("@p12", pasienModel.rgs_tanggal);
-                command.Parameters.AddWithValue("@p13", pasienModel.rgs_id_admin);
+                command.Parameters.AddWithValue("@p1", pasienModel.rgs_id_pasien);
+                command.Parameters.AddWithValue("@p2", pasienModel.rgs_nama_pasien);
+                command.Parameters.AddWithValue("@p3", pasienModel.rgs_prodi_atau_departemen);
+                command.Parameters.AddWithValue("@p4", pasienModel.rgs_keluhan);
+                command.Parameters.AddWithValue("@p5", pasienModel.rgs_tensi);
+                command.Parameters.AddWithValue("@p6", pasienModel.rgs_diagnosa);
+                command.Parameters.AddWithValue("@p7", pasienModel.rgs_obat);
+                command.Parameters.AddWithValue("@p8", pasienModel.rgs_jumlah_obat);
+                command.Parameters.AddWithValue("@p9", pasienModel.rgs_kecelakaan_kerja);
+                command.Parameters.AddWithValue("@p10", pasienModel.rgs_keterangan);
+                command.Parameters.AddWithValue("@p11", pasienModel.rgs_tanggal);
+                command.Parameters.AddWithValue("@p12", pasienModel.rgs_id_admin);
                 _connection.Open();
                 command.ExecuteNonQuery();
                 _connection.Close();

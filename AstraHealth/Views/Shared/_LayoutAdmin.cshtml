@@ -53,11 +53,11 @@
                         <img src="~/content/images/IMG_Logo.png" alt="logo" style="max-width: 150px;" />
                     </div>
                         <ul class="navbar-nav navbar-nav-right">
-                        <li class="nav-item dropdown d-lg-flex d-none">
-                            <a asp-controller="Dashboard" asp-action="Index" class="nav-link collapsed">
-                                <span class="btn btn-inverse-primary btn-sm">Dashboard</span>
-                            </a>
-                        </li>
+                            <li class="nav-item dropdown d-lg-flex d-none">
+                                <a asp-controller="Dashboard" asp-action="Index" class="nav-link collapsed">
+                                    <span class="btn btn-inverse-primary btn-sm">Dashboard</span>
+                                </a>
+                            </li>
                             @{
                                 var httpContext = ViewContext.HttpContext;
                             }
@@ -84,6 +84,12 @@
                                 <span class="btn btn-inverse-primary btn-sm">Keperluan Obat</span>
                             </a>
                         </li>
+
+                            <li class="nav-item dropdown d-lg-flex d-none">
+                                <a asp-controller="Obat" asp-action="Index" class="nav-link collapsed">
+                                    <span class="btn btn-inverse-primary btn-sm">Keperluan Obat</span>
+                                </a>
+                            </li>
 
                             <li class="nav-item dropdown d-lg-flex d-none">
                                 <a class="dropdown-toggle show-dropdown-arrow btn btn-inverse-primary btn-sm" id="nreportDropdown" href="#" data-bs-toggle="dropdown">
