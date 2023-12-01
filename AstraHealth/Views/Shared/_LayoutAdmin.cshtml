@@ -18,7 +18,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="~/content/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="~/content/images/favicon.jpg" />
+    <link rel="shortcut icon" href="~/content/images/favicon.png" />
     <!-- base:js -->
     <script src="~/content/vendors/base/vendor.bundle.base.js"></script>
     <!-- endinject -->
@@ -50,7 +50,6 @@
             background-color: #ffffff; /* Warna latar belakang footer */
             padding: 10px;
             text-align: center;
-            position: fixed;
             bottom: 0;
             width: 100%;
         }
@@ -58,7 +57,6 @@
 </head>
 
 <body>
-
         <div class="horizontal-menu">
             <nav class="navbar top-navbar col-lg-12 col-12 p-0">
                 <div class="container-fluid">
@@ -67,11 +65,11 @@
                         <img src="~/content/images/IMG_Logo.png" alt="logo" style="max-width: 150px;" />
                     </div>
                         <ul class="navbar-nav navbar-nav-right">
-                            <li class="nav-item dropdown d-lg-flex d-none">
-                            <a class="nav-link collapsed" asp-controller="Dashboard" action="Index">
-                                <button type="button" class="btn btn-inverse-primary btn-sm">Dashboard</button>
+                        <li class="nav-item dropdown d-lg-flex d-none">
+                            <a asp-controller="Dashboard" asp-action="Index" class="nav-link collapsed">
+                                <span class="btn btn-inverse-primary btn-sm">Dashboard</span>
                             </a>
-                            </li>
+                        </li>
                             @{
                                 var httpContext = ViewContext.HttpContext;
                             }
@@ -88,8 +86,11 @@
                             @if (httpContext.Session.GetString("Role") == "admin")
                             {
                             <li class="nav-item dropdown d-lg-flex d-none">
-                                <button type="button" class="btn btn-inverse-primary btn-sm">Regisrasi Pasien</button>
+                                <a asp-controller="Pasien" asp-action="Index" class="nav-link collapsed">
+                                    <span class="btn btn-inverse-primary btn-sm">Registrasi Pasien</span>
+                                </a>
                             </li>
+
                             }
 
                             <li class="nav-item dropdown d-lg-flex d-none">
@@ -120,7 +121,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
                                     <span class="nav-profile-name">Profile</span>
                                     <span class="online-status"></span>
-                                    <img src="~/content/images/faces/face29.jpg" alt="profile" />
+                                   
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                                     <a class="dropdown-item" href="@Url.Action("Logout", "Home")">
@@ -137,34 +138,21 @@
                     </div>
                 </div>
             </nav>
-            <nav class="bottom-navbar">
-                <div class="container">
-                    <ul class="nav page-navigation">
-                        <li class="nav-item">
-                            <a class="nav-link collapsed" asp-controller="Dashboard" action="Index">
-                                <i class="mdi mdi-file-document-box menu-icon"></i>
-                                <span class="menu-title">Dashboard</span>
-                            </a>
-                        </li>
-                        <!-- ... (your existing code) ... -->
-                    </ul>
-                </div>
-            </nav>
+  
         </div>
     <!-- Header -->
        
-        <footer>
-        <p class="text-black font-weight-medium text-right flex-grow align-self-end">
-            Hak Cipta &copy; 2023 Semua hak dilindungi.
-        </p>
-    </footer>
+      
     <main id="main" class="main">
 
       
         @RenderBody()
 
     </main><!-- End #main -->
-
-   
+    <footer>
+        <p class="text-black font-weight-medium text-right flex-grow align-self-end">
+            Hak Cipta &copy; 2023 Semua hak dilindungi.
+        </p>
+    </footer>
 </body>
 </html>

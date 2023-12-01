@@ -1,0 +1,148 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model AstraHealth.Models.PasienModel
+@{
+    ViewData["Title"] = "Edit Akun";
+}
+
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Edit Data Pasien</h4>
+            <form asp-action="Edit" method="post">
+                <p class="card-description">Informasi Personal</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_id_pasien" class="col-sm-3 col-form-label">ID Pasien</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_id_pasien" class="form-control" />
+                                <span asp-validation-for="rgs_id_pasien" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_nama_pasien" class="form-control" />
+                                <span asp-validation-for="rgs_nama_pasien" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_prodi_atau_departemen" class="form-control" />
+                                <span asp-validation-for="rgs_prodi_atau_departemen" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_keluhan" class="col-sm-3 col-form-label">Keluhan</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_keluhan" class="form-control" />
+                                <span asp-validation-for="rgs_keluhan" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_tensi" class="col-sm-3 col-form-label">Tensi</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_tensi" class="form-control" />
+                                <span asp-validation-for="rgs_tensi" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_diagnosa" class="col-sm-3 col-form-label">Diagnosa</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_diagnosa" class="form-control" />
+                                <span asp-validation-for="rgs_diagnosa" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_obat" class="col-sm-3 col-form-label">Obat</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_obat" class="form-control" />
+                                <span asp-validation-for="rgs_obat" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_jumlah_obat" class="col-sm-3 col-form-label">Jumlah Obat</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_jumlah_obat" class="form-control" />
+                                <span asp-validation-for="rgs_jumlah_obat" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_kecelakaan_kerja" class="col-sm-3 col-form-label">Kecelakaan Kerja</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_kecelakaan_kerja" class="form-control" />
+                                <span asp-validation-for="rgs_kecelakaan_kerja" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_keterangan" class="form-control" />
+                                <span asp-validation-for="rgs_keterangan" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_tanggal" class="col-sm-3 col-form-label">Tanggal</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_tanggal" class="form-control" />
+                                <span asp-validation-for="rgs_tanggal" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label asp-for="rgs_id_admin" class="col-sm-3 col-form-label">ID Admin</label>
+                            <div class="col-sm-9">
+                                <input asp-for="rgs_id_admin" class="form-control" />
+                                <span asp-validation-for="rgs_id_admin" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+             
+
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </form>
+        </div>
+    </div>
+</div>
