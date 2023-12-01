@@ -42,6 +42,7 @@
                                 <th scope="col">Nama</th>
                                 <th scope="col">Password</th>
                                 <th scope="col">Role</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
@@ -62,7 +63,9 @@
                                             </div>
                                         </div>
                                     </td>
+
                                     <td>@akun.akn_role</td>
+                                    <td>@akun.akn_status</td>
                                     <td>
                                         <button class="btn btn-sm btn-danger delete-button" data-id="@akun.akn_id">
                                             <i class="fas fa-trash"></i>
@@ -92,6 +95,7 @@
         input.attr('type', type);
         $(button).find('i').toggleClass('fa-eye fa-eye-slash');
     }
+
 
     $(document).ready(function () {
         $(".delete-button").click(function () {
