@@ -28,10 +28,10 @@ namespace AstraHealth.Controllers
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
 
-            if (akunModel.akn_role == "admin")
+            /*if (akunModel.akn_role == "admin")
             {
                 return RedirectToAction("Index", "Pasien");
-            }
+            }*/
           
             return View(_pasienRepository.getAllData());
         }
@@ -51,10 +51,10 @@ namespace AstraHealth.Controllers
             {
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
-            if (akunModel.akn_role == "admin")
+            /*if (akunModel.akn_role == "admin")
             {
                 return RedirectToAction("Index", "Pasien");
-            }
+            }*/
           return View();
         }
 
