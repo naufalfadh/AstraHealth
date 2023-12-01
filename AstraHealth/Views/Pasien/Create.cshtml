@@ -1,7 +1,7 @@
 ﻿@model AstraHealth.Models.PasienModel
 
 @{
-    ViewData["Title"] = "Registrasi Pasienz";
+    ViewData["Title"] = "Registrasi Pasien  ";
 }
 @{
     var httpContext = ViewContext.HttpContext;
@@ -44,7 +44,7 @@
                             <div class="form-group row">
                                 <label asp-for="rgs_id_pasien" class="col-sm-3 col-form-label">ID Pasien</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" />
+                                    <input asp-for="rgs_id_pasien" class="form-control input-with-border custom-width" placeholder="Masukkan ID Pasien" />
                                     <span asp-validation-for="rgs_id_pasien" class="text-danger"></span>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                             <div class="form-group row">
                                 <label asp-for="rgs_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_nama_pasien" class="form-control input-with-border" placeholder="Masukkan Nama Pasien" />
+                                    <input asp-for="rgs_nama_pasien" class="form-control input-with-border custom-width" placeholder="Masukkan Nama Pasien" />
                                     <span asp-validation-for="rgs_nama_pasien" class="text-danger"></span>
                                 </div>
                             </div>
@@ -64,13 +64,18 @@
                             <div class="form-group row">
                                 <label asp-for="rgs_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_prodi_atau_departemen" class="form-control input-with-border" placeholder="Masukkan Prodi / Departemen" />
+                                    <select asp-for="rgs_prodi_atau_departemen" class="form-control input-with-border custom-width">
+                                        <option value="">Pilih Prodi / Departemen</option>
+                                        <option value="Manajemen Informatika">Manajemen Informatika</option>
+                                        <option value="Mekatronika">Mekatronika</option>
+                                        <option value="Teknik Kontruksi dan Bangunan Gedung">Teknik Kontruksi dan Bangunan Gedung</option>
+                                        <option value="Teknik alat berat">Teknik alat berat</option>
+                                        <option value="Mesin Otomotif">Mesin Otomotif</option>
+                                    </select>
                                     <span asp-validation-for="rgs_prodi_atau_departemen" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label asp-for="rgs_keluhan" class="col-sm-3 col-form-label">Keluhan</label>
@@ -162,6 +167,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-controller="Rujukan" asp-action="Create" class="btn btn-primary mr-2">Rujukan</a>
                     <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Cancel</a>
 
                 </form>
