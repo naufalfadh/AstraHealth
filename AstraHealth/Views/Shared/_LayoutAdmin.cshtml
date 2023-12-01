@@ -69,12 +69,11 @@
 
                             @if (httpContext.Session.GetString("Role") == "admin")
                             {
-                            <li class="nav-item dropdown d-lg-flex d-none">
-                                <a asp-controller="Pasien" asp-action="Index" class="nav-link collapsed">
-                                    <span class="btn btn-inverse-primary btn-sm">Registrasi Pasien</span>
-                                </a>
-                            </li>
-
+                                <li class="nav-item dropdown d-lg-flex d-none">
+                                    <a asp-controller="Pasien" asp-action="Index" class="nav-link collapsed">
+                                        <span class="btn btn-inverse-primary btn-sm">Registrasi Pasien</span>
+                                    </a>
+                                </li>
                             }
 
                             <li class="nav-item dropdown d-lg-flex d-none">
