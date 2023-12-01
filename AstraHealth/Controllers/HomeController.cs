@@ -56,6 +56,8 @@ namespace AstraHealth.Controllers
             // Jika berhasil, atur sesi
             string serializedModel = JsonConvert.SerializeObject(akunModel);
             HttpContext.Session.SetString("Identity", serializedModel);
+            HttpContext.Session.SetString("Id", akunModel.akn_id);
+            HttpContext.Session.SetString("Nama", akunModel.akn_nama);
             HttpContext.Session.SetString("Role", akunModel.akn_role); // Simpan peran dalam sesi
 
             // Arahkan ke halaman Dashboard

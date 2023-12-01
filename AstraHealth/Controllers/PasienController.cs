@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using AstraHealth.Models;
+using System.Reflection;
 
 namespace AstraHealth.Controllers
 {
@@ -64,6 +65,7 @@ namespace AstraHealth.Controllers
 
             if (ModelState.IsValid)
             {
+                pasienModel.rgs_kecelakaan_kerja = Request.Form["rgs_kecelakaan_kerja"] == "on" ? 1 : 0;
                 _pasienRepository.insertData(pasienModel);
                 TempData["SuccessMessage"] = "Data berhasil ditambahkan";
                 return RedirectToAction("Index");
