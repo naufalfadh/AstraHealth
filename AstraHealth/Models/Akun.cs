@@ -58,7 +58,7 @@ namespace AstraHealth.Models
             List<AkunModel> akunList = new List<AkunModel>();
             try
             {
-                string query = "select * from ahl_msakun";
+                string query = "select * from ahl_msakun WHERE akn_status='aktif'";
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -162,7 +162,7 @@ namespace AstraHealth.Models
         {
             try
             {
-                string query = "delete from ahl_msakun where akn_id = @p1";
+                string query = "update ahl_msakun set akn_status='tidak aktif' where akn_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
                 _connection.Open();
