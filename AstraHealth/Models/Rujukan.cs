@@ -32,7 +32,7 @@ namespace AstraHealth.Models
                         rjk_id = Convert.ToInt32(reader["rjk_id"]),
                         rjk_id_registrasi = Convert.ToInt32(reader["rjk_id_registrasi"]),
                         rjk_rumah_sakit = reader["rjk_rumah_sakit"].ToString(),
-                        rjk_tanggal = Convert.ToInt32(reader["rjk_tanggal"]),
+                        rjk_tanggal = reader.GetDateTime(reader.GetOrdinal("rjk_tanggal")),
                         rjk_keterangan = reader["rjk_keterangan"].ToString(),
                     };
                     rujukanList.Add(rujukan);

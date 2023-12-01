@@ -52,8 +52,9 @@
                     
                         <div class="col-md-6">
                             <div class="form-group row">
+                                <label asp-for="rjk_tanggal" class="col-sm-3 col-form-label">Tanggal</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rjk_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
+                                    <input asp-for="rjk_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"  />
                                     <span asp-validation-for="rjk_tanggal" class="text-danger"></span>
                                 </div>
                             </div>
