@@ -33,8 +33,9 @@ namespace AstraHealth.Models
                         kpo_nama_obat = reader["kpo_nama_obat"].ToString(),
                         kpo_jumlah = Convert.ToInt32(reader["kpo_jumlah"]),
                         kpo_tanggal_pengajuan = Convert.ToDateTime(reader["kpo_tanggal_pengajuan"]),
-                        kpo_status = reader["kpo_status"].ToString(),
                         kpo_tanggal_aksi = Convert.ToDateTime(reader["kpo_tanggal_aksi"]),
+                        kpo_status = reader["kpo_status"].ToString(),
+                        kpo_catatan = reader["kpo_catatan"].ToString(),
                     };
                     obatList.Add(obat);
                 }
@@ -48,7 +49,34 @@ namespace AstraHealth.Models
             return obatList;
         }
 
-
+        public ObatModel getData(int id)
+        {
+            ObatModel obatModel = new ObatModel();
+            try
+            {
+                string query = "select * from ahl_trkeperluanObat where kpo_id = @p1";
+                SqlCommand command = new SqlCommand(query, _connection);
+                command.Parameters.AddWithValue("@p1", id);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                obatModel.kpo_id = Convert.ToInt32(reader["kpo_id"].ToString());
+                obatModel.kpo_nama_obat = reader["kpo_nama_obat"].ToString();
+                obatModel.kpo_jumlah = Convert.ToInt32(reader["kpo_jumlah"].ToString());
+                obatModel.kpo_tanggal_pengajuan = Convert.ToDateTime(reader["kpo_tanggal_pengajuan"].ToString());
+                obatModel.kpo_tanggal_aksi = Convert.ToDateTime(reader["kpo_tanggal_aksi"].ToString());
+                obatModel.kpo_status = reader["kpo_status"].ToString();
+                obatModel.kpo_catatan = reader["kpo_catatan"].ToString();
+                obatModel.kpo_id_admin = reader["kpo_id_admin"].ToString();
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return obatModel;
+        }
 
         public void insertData(ObatModel obatModel)
         {
@@ -63,6 +91,63 @@ namespace AstraHealth.Models
                 command.Parameters.AddWithValue("@p5", obatModel.kpo_status);
                 command.Parameters.AddWithValue("@p6", obatModel.kpo_catatan);
                 command.Parameters.AddWithValue("@p7", obatModel.kpo_id_admin);
+                _connection.Open();
+                command.ExecuteNonQuery();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void updateData(ObatModel obatModel)
+        {
+            try
+            {
+                string query = "update ahl_trkeperluanObat " +
+                "set kpo_catatan = @p2 " +
+                "where kpo_id = @p1";
+
+                using SqlCommand command = new SqlCommand(query, _connection);
+                command.Parameters.AddWithValue("@p1", obatModel.kpo_id);
+                command.Parameters.AddWithValue("@p2", obatModel.kpo_catatan);
+                _connection.Open();
+                command.ExecuteNonQuery();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void acceptData(int id)
+        {
+            try
+            {
+                string query = "update ahl_trkeperluanObat set kpo_status='diterima', kpo_tanggal_aksi=@p2 where kpo_id = @p1";
+                using SqlCommand command = new SqlCommand(query, _connection);
+                command.Parameters.AddWithValue("@p1", id);
+                command.Parameters.AddWithValue("@p2", DateTime.Now);
+                _connection.Open();
+                command.ExecuteNonQuery();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void rejectData(int id)
+        {
+            try
+            {
+                string query = "update ahl_trkeperluanObat set kpo_status='ditolak', kpo_tanggal_aksi=@p2 where kpo_id = @p1";
+                using SqlCommand command = new SqlCommand(query, _connection);
+                command.Parameters.AddWithValue("@p1", id);
+                command.Parameters.AddWithValue("@p2", DateTime.Now);
                 _connection.Open();
                 command.ExecuteNonQuery();
                 _connection.Close();
