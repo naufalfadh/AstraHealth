@@ -35,8 +35,11 @@
                             </div>
                         </div>
                     }
-                    <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Obat</a>
-                    <p></p>
+                    @if (httpContext.Session.GetString("Role") == "admin")
+                    {
+                        <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Obat</a>
+                        <p></p>
+                    }
                     <table class="table datatable" id="myTable">
                         <thead>
                             <tr>
@@ -67,7 +70,10 @@
                                     <td>@obat.kpo_jumlah</td>
                                     <td>@obat.kpo_tanggal_pengajuan</td>
                                     <td>@obat.kpo_status</td>
-                                    <td>@obat.kpo_tanggal_aksi</td>
+                                    @if (httpContext.Session.GetString("Role") == "admin")
+                                    {
+                                        <td>@obat.kpo_tanggal_aksi</td>
+                                    }
 
                                     @if (httpContext.Session.GetString("Role") == "manajer")
                                     {

@@ -1,5 +1,77 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model AstraHealth.Models.ObatModel
+
 @{
+    ViewData["Title"] = "Tambah Keperluan Obat";
 }
+@{
+    var httpContext = ViewContext.HttpContext;
+}
+
+<style>
+    .input-with-border {
+        border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
+        border-radius: 4px; /* Bordes sudut */
+    }
+
+
+    .card {
+        padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+    }
+
+    .card-body {
+        background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
+        padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        border-radius: 8px; /* Bordes sudut */
+    }
+
+</style>
+
+<div class="pagetitle">
+    <h1>Keperluan Obat</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Keperluan Obat</li>
+            <li class="breadcrumb-item active">Tambah Keperluan Obat</li>
+        </ol>
+    </nav>
+</div>
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Tambah Keperluan Obat</h4>
+            <p class="card-description">
+                Tambah Keperluan Obat
+            </p>
+            <form class="forms-sample" method="post">
+                <div class="form-group">
+                    <label asp-for="kpo_nama_obat">Nama Obat</label>
+                    <input asp-for="kpo_nama_obat" type="text" class="form-control input-with-border" placeholder="Nama Obat">
+                    <span asp-validation-for="kpo_nama_obat" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="kpo_jumlah">Jumlah Obat</label>
+                    <input asp-for="kpo_jumlah" type="number" class="form-control input-with-border" placeholder="Nama">
+                    <span asp-validation-for="kpo_jumlah" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="kpo_tanggal_pengajuan" type="datetime" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden/>
+                </div>
+                <div class="form-group">
+                    <input asp-for="kpo_tanggal_aksi" type="datetime" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
+                </div>
+                <div class="form-group">
+                    <input asp-for="kpo_status" type="text" class="form-control input-with-border" placeholder="Status" value="pending" hidden>
+                </div>
+                <div class="form-group">
+                    <input asp-for="kpo_catatan" type="text" class="form-control input-with-border" placeholder="Status" value="null" hidden>
+                </div>
+                <div class="form-group">
+                    <input asp-for="kpo_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden />
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Simpan</button>
+                <a asp-controller="Akun" asp-action="Index" class="btn btn-light">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

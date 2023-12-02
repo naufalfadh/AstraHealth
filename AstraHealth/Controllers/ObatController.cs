@@ -30,5 +30,36 @@ namespace AstraHealth.Controllers
 
             return View(_obatRepository.getAllData());
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            AkunModel akunModel = new AkunModel();
+
+            string serializedModel = HttpContext.Session.GetString("Identity");
+
+            if (serializedModel == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+            }
+            return View(_obatRepository.getAllData());
+        }
+
+        [HttpPost]
+        public IActionResult Create(ObatModel obatModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                _obatRepository.insertData(obatModel);
+                TempData["SuccessMessage"] = "Data berhasil ditambahkan";
+                return RedirectToAction("Index");
+            }
+            return View(obatModel);
+        }
     }
 }
