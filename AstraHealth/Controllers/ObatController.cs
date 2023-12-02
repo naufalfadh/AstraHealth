@@ -46,8 +46,9 @@ namespace AstraHealth.Controllers
             {
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
-            return View(_obatRepository.getAllData());
+            return View(); // Mengubah ini menjadi return View(); karena tidak perlu menampilkan semua data
         }
+
 
         [HttpPost]
         public IActionResult Create(ObatModel obatModel)
@@ -89,6 +90,7 @@ namespace AstraHealth.Controllers
             }
             return View(ObatModel);
         }
+
 
         [HttpPost]
         public IActionResult Edit(ObatModel obatModel)
