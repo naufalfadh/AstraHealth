@@ -35,8 +35,11 @@
                             </div>
                         </div>
                     }
-                    <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Obat</a>
-                    <p></p>
+                    @if (httpContext.Session.GetString("Role") == "admin")
+                    {
+                        <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Obat</a>
+                        <p></p>
+                    }
                     <table class="table datatable" id="myTable">
                         <thead>
                             <tr>
@@ -50,7 +53,7 @@
                                 {
                                     <th scope="col">Tanggal Aksi</th>
                                 }
-
+                                <th scope="col">Catatan</th>
                                 @if (httpContext.Session.GetString("Role") == "manajer")
                                 {
                                     <th scope="col">Aksi</th>
@@ -67,19 +70,28 @@
                                     <td>@obat.kpo_jumlah</td>
                                     <td>@obat.kpo_tanggal_pengajuan</td>
                                     <td>@obat.kpo_status</td>
-                                    <td>@obat.kpo_tanggal_aksi</td>
-
-                                    @if (httpContext.Session.GetString("Role") == "manajer")
+                                    @if (httpContext.Session.GetString("Role") == "admin")
+                                    {
+                                        <td>@obat.kpo_tanggal_aksi</td>
+                                    }
+                                    <td>@obat.kpo_catatan</td>
+                                    @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status == "pending")
                                     {
                                         <td>
-                                            <button class="btn btn-sm btn-danger delete-button" data-id="@obat.kpo_id">
+                                            <button class="btn btn-sm btn-primary accept-button" data-id="@obat.kpo_id">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpo_id">
                                                 <i class="fas fa-trash"></i>
                                             </button>
-                                            <a asp-controller="akun" asp-action="Edit" asp-route-id="@obat.kpo_id" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i>
+                                            <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpo_id" class="btn btn-sm btn-info btn-info-modal">
+                                                <i class="fas fa-info-circle"></i>
                                             </a>
-                                            <button class="btn btn-sm btn-info btn-info-modal" data-toggle="modal" data-target="#infoModal_@obat.kpo_id"><i class="fas fa-info-circle"></i></button>
                                         </td>
+                                    }
+                                    @if(obat.kpo_status != "pending")
+                                    {
+                                        <td>-</td>
                                     }
                                 </tr>
                             }
@@ -96,32 +108,55 @@
         $('#myTable').DataTable();
     });
 
-    function togglePassword(button) {
-        var input = $(button).closest('.input-group').find('input');
-        var type = input.attr('type') === 'password' ? 'text' : 'password';
-        input.attr('type', type);
-        $(button).find('i').toggleClass('fa-eye fa-eye-slash');
-    }
-
     $(document).ready(function () {
-        $(".delete-button").click(function () {
-            var akunId = $(this).data("id");
+        $(".accept-button").click(function () {
+            var obatId = $(this).data("id");
 
             swal({
-                title: "Hapus akun?",
-                text: "Apakah anda yakin ingin menghapus akun ini?",
+                title: "Terima data?",
+                text: "Apakah anda yakin ingin menerima data ini?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "/akun/Delete/" + akunId, // Perbaiki URL dengan menambahkan tanda "/"
+                        url: "/obat/Accept/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {
                                 swal("Sukses!", data.message, "success");
-                                location.reload();
+                            } else {
+                                swal("Gagal!", data.message, "error");
+                            }
+                        },
+                        error: function () {
+                            swal("Error", "Terjadi kesalahan saat menghapus akun.", "error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $(".reject-button").click(function () {
+            var obatId = $(this).data("id");
+
+            swal({
+                title: "Terima data?",
+                text: "Apakah anda yakin ingin menolak data ini?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "/obat/Reject/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        type: "POST",
+                        success: function (data) {
+                            if (data.success) {
+                                swal("Sukses!", data.message, "success");
                             } else {
                                 swal("Gagal!", data.message, "error");
                             }
