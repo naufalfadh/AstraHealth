@@ -89,7 +89,7 @@
                                             </a>
                                         </td>
                                     }
-                                    @if(obat.kpo_status != "pending")
+                                    @if(httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status != "pending")
                                     {
                                         <td>-</td>
                                     }
