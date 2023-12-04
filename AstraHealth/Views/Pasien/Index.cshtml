@@ -24,7 +24,8 @@
                         </div>
                     }
                     <a class="btn btn-primary" asp-action="Create">Tambah Pasien</a>
-                    <table class="table datatable">
+                    <p></p>
+                    <table class="table datatable" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
@@ -76,3 +77,8 @@
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function () {
+    $('#myTable').DataTable();
+    });
+</script>

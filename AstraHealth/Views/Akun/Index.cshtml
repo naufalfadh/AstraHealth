@@ -7,6 +7,14 @@
     int no = 1;
 }
 
+<div class="pagetitle">
+    <h1>Master Akun</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Master Akun</li>
+        </ol>
+    </nav>
+</div>
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
@@ -25,14 +33,16 @@
                         </div>
                     }
                     <a class="btn btn-primary" asp-action="Create">Tambah Akun</a>
-                    <table class="table datatable">
+                    <p></p>
+                    <table class="table datatable" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Username</th>
+                                <th scope="col">NPK</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Password</th>
                                 <th scope="col">Role</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                         </thead>
@@ -53,13 +63,16 @@
                                             </div>
                                         </div>
                                     </td>
+
                                     <td>@akun.akn_role</td>
+                                    <td>@akun.akn_status</td>
                                     <td>
-                                        <button class="btn btn-sm btn-danger delete-button" data-id="@akun.akn_id"><i class="fas fa-trash"></i></button>
-                                        <a asp-asp-controller="akun" asp-action="Edit" asp-route-id="@akun.akn_id" class="btn btn-sm btn-primary">
+                                        <button class="btn btn-sm btn-danger delete-button" data-id="@akun.akn_id">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <a asp-controller="akun" asp-action="Edit" asp-route-id="@akun.akn_id" class="btn btn-sm btn-primary">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button class="btn btn-sm btn-info"><i class="fas fa-info-circle"></i></button>
                                     </td>
                                 </tr>
                             }
@@ -72,12 +85,17 @@
 </section>
 
 <script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+
     function togglePassword(button) {
         var input = $(button).closest('.input-group').find('input');
         var type = input.attr('type') === 'password' ? 'text' : 'password';
         input.attr('type', type);
         $(button).find('i').toggleClass('fa-eye fa-eye-slash');
-    } 
+    }
+
 
     $(document).ready(function () {
         $(".delete-button").click(function () {

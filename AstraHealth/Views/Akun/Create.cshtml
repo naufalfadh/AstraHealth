@@ -1,9 +1,40 @@
 ﻿@model AstraHealth.Models.AkunModel
 
 @{
-    ViewData["Title"] = "Tambah Buku";
+    ViewData["Title"] = "Tambah Akun";
 }
 
+<style>
+    .input-with-border {
+        border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
+        border-radius: 4px; /* Bordes sudut */
+    }
+
+
+    .card {
+        padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+
+    }
+
+    .card-body {
+        background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
+        padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        border-radius: 8px; /* Bordes sudut */
+    }
+
+    
+</style>
+
+<div class="pagetitle">
+    <h1>Master Akun</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Master Akun</li>
+            <li class="breadcrumb-item active">Tambah Akun</li>
+        </ol>
+    </nav>
+</div>
 <div class="col-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
@@ -11,46 +42,36 @@
             <p class="card-description">
                 Registrasi Akun
             </p>
-            <form class="forms-sample">
+            <form class="forms-sample" method="post">
                 <div class="form-group">
-                    <label for="exampleInputName1">Name</label>
-                    <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+                    <label asp-for="akn_id">NPK</label>
+                    <input asp-for="akn_id" type="text" class="form-control input-with-border" placeholder="NPK">
+                    <span asp-validation-for="akn_id" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail3">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                    <label asp-for="akn_nama">Nama</label>
+                    <input asp-for="akn_nama" type="text" class="form-control input-with-border" placeholder="Nama">
+                    <span asp-validation-for="akn_nama" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword4">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                    <label asp-for="akn_password">Password</label>
+                    <input asp-for="akn_password" type="password" class="form-control input-with-border" placeholder="Password">
+                    <span asp-validation-for="akn_password" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="exampleSelectGender">Gender</label>
-                    <select class="form-control" id="exampleSelectGender">
-                        <option>Male</option>
-                        <option>Female</option>
+                    <label asp-for="akn_role">Role</label>
+                    <select asp-for="akn_role" class="form-control input-with-border">
+                        <option value="" disabled selected>Pilih role</option>
+                        <option value="admin">admin</option>
+                        <option value="manajer">manajer</option>
                     </select>
+                    <span asp-validation-for="akn_role" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label>File upload</label>
-                    <input type="file" name="img[]" class="file-upload-default">
-                    <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                        <span class="input-group-append">
-                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                        </span>
-                    </div>
+                    <input asp-for="akn_status" type="text" class="form-control input-with-border" placeholder="Status" value="aktif" hidden>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputCity1">City</label>
-                    <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
-                </div>
-                <div class="form-group">
-                    <label for="exampleTextarea1">Textarea</label>
-                    <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                <button class="btn btn-light">Cancel</button>
+                <button type="submit" class="btn btn-primary mr-2">Simpan</button>
+                <a asp-controller="Akun" asp-action="Index" class="btn btn-light">Cancel</a>
             </form>
         </div>
     </div>

@@ -1,0 +1,172 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<AstraHealth.Models.ObatModel>
+@{
+    ViewData["Title"] = "Keperluan Obat";
+    int no = 1;
+}
+@{
+    var httpContext = ViewContext.HttpContext;
+}
+
+<div class="pagetitle">
+    <h1>Keperluan Obat</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Keperluan Obat</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Keperluan Obat</h5>
+                    <hr />
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="row">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="bi bi-check-circle me-1"></i>
+                                <strong>Sukses!</strong> @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    }
+                    @if (httpContext.Session.GetString("Role") == "admin")
+                    {
+                        <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Obat</a>
+                        <p></p>
+                    }
+                    <table class="table datatable" id="myTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nama Obat</th>
+                                <th scope="col">Jumlah</th>
+                                <th scope="col">Tanggal Pengajuan</th>
+                                <th scope="col">Status</th>
+                                @if (httpContext.Session.GetString("Role") == "admin")
+                                {
+                                    <th scope="col">Tanggal Aksi</th>
+                                }
+                                <th scope="col">Catatan</th>
+                                @if (httpContext.Session.GetString("Role") == "manajer")
+                                {
+                                    <th scope="col">Aksi</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var obat in Model)
+                            {
+                                <tr>
+                                    <td>@(no++)</td>
+                                    <td>@obat.kpo_id</td>
+                                    <td>@obat.kpo_nama_obat</td>
+                                    <td>@obat.kpo_jumlah</td>
+                                    <td>@obat.kpo_tanggal_pengajuan</td>
+                                    <td>@obat.kpo_status</td>
+                                    @if (httpContext.Session.GetString("Role") == "admin")
+                                    {
+                                        <td>@obat.kpo_tanggal_aksi</td>
+                                    }
+                                    <td>@obat.kpo_catatan</td>
+                                    @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status == "pending")
+                                    {
+                                        <td>
+                                            <button class="btn btn-sm btn-primary accept-button" data-id="@obat.kpo_id">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpo_id">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpo_id" class="btn btn-sm btn-info btn-info-modal">
+                                                <i class="fas fa-info-circle"></i>
+                                            </a>
+                                        </td>
+                                    }
+                                    @if(httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status != "pending")
+                                    {
+                                        <td>-</td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+
+    $(document).ready(function () {
+        $(".accept-button").click(function () {
+            var obatId = $(this).data("id");
+
+            swal({
+                title: "Terima data?",
+                text: "Apakah anda yakin ingin menerima data ini?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "/obat/Accept/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        type: "POST",
+                        success: function (data) {
+                            if (data.success) {
+                                swal("Sukses!", data.message, "success");
+                            } else {
+                                swal("Gagal!", data.message, "error");
+                            }
+                        },
+                        error: function () {
+                            swal("Error", "Terjadi kesalahan saat menghapus akun.", "error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $(".reject-button").click(function () {
+            var obatId = $(this).data("id");
+
+            swal({
+                title: "Terima data?",
+                text: "Apakah anda yakin ingin menolak data ini?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "/obat/Reject/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        type: "POST",
+                        success: function (data) {
+                            if (data.success) {
+                                swal("Sukses!", data.message, "success");
+                            } else {
+                                swal("Gagal!", data.message, "error");
+                            }
+                        },
+                        error: function () {
+                            swal("Error", "Terjadi kesalahan saat menghapus akun.", "error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
