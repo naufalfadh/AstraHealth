@@ -8,19 +8,12 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>AstraHealth Login</title>
-    <!-- base:css -->
     <link rel="stylesheet" href="~/content/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="~/content/vendors/base/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
     <link rel="stylesheet" href="~/content/css/style.css">
-    <!-- endinject -->
     <link rel="shortcut icon" href="~/content/images/favicon.png" />
     <style>
         body {
@@ -62,6 +55,7 @@
     <header>
         <img src="~/content/images/IMG_Logo.png" alt="logo">
     </header>
+    <section class="section">
     <div class="container-scroller">
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
@@ -92,10 +86,16 @@
                                                 <i class="mdi mdi-lock-outline text-primary"></i>
                                             </span>
                                         </div>
-                                        <input asp-for="akn_password" class="form-control form-control-lg border-left-0" type="password" placeholder="Password" required />
+                                        <input asp-for="akn_password" class="form-control form-control-lg border-left-0" type="password" id="passwordInput" placeholder="Password" required />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text bg-light border-left-0">
+                                                <i id="togglePassword" class="mdi mdi-eye-outline text-primary"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                     <span asp-validation-for="akn_password" class="text-danger"></span>
                                 </div>
+
                                 <br>
                                 <br>
                                 <div class="col-12">
@@ -123,6 +123,23 @@
         </div>
         <!-- page-body-wrapper ends -->
     </div>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordInput = document.getElementById('passwordInput');
+            const togglePassword = document.getElementById('togglePassword');
+
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+
+                // Ubah ikon berdasarkan status password
+                togglePassword.classList.toggle('mdi-eye-outline', type === 'password');
+                togglePassword.classList.toggle('mdi-eye-off-outline', type === 'text');
+            });
+        });
+    </script>
+
     <!-- container-scroller -->
     <!-- base:js -->
     <script src="~/content/vendors/base/vendor.bundle.base.js"></script>
@@ -136,6 +153,7 @@
     <!-- End plugin js for this page -->
     <!-- Custom js for this page-->
     <!-- End custom js for this page-->
+
 </body>
 
 </html>

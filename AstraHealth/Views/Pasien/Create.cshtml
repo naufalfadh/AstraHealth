@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Registrasi Pasienz";
 }
+@{
+    var httpContext = ViewContext.HttpContext;
+}
+
 <style>
     body {
         padding-top: 100px; /* Atur spasi sesuai kebutuhan */
@@ -12,6 +16,17 @@
         border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
         border-radius: 4px; /* Bordes sudut */
     }
+
+    .card {
+        padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+    }
+
+    .card-body {
+        background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
+        padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        border-radius: 8px; /* Bordes sudut */
+    }
 </style>
 
 
@@ -20,7 +35,7 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Tambah Pasien Baru</h4>
-                <form class="form-sample">
+                <form class="form-sample" method="post">
                     <p class="card-description">
                         Personal info
                     </p>
@@ -110,13 +125,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="rgs_kecelakaan_kerja" class="col-sm-3 col-form-label">Kecelakaan Kerja</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_kecelakaan_kerja" class="form-control input-with-border" placeholder="Masukkan Kecelakaan Kerja" />
+                                    <input id="rgs_kecelakaan_kerja" name="rgs_kecelakaan_kerja" type="checkbox" class="form-check-input" />
+                                    <label for="rgs_kecelakaan_kerja" class="col-sm-3 col-form-label">Kecelakaan Kerja</label>
                                     <span asp-validation-for="rgs_kecelakaan_kerja" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label asp-for="rgs_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
@@ -130,25 +146,24 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="rgs_tanggal" class="col-sm-3 col-form-label">Tanggal</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" />
+                                    <input asp-for="rgs_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
                                     <span asp-validation-for="rgs_tanggal" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="rgs_id_admin" class="col-sm-3 col-form-label">ID Admin</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" />
+                                    <input asp-for="rgs_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden/>
                                     <span asp-validation-for="rgs_id_admin" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Cancel</a>
+
                 </form>
             </div>
         </div>

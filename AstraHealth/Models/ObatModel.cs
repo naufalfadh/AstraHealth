@@ -1,6 +1,6 @@
 ﻿namespace AstraHealth.Models
 {
-    public class KeperluanObatModel
+    public class ObatModel
     {
         public int kpo_id {  get; set; }
         public string kpo_nama_obat { get; set; }
