@@ -46,7 +46,7 @@ namespace AstraHealth.Controllers
             {
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
-            return View(_obatRepository.getAllData());
+            return View();
         }
 
         [HttpPost]
