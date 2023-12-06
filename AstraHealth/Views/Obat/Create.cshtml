@@ -51,8 +51,27 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="kpo_jumlah">Jumlah Obat</label>
-                    <input asp-for="kpo_jumlah" type="number" class="form-control input-with-border" placeholder="Nama">
+                    <input asp-for="kpo_jumlah" type="number" class="form-control input-with-border" placeholder="Jumlah Obat">
                     <span asp-validation-for="kpo_jumlah" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="kpo_satuan">Satuan</label>
+                    <select asp-for="kpo_satuan" class="form-control input-with-border">
+                        <option value="">Pilih Satuan Obat</option>
+                        <option value="buah">Buah</option>
+                        <option value="kotak">Kotak</option>
+                        <option value="strip">Strip</option>
+                        <option value="botol">Botol</option>
+                        <option value="vial">Vial</option>
+                        <option value="ampul">Ampul</option>
+                        <option value="tube">Tube</option>
+                        <option value="paket">Paket</option>
+                        <option value="dus">Dus</option>
+                        <option value="sachet">Sachet</option>
+                        <option value="plat">Plat</option>
+                       
+                    </select>
+                    <span asp-validation-for="kpo_satuan" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input asp-for="kpo_tanggal_pengajuan" type="datetime" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden/>
