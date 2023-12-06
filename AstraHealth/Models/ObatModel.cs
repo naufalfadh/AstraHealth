@@ -10,5 +10,6 @@
         public string kpo_status { get; set; }
         public string kpo_catatan { get; set; }
         public string kpo_id_admin { get; set; }
+        public string kpo_satuan { get; set; }
     }
 }
