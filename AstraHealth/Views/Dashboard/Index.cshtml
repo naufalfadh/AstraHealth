@@ -1,8 +1,13 @@
-﻿
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<AstraHealth.Models.PasienModel>
 @{
     ViewData["Title"] = "Dashboard AstraHealth";
-    int no = 1;
 }
+<head>
+        <!-- ... tag-tag head lainnya ... -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
 
@@ -11,14 +16,25 @@
         }
 
         .row {
-            padding-left: 40px; /* Sesuaikan dengan jumlah padding yang diinginkan */
-            padding-right: 40px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+            padding-left: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+            padding-right: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         }
 
-  
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td {
+        border: 3px solid #ddd;
+        padding: 8px;
+        text-align: left;
+     
+    }
+   
     </style>
 
-
+</head>
 <body>
     <img class="d-block w-100" src="~/content/images/Banner.png">
     <div class="row">
@@ -47,40 +63,66 @@
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                
-                                
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>ID Pasien</strong></th>
+                                            <th><strong>Nama Pasien</strong></th>
+                                            <th><strong>Prodi/Departemen</strong></th>
+                                            <th><strong>Keluhan</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data Dummy -->
+                                        <tr>
+                                            <td>0320220113</td>
+                                            <td>Naufal Fadhlurrohman</td>
+                                            <td>Manajemen Informatika</td>
+                                            <td>Sakit Kepala</td>
+                                        </tr>
+                                        <tr>
+                                            <td>0320220112</td>
+                                            <td>Iskandar Maulana</td>
+                                            <td>Manajemen Informatika</td>
+                                            <td>Pusing</td>
+                                        </tr>
+                                        <tr>
+                                            <td>0320220111</td>
+                                            <td>Ganjar Pranowo</td>
+                                            <td>Teknik Alat Berat</td>
+                                            <td>Muntah-muntah</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
 
         <div class="col-lg-4">
             <div class="row">
                 <div class="col-sm-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <div class="d-xl-flex align-items-center justify-content-between">
+                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
                                 <div>
-                                    <h4 class="card-title mb-1">Visit & Conversions</h4>
-                                </div>
-                                <div class="chart-legend" id="visit-conversion-chart-legend">
+                                    <h4 class="card-title mb-1">Prodi dan departemen</h4>
                                 </div>
                             </div>
-                            <canvas id="visit-conversion-chart"></canvas>
-                            <p class="text-small mt-4">The total number of Page Impressions within the date range</p>
-                            <div class="d-flex mt-3">
-                                <h5 class="mr-3">Value:$198</h5>
-                                <h5>Rate:$356</h5>
+                            <div class="chart-container">
+                                <canvas id="prodiDepartemenChart"></canvas>
+                            </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-   
+    </div>
+
+
+ 
   
         <div class="container">
             <br>
@@ -123,7 +165,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </div>
+                    </div>c
                     <div class="modal-body">
                         <h4><strong>
                             Informasi UKK
@@ -151,7 +193,37 @@
                 </div>
             </div>
         </div>
-    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Data Dummy
+            var prodiDepartemenData = {
+                labels: ['Manajemen Informatika', 'Teknik Alat Berat'],
+                datasets: [{
+                    data: [2, 1], // Jumlah data sesuai dengan jumlah prodi dan departemen
+                    backgroundColor: ['#FF6384', '#36A2EB'], // Warna untuk setiap prodi atau departemen
+                    hoverBackgroundColor: ['#FF6384', '#36A2EB']
+                }]
+            };
+
+            // Options untuk responsif
+            var options = {
+                responsive: true,
+                maintainAspectRatio: false
+            };
+
+            // Mendapatkan elemen canvas
+            var canvas = document.getElementById('prodiDepartemenChart').getContext('2d');
+
+            // Membuat chart pie
+            var prodiDepartemenChart = new Chart(canvas, {
+                type: 'pie',
+                data: prodiDepartemenData,
+                options: options
+            });
+        });
+    </script>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
