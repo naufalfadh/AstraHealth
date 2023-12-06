@@ -57,14 +57,23 @@ namespace AstraHealth.Controllers
         [HttpPost]
         public IActionResult Create(PasienModel pasienModel)
         {
-
             if (ModelState.IsValid)
             {
-                pasienModel.anm_kecelakaan_kerja = Request.Form["rgs_kecelakaan_kerja"] == "on" ? 1 : 0;
+                pasienModel.anm_kecelakaan_kerja = Request.Form["anm_kecelakaan_kerja"] == "on" ? 1 : 0;
+                pasienModel.anm_id = _pasienRepository.getAnamnesaId();
+
+                for (int i = 0; i < pasienModel.PemakaianObats.Count; i++)
+                {
+                    pasienModel.PemakaianObats[i].pmo_id = _pasienRepository.getPemakaianObatId();
+                    pasienModel.PemakaianObats[i].pmo_id_anamnesa = pasienModel.anm_id;
+                }
+
+
                 _pasienRepository.insertData(pasienModel);
                 TempData["SuccessMessage"] = "Data berhasil ditambahkan";
                 return RedirectToAction("Index");
             }
+
             return View(pasienModel);
         }
 
