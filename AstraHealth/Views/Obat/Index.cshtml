@@ -77,16 +77,20 @@
                                     <td>@obat.kpo_catatan</td>
                                     @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status == "pending")
                                     {
+
                                         <td>
-                                            <button class="btn btn-sm btn-primary accept-button" data-id="@obat.kpo_id">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpo_id">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                            <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpo_id" class="btn btn-sm btn-info btn-info-modal">
-                                                <i class="fas fa-info-circle"></i>
-                                            </a>
+                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                <button class="btn btn-sm btn-success accept-button" data-id="@obat.kpo_id">
+                                                    <i class="fas fa-check-circle"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpo_id">
+                                                    <i class="fas fa-times-circle"></i>
+                                                </button>
+                                                <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpo_id" class="btn btn-sm btn-secondary">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </a>
+                                            </div>
+
                                         </td>
                                     }
                                     @if(httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status != "pending")
@@ -144,7 +148,7 @@
             var obatId = $(this).data("id");
 
             swal({
-                title: "Terima data?",
+                title: "Tolak data?",
                 text: "Apakah anda yakin ingin menolak data ini?",
                 icon: "warning",
                 buttons: true,
