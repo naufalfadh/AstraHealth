@@ -41,57 +41,53 @@
                                 <th scope="col">Keluhan</th>
                                 <th scope="col">Tensi</th>
                                 <th scope="col">Diagnosa</th>
-                                <th scope="col">Obat</th>
-                                <th scope="col">Jumlah</th>
-                                <th scope="col">Satuan</th>
                                 <th scope="col">Kecelakaan Kerja</th>
                                 <th scope="col">Keterangan</th>
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">ID Admin</th>
+                                <th scope="col">Obat</th>
+                                <th scope="col">Jumlah</th>
+                                <th scope="col">Satuan</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var pasien in Model)
                             {
                                 <tr>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@(no++)</td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_id_pasien</td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_nama_pasien</td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_prodi_atau_departemen</td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_keluhan</td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_tensi</td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_diagnosa</td>
+                                    <td>@no</td>
+                                    <td>@pasien.anm_id_pasien</td>
+                                    <td>@pasien.anm_nama_pasien</td>
+                                    <td>@pasien.anm_prodi_atau_departemen</td>
+                                    <td>@pasien.anm_keluhan</td>
+                                    <td>@pasien.anm_tensi</td>
+                                    <td>@pasien.anm_diagnosa</td>
+                                    <td>@pasien.anm_kecelakaan_kerja</td>
+                                    <td>@pasien.anm_keterangan</td>
+                                    <td>@pasien.anm_tanggal</td>
+                                    <td>@pasien.anm_id_admin</td>
                                     <td>
-                                        @foreach (var pemakaianObat in pasien.PemakaianObats)
+                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
                                         {
-                                            <div>
-                                                @pemakaianObat.pmo_nama_obat
-                                            </div>
+                                            <div>@pasien.PemakaianObats[i].pmo_nama_obat</div>
                                         }
                                     </td>
                                     <td>
-                                        @foreach (var pemakaianObat in pasien.PemakaianObats)
+                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
                                         {
-                                            <div>
-                                                @pemakaianObat.pmo_jumlah
-                                            </div>
+                                            <div>@pasien.PemakaianObats[i].pmo_jumlah</div>
                                         }
                                     </td>
                                     <td>
-                                        @foreach (var pemakaianObat in pasien.PemakaianObats)
+                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
                                         {
-                                            <div>
-                                                @pemakaianObat.pmo_satuan
-                                            </div>
+                                            <div>@pasien.PemakaianObats[i].pmo_satuan</div>
                                         }
                                     </td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_kecelakaan_kerja</td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_keterangan</td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_tanggal</td>
-                                    <td rowspan="@(pasien.PemakaianObats.Count + 1)">@pasien.anm_id_admin</td>
                                 </tr>
+                                no++;
                             }
                         </tbody>
+
                     </table>
                 </div>
             </div>

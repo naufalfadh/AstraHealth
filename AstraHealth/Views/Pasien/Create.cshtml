@@ -1,7 +1,7 @@
 ﻿@model AstraHealth.Models.PasienModel
 
 @{
-    ViewData["Title"] = "Registrasi Pasienz";
+    ViewData["Title"] = "Registrasi Pasien";
 }
 @{
     var httpContext = ViewContext.HttpContext;
@@ -39,8 +39,7 @@
                     <p class="card-description">
                         Personal info
                     </p>
-                    <input asp-for="anm_id" class="form-control input-with-border" value="2" hidden/>
-                    <span asp-validation-for="anm_id" class="text-danger"></span>
+                    <input asp-for="anm_id" class="form-control input-with-border" value="null" hidden />
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
@@ -156,17 +155,22 @@
                                                 <th>Jumlah</th>
                                                 <th>Satuan</th>
                                                 <th>Aksi</th>
-                                                <th><input type="hidden" name="pemakaianObat[IsPemakaianObat][]" value="true"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <tr>
+                                                <input asp-for="PemakaianObats[0].pmo_id" class="form-control input-with-border" value="null" hidden />
+                                                <input asp-for="PemakaianObats[0].pmo_id_anamnesa" class="form-control input-with-border" value="null" hidden />
+                                                <td><input asp-for="PemakaianObats[0].pmo_nama_obat" class="form-control input-with-border" /></td>
+                                                <td><input asp-for="PemakaianObats[0].pmo_jumlah" class="form-control input-with-border" /></td>
+                                                <td><input asp-for="PemakaianObats[0].pmo_satuan" class="form-control input-with-border" /></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Cancel</a>
                 </form>
@@ -176,19 +180,21 @@
 </body>
 <script>
     $(document).ready(function () {
-        // Fungsi untuk menambah baris
+        var index = 0; // Indeks awal setelah baris pertama
+
         $("#btnTambahBaris").click(function () {
             var newRow = $("<tr>");
             var cols = "";
 
-            cols += '<td><input type="text" name="pemakaianObat[NamaObat][]" class="form-control" /></td>';
-            cols += '<td><input type="text" name="pemakaianObat[Jumlah][]" class="form-control" /></td>';
-            cols += '<td><input type="text" name="pemakaianObat[Satuan][]" class="form-control" /></td>';
+            cols += '<td><input type="text" asp-for="PemakaianObats[' + index + '].pmo_nama_obat" class="form-control" /></td>';
+            cols += '<td><input type="text" asp-for="PemakaianObats[' + index + '].pmo_jumlah" class="form-control" /></td>';
+            cols += '<td><input type="text" asp-for="PemakaianObats[' + index + '].pmo_satuan" class="form-control" /></td>';
             cols += '<td><button type="button" class="btnHapusBaris btn btn-danger">Hapus</button></td>';
-            cols += '<td><input type="hidden" name="pemakaianObat[IsPemakaianObat][]" value="true"></td>';
 
             newRow.append(cols);
             $("#tblPemakaianObat tbody").append(newRow);
+
+            index++; // Tingkatkan indeks untuk baris berikutnya
         });
 
         // Fungsi untuk menghapus baris
