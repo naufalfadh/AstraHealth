@@ -39,22 +39,24 @@
                     <p class="card-description">
                         Personal info
                     </p>
+                    <input asp-for="anm_id" class="form-control input-with-border" value="2" hidden/>
+                    <span asp-validation-for="anm_id" class="text-danger"></span>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="rgs_id_pasien" class="col-sm-3 col-form-label">ID Pasien</label>
+                                <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">ID Pasien</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" />
-                                    <span asp-validation-for="rgs_id_pasien" class="text-danger"></span>
+                                    <input asp-for="anm_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" />
+                                    <span asp-validation-for="anm_id_pasien" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="rgs_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien</label>
+                                <label asp-for="anm_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_nama_pasien" class="form-control input-with-border" placeholder="Masukkan Nama Pasien" />
-                                    <span asp-validation-for="rgs_nama_pasien" class="text-danger"></span>
+                                    <input asp-for="anm_nama_pasien" class="form-control input-with-border" placeholder="Masukkan Nama Pasien" />
+                                    <span asp-validation-for="anm_nama_pasien" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -62,42 +64,19 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="rgs_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen</label>
+                                <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_prodi_atau_departemen" class="form-control input-with-border" placeholder="Masukkan Prodi / Departemen" />
-                                    <span asp-validation-for="rgs_prodi_atau_departemen" class="text-danger"></span>
+                                    <input asp-for="anm_prodi_atau_departemen" class="form-control input-with-border" placeholder="Masukkan Prodi / Departemen" />
+                                    <span asp-validation-for="anm_prodi_atau_departemen" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="rgs_keluhan" class="col-sm-3 col-form-label">Keluhan</label>
+                                <label asp-for="anm_keluhan" class="col-sm-3 col-form-label">Keluhan</label>
                                 <div class="col-sm-9">
-                                    <textarea asp-for="rgs_keluhan" class="form-control input-with-border" placeholder="Masukkan Keluhan"></textarea>
-                                    <span asp-validation-for="rgs_keluhan" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rgs_tensi" class="col-sm-3 col-form-label">Tensi</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rgs_tensi" class="form-control input-with-border" placeholder="Masukkan Tensi" />
-                                    <span asp-validation-for="rgs_tensi" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rgs_diagnosa" class="col-sm-3 col-form-label">Diagnosa</label>
-                                <div class="col-sm-9">
-                                    <textarea asp-for="rgs_diagnosa" class="form-control input-with-border" placeholder="Masukkan Diagnosa"></textarea>
-                                    <span asp-validation-for="rgs_diagnosa" class="text-danger"></span>
+                                    <textarea asp-for="anm_keluhan" class="form-control input-with-border" placeholder="Masukkan Keluhan"></textarea>
+                                    <span asp-validation-for="anm_keluhan" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -105,40 +84,41 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="rgs_obat" class="col-sm-3 col-form-label">Obat</label>
+                                <label asp-for="anm_tensi" class="col-sm-3 col-form-label">Tensi</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_obat" class="form-control input-with-border" placeholder="Masukkan Nama Obat" />
-                                    <span asp-validation-for="rgs_obat" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rgs_jumlah_obat" class="col-sm-3 col-form-label">Jumlah Obat</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rgs_jumlah_obat" class="form-control input-with-border" placeholder="Masukkan Jumlah Obat" />
-                                    <span asp-validation-for="rgs_jumlah_obat" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <div class="col-sm-9">
-                                    <input id="rgs_kecelakaan_kerja" name="rgs_kecelakaan_kerja" type="checkbox" class="form-check-input" />
-                                    <label for="rgs_kecelakaan_kerja" class="col-sm-3 col-form-label">Kecelakaan Kerja</label>
-                                    <span asp-validation-for="rgs_kecelakaan_kerja" class="text-danger"></span>
+                                    <input asp-for="anm_tensi" class="form-control input-with-border" placeholder="Masukkan Tensi" />
+                                    <span asp-validation-for="anm_tensi" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="rgs_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+                                <label asp-for="anm_diagnosa" class="col-sm-3 col-form-label">Diagnosa</label>
                                 <div class="col-sm-9">
-                                    <textarea asp-for="rgs_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan"></textarea>
-                                    <span asp-validation-for="rgs_keterangan" class="text-danger"></span>
+                                    <textarea asp-for="anm_diagnosa" class="form-control input-with-border" placeholder="Masukkan Diagnosa"></textarea>
+                                    <span asp-validation-for="anm_diagnosa" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <input id="anm_kecelakaan_kerja" name="rgs_kecelakaan_kerja" type="checkbox" class="col-sm-3 col-form-label form-check-label" />
+                                    <label for="anm_kecelakaan_kerja" class="col-sm-3 col-form-label">Kecelakaan Kerja</label>
+                                    <span asp-validation-for="anm_kecelakaan_kerja" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="anm_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+                                <div class="col-sm-9">
+                                    <textarea asp-for="anm_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan"></textarea>
+                                    <span asp-validation-for="anm_keterangan" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -147,26 +127,73 @@
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
-                                    <span asp-validation-for="rgs_tanggal" class="text-danger"></span>
+                                    <input asp-for="anm_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
+                                    <span asp-validation-for="anm_tanggal" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <div class="col-sm-9">
-                                    <input asp-for="rgs_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden/>
-                                    <span asp-validation-for="rgs_id_admin" class="text-danger"></span>
+                                    <input asp-for="anm_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden/>
+                                    <span asp-validation-for="anm_id_admin" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <div class="col-sm-9">
+                                    <label class="col-sm-3 col-form-label">Obat</label>
+                                    <button type="button" id="btnTambahBaris" form="pasienForm" class="btn btn-primary">Tambah</button>
+
+                                    <table id="tblPemakaianObat" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nama Obat</th>
+                                                <th>Jumlah</th>
+                                                <th>Satuan</th>
+                                                <th>Aksi</th>
+                                                <th><input type="hidden" name="pemakaianObat[IsPemakaianObat][]" value="true"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Cancel</a>
-
                 </form>
             </div>
         </div>
     </div>
 </body>
+<script>
+    $(document).ready(function () {
+        // Fungsi untuk menambah baris
+        $("#btnTambahBaris").click(function () {
+            var newRow = $("<tr>");
+            var cols = "";
 
+            cols += '<td><input type="text" name="pemakaianObat[NamaObat][]" class="form-control" /></td>';
+            cols += '<td><input type="text" name="pemakaianObat[Jumlah][]" class="form-control" /></td>';
+            cols += '<td><input type="text" name="pemakaianObat[Satuan][]" class="form-control" /></td>';
+            cols += '<td><button type="button" class="btnHapusBaris btn btn-danger">Hapus</button></td>';
+            cols += '<td><input type="hidden" name="pemakaianObat[IsPemakaianObat][]" value="true"></td>';
+
+            newRow.append(cols);
+            $("#tblPemakaianObat tbody").append(newRow);
+        });
+
+        // Fungsi untuk menghapus baris
+        $("#tblPemakaianObat").on("click", ".btnHapusBaris", function () {
+            $(this).closest("tr").remove();
+        });
+    });
+</script>

@@ -28,11 +28,6 @@ namespace AstraHealth.Controllers
             {
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
-
-            /*if (akunModel.akn_role == "admin")
-            {
-                return RedirectToAction("Index", "Pasien");
-            }*/
           
             return View(_pasienRepository.getAllData());
         }
@@ -65,7 +60,7 @@ namespace AstraHealth.Controllers
 
             if (ModelState.IsValid)
             {
-                pasienModel.rgs_kecelakaan_kerja = Request.Form["rgs_kecelakaan_kerja"] == "on" ? 1 : 0;
+                pasienModel.anm_kecelakaan_kerja = Request.Form["rgs_kecelakaan_kerja"] == "on" ? 1 : 0;
                 _pasienRepository.insertData(pasienModel);
                 TempData["SuccessMessage"] = "Data berhasil ditambahkan";
                 return RedirectToAction("Index");
@@ -73,7 +68,7 @@ namespace AstraHealth.Controllers
             return View(pasienModel);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Delete(int id)
         {
             AkunModel akunModel = new AkunModel();
@@ -112,9 +107,9 @@ namespace AstraHealth.Controllers
                 response = new { success = false, message = ex.Message };
             }
             return Json(response);
-        }
+        }*/
 
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Edit(int id)
         {
             AkunModel akunModel = new AkunModel();
@@ -140,9 +135,9 @@ namespace AstraHealth.Controllers
                 return NotFound();
             }
             return View(PasienModel);
-        }
+        }*/
 
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Edit(PasienModel pasienModel)
         {
 
@@ -173,6 +168,6 @@ namespace AstraHealth.Controllers
                 return RedirectToAction("Index");
             }
             return View(pasienModel);
-        }
+        }*/
     }
 }
