@@ -158,13 +158,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <input asp-for="PemakaianObats[0].pmo_id" class="form-control input-with-border" value="null" hidden />
-                                                <input asp-for="PemakaianObats[0].pmo_id_anamnesa" class="form-control input-with-border" value="null" hidden />
-                                                <td><input asp-for="PemakaianObats[0].pmo_nama_obat" class="form-control input-with-border" /></td>
-                                                <td><input asp-for="PemakaianObats[0].pmo_jumlah" class="form-control input-with-border" /></td>
-                                                <td><input asp-for="PemakaianObats[0].pmo_satuan" class="form-control input-with-border" /></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -186,9 +179,11 @@
             var newRow = $("<tr>");
             var cols = "";
 
-            cols += '<td><input type="text" asp-for="PemakaianObats[' + index + '].pmo_nama_obat" class="form-control" /></td>';
-            cols += '<td><input type="text" asp-for="PemakaianObats[' + index + '].pmo_jumlah" class="form-control" /></td>';
-            cols += '<td><input type="text" asp-for="PemakaianObats[' + index + '].pmo_satuan" class="form-control" /></td>';
+            cols += '<input asp-for="PemakaianObats['+ index +'].pmo_id" class="form-control input-with-border" value="null" hidden />';
+            cols += '<input asp-for="PemakaianObats['+ index +'].pmo_id_anamnesa" class="form-control input-with-border" value="null" hidden />';
+            cols += '<td><input asp-for="PemakaianObats['+ index +'].pmo_nama_obat" class="form-control input-with-border" /></td>';
+            cols += '<td><input asp-for="PemakaianObats['+ index +'].pmo_jumlah" class="form-control input-with-border" /></td>';
+            cols += '<td><input asp-for="PemakaianObats['+ index +'].pmo_satuan" class="form-control input-with-border" /></td>';
             cols += '<td><button type="button" class="btnHapusBaris btn btn-danger">Hapus</button></td>';
 
             newRow.append(cols);
