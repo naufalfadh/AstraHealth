@@ -204,6 +204,79 @@ namespace AstraHealth.Models
             }
         }
 
+        public List<PasienModel> laporanDiagnosaSakit()
+        {
+            List<PasienModel> laporanList = new List<PasienModel>();
+
+            try
+            {
+                string query = "SELECT anm_id_pasien, anm_nama_pasien,anm_keluhan,anm_tensi, anm_diagnosa, anm_tanggal FROM ahl_tranamnesa";
+
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    PasienModel laporan = new PasienModel
+                    {
+                        anm_id_pasien = reader["anm_id_pasien"].ToString(),
+                        anm_nama_pasien = reader["anm_nama_pasien"].ToString(),
+                        anm_keluhan = reader["anm_keluhan"].ToString(),
+                        anm_tensi = reader["anm_tensi"].ToString(),
+                        anm_diagnosa = reader["anm_diagnosa"].ToString(),
+                        anm_tanggal = reader.GetDateTime(reader.GetOrdinal("anm_tanggal"))
+                    };
+
+                    laporanList.Add(laporan);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return laporanList;
+        }
+        public List<PasienModel> laporanProdiDanDepartemen()
+        {
+            List<PasienModel> laporanList = new List<PasienModel>();
+
+            try
+            {
+                string query = "SELECT anm_id_pasien, anm_nama_pasien,anm_keluhan,anm_tensi, anm_prodi_atau_departemen, anm_tanggal FROM ahl_tranamnesa";
+
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    PasienModel laporan = new PasienModel
+                    {
+                        anm_id_pasien = reader["anm_id_pasien"].ToString(),
+                        anm_nama_pasien = reader["anm_nama_pasien"].ToString(),
+                        anm_keluhan = reader["anm_keluhan"].ToString(),
+                        anm_tensi = reader["anm_tensi"].ToString(),
+                        anm_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
+                        anm_tanggal = reader.GetDateTime(reader.GetOrdinal("anm_tanggal"))
+                    };
+
+                    laporanList.Add(laporan);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return laporanList;
+        }
+
+
+
         /*public void updateData(PasienModel pasienModel)
         {
             try

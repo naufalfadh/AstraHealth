@@ -77,6 +77,8 @@ namespace AstraHealth.Controllers
             return View(pasienModel);
         }
 
+
+
         /*[HttpPost]
         public IActionResult Delete(int id)
         {
