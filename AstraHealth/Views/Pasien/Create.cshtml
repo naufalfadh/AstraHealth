@@ -65,11 +65,27 @@
                             <div class="form-group row">
                                 <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="anm_prodi_atau_departemen" class="form-control input-with-border" placeholder="Masukkan Prodi / Departemen" />
+                                    <select asp-for="anm_prodi_atau_departemen" class="form-control input-with-border">
+                                        <option value="">Pilih Prodi / Departemen</option>
+                                        <option value="Pembuatan Peralatan dan Perkakas Produksi">Pembuatan Peralatan dan Perkakas Produksi</option>
+                                        <option value="Teknik Produksi dan Proses Manufaktur">Teknik Produksi dan Proses Manufaktur</option>
+                                        <option value="Teknologi Konstruksi Bangunan Gedung">Teknologi Konstruksi Bangunan Gedung</option>
+                                        <option value="Mesin Otomotif">Mesin Otomotif</option>
+                                        <option value="Mekatronika">Mekatronika</option>
+                                        <option value="Manajemen Informatika">Manajemen Informatika</option>
+                                        <option value="Teknologi Rekayasa Pemeliharaan Alat Berat">Teknologi Rekayasa Pemeliharaan Alat Berat</option>
+                                        <option value="Teknologi Rekayasa Logistik">Teknologi Rekayasa Logistik</option>
+                                        <option value="DAAA">DAAA</option>
+                                        <option value="DKA">DKA</option>
+                                        <option value="DAKAP">DAKAP</option>
+                                        <option value="GA">GA</option>
+
+                                    </select>
                                     <span asp-validation-for="anm_prodi_atau_departemen" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label asp-for="anm_keluhan" class="col-sm-3 col-form-label">Keluhan</label>
