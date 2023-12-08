@@ -35,23 +35,26 @@
             background-size: 100%;
         }
 
-        /* Gaya tambahan untuk footer */
-        footer {
-            background-color: #ffffff; /* Warna latar belakang footer */
+        footer.main-footer {
+            background-color: #0059AB;
+            color: white;
             padding: 10px;
             text-align: center;
-            bottom: 0;
+            
+            bottom: 0; /* Menempatkan footer di bagian paling bawah */
             width: 100%;
         }
 
        .logo-container {
            padding-left:30px;
        }
+
+    
     </style>
 </head>
 
 <body>
-        <div class="horizontal-menu">
+    <div class="horizontal-menu" >
             <nav class="navbar top-navbar col-lg-12 col-12 p-0">
                 <div class="container-fluid">
                     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
@@ -96,7 +99,7 @@
                                 <a class="dropdown-toggle show-dropdown-arrow btn btn-inverse-primary btn-sm" id="nreportDropdown" href="#" data-bs-toggle="dropdown">
                                     Laporan
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="nreportDropdown">
+                                <div class="dropdown-menu dropdown-menu-left navbar-dropdown preview-list" aria-labelledby="nreportDropdown">
                                     <p class="mb-0 font-weight-medium float-left dropdown-header">Laporan</p>
                                     <a asp-controller="Laporan" asp-action="LaporanDiagnosaSakit" class="dropdown-item">
                                         <i class="mdi mdi-file text-primary"></i>
@@ -146,10 +149,19 @@
         @RenderBody()
 
     </main><!-- End #main -->
-    <footer>
-        <p class="text-black font-weight-medium text-right flex-grow align-self-end">
-            Hak Cipta &copy; 2023 Semua hak dilindungi.
-        </p>
+    <br>
+    <br>
+    <br>
+    <footer class="main-footer">
+        <div class="inner-footer">
+            <div class="container">
+                <div class="left-menu">
+                    <img src="https://www.evos.gg/images/pages/EcRnvBT2RReJimNyMGgMWhET6T8FWj6m0m4UUcQF.png" alt="" class="logo-bw">
+                    <p>© 2023 All Rights Reserved</p>
+                </div>
+            
+            </div>
+        </div>
     </footer>
     <!-- base:js -->
     <script src="~/content/vendors/base/vendor.bundle.base.js"></script>
