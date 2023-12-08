@@ -55,7 +55,7 @@ namespace AstraHealth.Models
             KeperluanMedisModel keperluanMedisModel = new KeperluanMedisModel();
             try
             {
-                string query = "select * from ahl_trkeperluanMedis where kpo_id = @p1";
+                string query = "select * from ahl_trkeperluanMedis where kpm_id = @p1";
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
                 _connection.Open();
@@ -110,8 +110,8 @@ namespace AstraHealth.Models
             try
             {
                 string query = "update ahl_trkeperluanMedis " +
-                "set kpo_catatan = @p2 " +
-                "where kpo_id = @p1";
+                "set kpm_catatan = @p2 " +
+                "where kpm_id = @p1";
 
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", keperluanMedisModel.kpm_id);
@@ -130,7 +130,7 @@ namespace AstraHealth.Models
         {
             try
             {
-                string query = "update ahl_trkeperluanMedis set kpo_status='diterima', kpo_tanggal_aksi=@p2 where kpo_id = @p1";
+                string query = "update ahl_trkeperluanMedis set kpm_status='diterima', kpm_tanggal_aksi=@p2 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
                 command.Parameters.AddWithValue("@p2", DateTime.Now);
@@ -148,7 +148,7 @@ namespace AstraHealth.Models
         {
             try
             {
-                string query = "update ahl_trkeperluanMedis set kpo_status='ditolak', kpo_tanggal_aksi=@p2 where kpo_id = @p1";
+                string query = "update ahl_trkeperluanMedis set kpm_status='ditolak', kpm_tanggal_aksi=@p2 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
                 command.Parameters.AddWithValue("@p2", DateTime.Now);

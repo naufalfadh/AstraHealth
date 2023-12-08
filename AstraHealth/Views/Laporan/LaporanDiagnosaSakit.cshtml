@@ -92,9 +92,6 @@
                     <!-- Tabel Modal -->
                     <table class="table datatable" id="myTable">
                         <thead style="background-color: #37003C; color: white;">
-                            <p>tes</p>
-                            <p>tes</p>
-
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">ID Pasien</th>
@@ -120,7 +117,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-secondary" onclick="printModalContentToPDF()">Cetak</button>
+                    <button type="button" class="btn btn-secondary" id="btnPdf">Cetak</button>
                 </div>
             </div>
         </div>
@@ -131,6 +128,11 @@
 
 
 <script>
+    $("#btnPdf").click(function(){
+        var sHtml= $("#pdfContainer").html();
+        sHtml = sHtml.replace(/</g, "StrTag").replace(/>/g, "EndTag");
+        window.open('../Laporan/GeneratePdf?html=' + sHtml, '_blank')
+    });
     $(document).ready(function () {
         $('#myTable').DataTable();
     });

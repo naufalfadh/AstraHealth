@@ -1,9 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model List<AstraHealth.Models.ObatModel>
+@model List<AstraHealth.Models.KeperluanMedisModel>
 @{
-    ViewData["Title"] = "Keperluan Obat";
+    ViewData["Title"] = "Tambah Keperluan Alat Medis";
     int no = 1;
 }
 @{
@@ -11,10 +11,10 @@
 }
 
 <div class="pagetitle">
-    <h1>Keperluan Obat</h1>
+    <h1>Tambah Keperluan Alat Medis</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">Keperluan Obat</li>
+            <li class="breadcrumb-item">Tambah Keperluan Alat Medis</li>
         </ol>
     </nav>
 </div>
@@ -23,7 +23,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Keperluan Obat</h5>
+                    <h5 class="card-title">Tambah Keperluan Alat Medis</h5>
                     <hr />
                     @if (TempData["SuccessMessage"] != null)
                     {
@@ -71,29 +71,29 @@
                             {
                                 <tr>
                                     <td>@(no++)</td>
-                                    <td>@obat.kpo_id</td>
-                                    <td>@obat.kpo_nama_obat</td>
-                                    <td>@obat.kpo_jumlah</td>
-                                    <td>@obat.kpo_satuan</td>
-                                    <td>@obat.kpo_tanggal_pengajuan</td>
-                                    <td>@obat.kpo_status</td>
+                                    <td>@obat.kpm_id</td>
+                                    <td>@obat.kpm_nama_barang</td>
+                                    <td>@obat.kpm_jumlah</td>
+                                    <td>@obat.kpm_satuan</td>
+                                    <td>@obat.kpm_tanggal_pengajuan</td>
+                                    <td>@obat.kpm_status</td>
                                     @if (httpContext.Session.GetString("Role") == "admin")
                                     {
-                                        <td>@obat.kpo_tanggal_aksi</td>
+                                        <td>@obat.kpm_tanggal_aksi</td>
                                     }
-                                    <td>@obat.kpo_catatan</td>
-                                    @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status == "pending")
+                                    <td>@obat.kpm_catatan</td>
+                                    @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpm_status == "pending")
                                     {
 
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                <button class="btn btn-sm btn-success accept-button" data-id="@obat.kpo_id">
+                                                <button class="btn btn-sm btn-success accept-button" data-id="@obat.kpm_id">
                                                     <i class="fas fa-check-circle"></i> 
                                                 </button>
-                                                <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpo_id">
+                                                <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpm_id">
                                                     <i class="fas fa-times-circle"></i>
                                                 </button>
-                                                <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpo_id" class="btn btn-sm btn-primary btn-info-modal">
+                                                <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpm_id" class="btn btn-sm btn-primary btn-info-modal">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             </div>
@@ -101,7 +101,7 @@
          
                                         </td>
                                     }
-                                    @if(httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status != "pending")
+                                    @if(httpContext.Session.GetString("Role") == "manajer" && obat.kpm_status != "pending")
                                     {
                                         <td>-</td>
                                     }
