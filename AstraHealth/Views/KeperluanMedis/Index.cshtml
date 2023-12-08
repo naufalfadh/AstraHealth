@@ -1,29 +1,28 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model List<AstraHealth.Models.ObatModel>
+@model List<AstraHealth.Models.KeperluanMedisModel>
 @{
-    ViewData["Title"] = "Keperluan Obat";
+    ViewData["Title"] = "Keperluan Alat medis";
     int no = 1;
 }
 @{
     var httpContext = ViewContext.HttpContext;
 }
 
-<div class="pagetitle">
-    <h1>Keperluan Obat</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">Keperluan Obat</li>
-        </ol>
-    </nav>
-</div>
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Keperluan Obat</h5>
+                    <div class="pagetitle">
+                        <h1>Keperluan Alat Medis</h1>
+                        <nav>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">Keperluan Alat Medis</li>
+                            </ol>
+                        </nav>
+                    </div>
                     <hr />
                     @if (TempData["SuccessMessage"] != null)
                     {
@@ -37,7 +36,7 @@
                     }
                     @if (httpContext.Session.GetString("Role") == "admin")
                     {
-                        <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Obat</a>
+                        <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Alat Medis</a>
                         <a class="btn btn-primary" style="background-color: #0059AB;" href="@Url.Action("GeneratePdf", "Obat")">
                             <i class="fas fa-file-pdf"></i> Cetak PDF
                         </a>
@@ -50,7 +49,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">ID</th>
-                                <th scope="col">Nama Obat</th>
+                                <th scope="col">Nama Barang</th>
                                 <th scope="col">Jumlah</th>
                                 <th scope="col">Satuan</th>
                                 <th scope="col">Tanggal Pengajuan</th>
@@ -67,36 +66,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var obat in Model)
+                            @foreach (var keperluanMedis in Model)
                             {
                                 <tr>
                                     <td>@(no++)</td>
-                                    <td>@obat.kpo_id</td>
-                                    <td>@obat.kpo_nama_obat</td>
-                                    <td>@obat.kpo_jumlah</td>
-                                    <td>@obat.kpo_satuan</td>
-                                    <td>@obat.kpo_tanggal_pengajuan</td>
-                                    <td>@obat.kpo_status</td>
+                                    <td>@keperluanMedis.kpm_id</td>
+                                    <td>@keperluanMedis.kpm_nama_barang</td>
+                                    <td>@keperluanMedis.kpm_jumlah</td>
+                                    <td>@keperluanMedis.kpm_satuan</td>
+                                    <td>@keperluanMedis.kpm_tanggal_pengajuan</td>
+                                    <td>@keperluanMedis.kpm_status</td>
                                     @if (httpContext.Session.GetString("Role") == "admin")
                                     {
-                                        <td>@obat.kpo_tanggal_aksi</td>
+                                        <td>@keperluanMedis.kpm_tanggal_aksi</td>
                                     }
-                                    <td>@obat.kpo_catatan</td>
-                                    @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status == "pending")
+                                    <td>@keperluanMedis.kpm_catatan</td>
+                                    @if (httpContext.Session.GetString("Role") == "manajer" && keperluanMedis.kpm_status == "pending")
                                     {
                                         <td>
-                                            <button class="btn btn-sm btn-primary accept-button" data-id="@obat.kpo_id">
+                                            <button class="btn btn-sm btn-primary accept-button" data-id="@keperluanMedis.kpm_id">
                                                 <i class="fas fa-check"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpo_id">
+                                            <button class="btn btn-sm btn-danger reject-button" data-id="@keperluanMedis.kpm_id">
                                                 <i class="fas fa-times"></i>
                                             </button>
-                                            <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpo_id" class="btn btn-sm btn-info btn-info-modal">
+                                            <a asp-controller="keperluanMedis" asp-action="Edit" asp-route-id="@keperluanMedis.kpm_id" class="btn btn-sm btn-info btn-info-modal">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         </td>
                                     }
-                                    @if(httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status != "pending")
+                                    @if(httpContext.Session.GetString("Role") == "manajer" && keperluanMedis.kpm_status != "pending")
                                     {
                                         <td>-</td>
                                     }
@@ -118,7 +117,7 @@
 
     $(document).ready(function () {
         $(".accept-button").click(function () {
-            var obatId = $(this).data("id");
+            var keperluanMedisId = $(this).data("id");
 
             swal({
                 title: "Terima data?",
@@ -129,7 +128,7 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "/obat/Accept/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        url: "/keperluanMedis/Accept/" + keperluanMedisId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {
@@ -149,7 +148,7 @@
 
     $(document).ready(function () {
         $(".reject-button").click(function () {
-            var obatId = $(this).data("id");
+            var keperluanMedisId = $(this).data("id");
 
             swal({
                 title: "Terima data?",
@@ -160,7 +159,7 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "/obat/Reject/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        url: "/keperluanMedis/Reject/" + keperluanMedisId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {

@@ -1,9 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model AstraHealth.Models.ObatModel
+@model AstraHealth.Models.KeperluanMedisModel
 @{
-    ViewData["Title"] = "Edit Obat";
+    ViewData["Title"] = "Edit Keperluan Alat Medis";
 }
 
 <style>
@@ -24,41 +24,41 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Edit Keperluan Obat</h4>
+                        <h4 class="card-title">Edit Keperluan Alat Medis</h4>
                     </div>
                     <div class="card-body">
-                        <form method="post" asp-controller="Obat" asp-action="Edit">
+                        <form method="post" asp-controller="KeperluanMedis" asp-action="Edit">
                             <div class="form-group">
-                                <input asp-for="kpo_id" class="form-control" hidden />
+                                <input asp-for="kpm_id" class="form-control" hidden />
                             </div>
                             <div class="form-group">
-                                <label asp-for="kpo_nama_obat" class="control-label">Nama Obat</label>
-                                <input asp-for="kpo_nama_obat" class="form-control" readonly />
+                                <label asp-for="kpm_nama_barang" class="control-label">Nama Barang</label>
+                                <input asp-for="kpm_nama_barang" class="form-control" readonly />
                             </div>
                             <div class="form-group">
-                                <label asp-for="kpo_jumlah" class="control-label">Jumlah</label>
-                                <input asp-for="kpo_jumlah" class="form-control" readonly />
+                                <label asp-for="kpm_jumlah" class="control-label">Jumlah</label>
+                                <input asp-for="kpm_jumlah" class="form-control" readonly />
                             </div>
                             <div class="form-group">
-                                <label asp-for="kpo_satuan" class="control-label">Satuan</label>
-                                <input asp-for="kpo_satuan" class="form-control" readonly />
+                                <label asp-for="kpm_satuan" class="control-label">Satuan</label>
+                                <input asp-for="kpm_satuan" class="form-control" readonly />
                             </div>
                             <div class="form-group">
-                                <label asp-for="kpo_catatan" class="control-label">Catatan</label>
-                                <textarea asp-for="kpo_catatan" class="form-control" type="text"></textarea>
-                                <span asp-validation-for="kpo_catatan" class="text-danger"></span>
+                                <label asp-for="kpm_catatan" class="control-label">Catatan</label>
+                                <textarea asp-for="kpm_catatan" class="form-control" type="text"></textarea>
+                                <span asp-validation-for="kpm_catatan" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input asp-for="kpo_tanggal_pengajuan" class="form-control" hidden>
+                                <input asp-for="kpm_tanggal_pengajuan" class="form-control" hidden>
                             </div>
                             <div class="form-group">
-                                <input asp-for="kpo_tanggal_aksi" class="form-control" hidden>
+                                <input asp-for="kpm_tanggal_aksi" class="form-control" hidden>
                             </div>
                             <div class="form-group">
-                                <input asp-for="kpo_status" class="form-control" hidden>
+                                <input asp-for="kpm_status" class="form-control" hidden>
                             </div>
                             <div class="form-group">
-                                <input asp-for="kpo_id_admin" class="form-control" hidden>
+                                <input asp-for="kpm_id_admin" class="form-control" hidden>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Simpan</button>

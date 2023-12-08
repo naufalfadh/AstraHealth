@@ -64,7 +64,8 @@ namespace AstraHealth.Controllers
 
                 for (int i = 0; i < pasienModel.PemakaianObats.Count; i++)
                 {
-                    pasienModel.PemakaianObats[i].pmo_id = _pasienRepository.getPemakaianObatId();
+                    int id = _pasienRepository.getPemakaianObatId() + i;
+                    pasienModel.PemakaianObats[i].pmo_id = id.ToString();
                     pasienModel.PemakaianObats[i].pmo_id_anamnesa = pasienModel.anm_id;
                 }
 

@@ -176,32 +176,32 @@ namespace AstraHealth.Models
             }
         }
 
-        public string getPemakaianObatId()
+        public int getPemakaianObatId()
         {
             try
             {
-                string query = "SELECT COUNT(*) + 1 AS NewId FROM ahl_trpemakaianObat";
-                SqlCommand command = new SqlCommand(query, _connection);
-                _connection.Open();
-                object result = command.ExecuteScalar();
-
-                if (result != null)
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    int newId = Convert.ToInt32(result);
-                    return newId.ToString();
-                }
+                    connection.Open();
+                    string query = "SELECT COUNT(*) + 1 AS NewId FROM ahl_trpemakaianObat";
 
-                return null;
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        object result = command.ExecuteScalar();
+
+                        if (result != null)
+                        {
+                            return Convert.ToInt32(result);
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return null;
             }
-            finally
-            {
-                _connection.Close();
-            }
+
+            return 0; // Atau nilai default lainnya sesuai kebutuhan
         }
 
         /*public void updateData(PasienModel pasienModel)

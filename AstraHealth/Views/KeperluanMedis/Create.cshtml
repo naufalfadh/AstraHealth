@@ -1,7 +1,7 @@
-﻿@model AstraHealth.Models.ObatModel
+﻿@model AstraHealth.Models.KeperluanMedisModel
 
 @{
-    ViewData["Title"] = "Tambah Keperluan Obat";
+    ViewData["Title"] = "Tambah Keperluan Alat Medis";
 }
 @{
     var httpContext = ViewContext.HttpContext;
@@ -28,35 +28,35 @@
 </style>
 
 <div class="pagetitle">
-    <h1>Keperluan Obat</h1>
+    <h1>Keperluan Alat Medis</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">Keperluan Obat</li>
-            <li class="breadcrumb-item active">Tambah Keperluan Obat</li>
+            <li class="breadcrumb-item">Keperluan Alat Medis</li>
+            <li class="breadcrumb-item active">Tambah Keperluan Alat Medis</li>
         </ol>
     </nav>
 </div>
 <div class="col-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Tambah Keperluan Obat</h4>
+            <h4 class="card-title">Tambah Keperluan Alat Medis</h4>
             <p class="card-description">
                 Tambah Keperluan Obat
             </p>
             <form class="forms-sample" method="post">
                 <div class="form-group">
-                    <label asp-for="kpo_nama_obat">Nama Obat</label>
-                    <input asp-for="kpo_nama_obat" type="text" class="form-control input-with-border" placeholder="Nama Obat">
-                    <span asp-validation-for="kpo_nama_obat" class="text-danger"></span>
+                    <label asp-for="kpm_nama_barang">Nama Barang</label>
+                    <input asp-for="kpm_nama_barang" type="text" class="form-control input-with-border" placeholder="Nama Barang">
+                    <span asp-validation-for="kpm_nama_barang" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="kpo_jumlah">Jumlah Obat</label>
-                    <input asp-for="kpo_jumlah" type="number" class="form-control input-with-border" placeholder="Jumlah Obat">
-                    <span asp-validation-for="kpo_jumlah" class="text-danger"></span>
+                    <label asp-for="kpm_jumlah">Jumlah</label>
+                    <input asp-for="kpm_jumlah" type="number" class="form-control input-with-border" placeholder="Jumlah">
+                    <span asp-validation-for="kpm_jumlah" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="kpo_satuan">Satuan</label>
-                    <select asp-for="kpo_satuan" class="form-control input-with-border">
+                    <label asp-for="kpm_satuan">Satuan</label>
+                    <select asp-for="kpm_satuan" class="form-control input-with-border">
                         <option value="">Pilih Satuan Obat</option>
                         <option value="buah">Buah</option>
                         <option value="kotak">Kotak</option>
@@ -71,25 +71,28 @@
                         <option value="plat">Plat</option>
                        
                     </select>
-                    <span asp-validation-for="kpo_satuan" class="text-danger"></span>
+                    <span asp-validation-for="kpm_satuan" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input asp-for="kpo_tanggal_pengajuan" type="datetime" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden/>
+                    <input asp-for="kpm_tanggal_pengajuan" type="datetime" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden/>
                 </div>
                 <div class="form-group">
-                    <input asp-for="kpo_tanggal_aksi" type="datetime" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
+                    <input asp-for="kpm_tanggal_aksi" type="datetime" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
                 </div>
                 <div class="form-group">
-                    <input asp-for="kpo_status" type="text" class="form-control input-with-border" placeholder="Status" value="pending" hidden>
+                    <input asp-for="kpm_status" type="text" class="form-control input-with-border" placeholder="Status" value="pending" hidden>
                 </div>
                 <div class="form-group">
-                    <input asp-for="kpo_catatan" type="text" class="form-control input-with-border" placeholder="Status" value="null" hidden>
+                    <input asp-for="kpm_catatan" type="text" class="form-control input-with-border" placeholder="Status" value="-" hidden>
                 </div>
                 <div class="form-group">
-                    <input asp-for="kpo_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden />
+                    <input asp-for="kpm_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden />
+                </div>
+                <div class="form-group">
+                    <input asp-for="kpm_id_manajer" class="form-control input-with-border" placeholder="Masukkan ID Manajer" value="@httpContext.Session.GetString("Id")" hidden />
                 </div>
                 <button type="submit" class="btn btn-primary mr-2">Simpan</button>
-                <a asp-controller="Obat" asp-action="Index" class="btn btn-light">Cancel</a>
+                <a asp-controller="KeperluanMedis" asp-action="Index" class="btn btn-light">Cancel</a>
             </form>
         </div>
     </div>

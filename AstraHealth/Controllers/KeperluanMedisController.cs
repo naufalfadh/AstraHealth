@@ -4,18 +4,18 @@ using Newtonsoft.Json;
 
 namespace AstraHealth.Controllers
 {
-    public class ObatController : Controller
+    public class KeperluanMedisController : Controller
     {
-        private readonly Obat _obatRepository;
+        private readonly KeperluanMedis _medisRepository;
 
-        public ObatController(IConfiguration configuration)
+        public KeperluanMedisController(IConfiguration configuration)
         {
-            _obatRepository = new Obat(configuration);
+            _medisRepository = new KeperluanMedis(configuration);
         }
 
         public IActionResult Index()
         {
-            ObatModel obatModel = new ObatModel();
+            KeperluanMedisModel keperluanMedisModel = new KeperluanMedisModel();
 
             string serializedModel = HttpContext.Session.GetString("Identity");
 
@@ -25,10 +25,10 @@ namespace AstraHealth.Controllers
             }
             else
             {
-                obatModel = JsonConvert.DeserializeObject<ObatModel>(serializedModel);
+                keperluanMedisModel = JsonConvert.DeserializeObject<KeperluanMedisModel>(serializedModel);
             }
 
-            return View(_obatRepository.getAllData());
+            return View(_medisRepository.getAllData());
         }
 
         [HttpGet]
@@ -50,16 +50,16 @@ namespace AstraHealth.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ObatModel obatModel)
+        public IActionResult Create(KeperluanMedisModel keperluanMedisModel)
         {
 
             if (ModelState.IsValid)
             {
-                _obatRepository.insertData(obatModel);
+                _medisRepository.insertData(keperluanMedisModel);
                 TempData["SuccessMessage"] = "Data berhasil ditambahkan";
                 return RedirectToAction("Index");
             }
-            return View(obatModel);
+            return View(keperluanMedisModel);
         }
 
         [HttpGet]
@@ -82,34 +82,34 @@ namespace AstraHealth.Controllers
                 return RedirectToAction("Index", "Dashboard");
             }
 
-            ObatModel ObatModel = _obatRepository.getData(id);
-            if (ObatModel == null)
+            KeperluanMedisModel KeperluanMedisModel = _medisRepository.getData(id);
+            if (KeperluanMedisModel == null)
             {
                 return NotFound();
             }
-            return View(ObatModel);
+            return View(KeperluanMedisModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(ObatModel obatModel)
+        public IActionResult Edit(KeperluanMedisModel keperluanMedisModel)
         {
 
             if (ModelState.IsValid)
             {
-                ObatModel newObatModel = _obatRepository.getData(obatModel.kpo_id);
-                if (newObatModel == null)
+                KeperluanMedisModel newKeperluanMedisModel = _medisRepository.getData(keperluanMedisModel.kpm_id);
+                if (newKeperluanMedisModel == null)
                 {
                     return NotFound();
                 }
 
-                newObatModel.kpo_id = obatModel.kpo_id;
-                newObatModel.kpo_catatan = obatModel.kpo_catatan;
+                newKeperluanMedisModel.kpm_id = keperluanMedisModel.kpm_id;
+                newKeperluanMedisModel.kpm_catatan = keperluanMedisModel.kpm_catatan;
 
-                _obatRepository.updateData(newObatModel);
-                TempData["SuccessMessage"] = "Keperluan Obat berhasil diupdate.";
+                _medisRepository.updateData(newKeperluanMedisModel);
+                TempData["SuccessMessage"] = "Keperluan KeperluanMedis berhasil diupdate.";
                 return RedirectToAction("Index");
             }
-            return View(obatModel);
+            return View(keperluanMedisModel);
         }
 
         [HttpPost]
@@ -138,7 +138,7 @@ namespace AstraHealth.Controllers
             {
                 if (id != null)
                 {
-                    _obatRepository.acceptData(id);
+                    _medisRepository.acceptData(id);
                     response = new { success = true, message = "Berhasil menerima data." };
                 }
                 else
@@ -179,7 +179,7 @@ namespace AstraHealth.Controllers
             {
                 if (id != null)
                 {
-                    _obatRepository.rejectData(id);
+                    _medisRepository.rejectData(id);
                     response = new { success = true, message = "Berhasil menolak data." };
                 }
                 else
