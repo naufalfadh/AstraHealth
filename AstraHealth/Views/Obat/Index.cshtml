@@ -38,6 +38,11 @@
                     @if (httpContext.Session.GetString("Role") == "admin")
                     {
                         <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Obat</a>
+                        <a class="btn btn-primary" style="background-color: #0059AB;" href="@Url.Action("GeneratePdf", "Obat")">
+                            <i class="fas fa-file-pdf"></i> Cetak PDF
+                        </a>
+
+
                         <p></p>
                     }
                     <table class="table datatable" id="myTable">
@@ -47,6 +52,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Nama Obat</th>
                                 <th scope="col">Jumlah</th>
+                                <th scope="col">Satuan</th>
                                 <th scope="col">Tanggal Pengajuan</th>
                                 <th scope="col">Status</th>
                                 @if (httpContext.Session.GetString("Role") == "admin")
@@ -68,6 +74,7 @@
                                     <td>@obat.kpo_id</td>
                                     <td>@obat.kpo_nama_obat</td>
                                     <td>@obat.kpo_jumlah</td>
+                                    <td>@obat.kpo_satuan</td>
                                     <td>@obat.kpo_tanggal_pengajuan</td>
                                     <td>@obat.kpo_status</td>
                                     @if (httpContext.Session.GetString("Role") == "admin")
@@ -77,19 +84,24 @@
                                     <td>@obat.kpo_catatan</td>
                                     @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status == "pending")
                                     {
+
                                         <td>
-                                            <button class="btn btn-sm btn-primary accept-button" data-id="@obat.kpo_id">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpo_id">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                            <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpo_id" class="btn btn-sm btn-info btn-info-modal">
-                                                <i class="fas fa-info-circle"></i>
-                                            </a>
+                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                <button class="btn btn-sm btn-success accept-button" data-id="@obat.kpo_id">
+                                                    <i class="fas fa-check-circle"></i> 
+                                                </button>
+                                                <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpo_id">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                                <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpo_id" class="btn btn-sm btn-primary btn-info-modal">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+
+         
                                         </td>
                                     }
-                                    @if(obat.kpo_status != "pending")
+                                    @if(httpContext.Session.GetString("Role") == "manajer" && obat.kpo_status != "pending")
                                     {
                                         <td>-</td>
                                     }
@@ -101,6 +113,7 @@
             </div>
         </div>
     </div>
+
 </section>
 
 <script>
@@ -144,7 +157,7 @@
             var obatId = $(this).data("id");
 
             swal({
-                title: "Terima data?",
+                title: "Tolak data?",
                 text: "Apakah anda yakin ingin menolak data ini?",
                 icon: "warning",
                 buttons: true,

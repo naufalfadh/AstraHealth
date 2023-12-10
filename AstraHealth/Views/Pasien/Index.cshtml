@@ -1,17 +1,23 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model List<AstraHealth.Models.PasienModel>
+﻿@model List<AstraHealth.Models.PasienModel>
 @{
-    ViewData["Title"] = "Registrasi Pasien";
+    ViewData["Title"] = "Pasien";
     int no = 1;
 }
+
+<div class="pagetitle">
+    <h1>Pasien</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Register</li>
+        </ol>
+    </nav>
+</div>
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Master Pasien</h5>
+                    <h5 class="card-title">Register</h5>
                     <hr />
                     @if (TempData["SuccessMessage"] != null)
                     {
@@ -23,7 +29,7 @@
                             </div>
                         </div>
                     }
-                    <a class="btn btn-primary" asp-action="Create">Tambah Pasien</a>
+                    <a class="btn btn-primary" asp-action="Create">Anamnesa Pasien</a>
                     <p></p>
                     <table class="table datatable" id="myTable">
                         <thead>
@@ -35,42 +41,53 @@
                                 <th scope="col">Keluhan</th>
                                 <th scope="col">Tensi</th>
                                 <th scope="col">Diagnosa</th>
-                                <th scope="col">Obat</th>
-                                <th scope="col">Jumlah Obat</th>
                                 <th scope="col">Kecelakaan Kerja</th>
                                 <th scope="col">Keterangan</th>
                                 <th scope="col">Tanggal</th>
                                 <th scope="col">ID Admin</th>
-                                <th scope="col">Aksi</th>
+                                <th scope="col">Obat</th>
+                                <th scope="col">Jumlah</th>
+                                <th scope="col">Satuan</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var pasien in Model)
                             {
                                 <tr>
-                                    <td>@(no++)</td>
-                                    <td>@pasien.rgs_id_pasien</td>
-                                    <td>@pasien.rgs_nama_pasien</td>
-                                    <td>@pasien.rgs_prodi_atau_departemen</td>
-                                    <td>@pasien.rgs_keluhan</td>
-                                    <td>@pasien.rgs_tensi</td>
-                                    <td>@pasien.rgs_diagnosa</td>
-                                    <td>@pasien.rgs_obat</td>
-                                    <td>@pasien.rgs_jumlah_obat</td>
-                                    <td>@pasien.rgs_kecelakaan_kerja</td>
-                                    <td>@pasien.rgs_keterangan</td>
-                                    <td>@pasien.rgs_tanggal</td>
-                                    <td>@pasien.rgs_id_admin</td>
+                                    <td>@no</td>
+                                    <td>@pasien.anm_id_pasien</td>
+                                    <td>@pasien.anm_nama_pasien</td>
+                                    <td>@pasien.anm_prodi_atau_departemen</td>
+                                    <td>@pasien.anm_keluhan</td>
+                                    <td>@pasien.anm_tensi</td>
+                                    <td>@pasien.anm_diagnosa</td>
+                                    <td>@pasien.anm_kecelakaan_kerja</td>
+                                    <td>@pasien.anm_keterangan</td>
+                                    <td>@pasien.anm_tanggal</td>
+                                    <td>@pasien.anm_id_admin</td>
                                     <td>
-                                        <button class="btn btn-sm btn-danger delete-button" data-id="@pasien.rgs_id"><i class="fas fa-trash"></i></button>
-                                        <a asp-asp-controller="pasien" asp-action="Edit" asp-route-id="@pasien.rgs_id" class="btn btn-sm btn-primary">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button class="btn btn-sm btn-info"><i class="fas fa-info-circle"></i></button>
+                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                        {
+                                            <div>@pasien.PemakaianObats[i].pmo_nama_obat</div>
+                                        }
+                                    </td>
+                                    <td>
+                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                        {
+                                            <div>@pasien.PemakaianObats[i].pmo_jumlah</div>
+                                        }
+                                    </td>
+                                    <td>
+                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                        {
+                                            <div>@pasien.PemakaianObats[i].pmo_satuan</div>
+                                        }
                                     </td>
                                 </tr>
+                                no++;
                             }
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -79,6 +96,6 @@
 </section>
 <script>
     $(document).ready(function () {
-    $('#myTable').DataTable();
+        $('#myTable').DataTable();
     });
 </script>

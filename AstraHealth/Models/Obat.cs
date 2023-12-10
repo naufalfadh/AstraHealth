@@ -36,6 +36,7 @@ namespace AstraHealth.Models
                         kpo_tanggal_aksi = Convert.ToDateTime(reader["kpo_tanggal_aksi"]),
                         kpo_status = reader["kpo_status"].ToString(),
                         kpo_catatan = reader["kpo_catatan"].ToString(),
+                        kpo_satuan = reader["kpo_satuan"].ToString(),
                     };
                     obatList.Add(obat);
                 }
@@ -68,6 +69,7 @@ namespace AstraHealth.Models
                 obatModel.kpo_status = reader["kpo_status"].ToString();
                 obatModel.kpo_catatan = reader["kpo_catatan"].ToString();
                 obatModel.kpo_id_admin = reader["kpo_id_admin"].ToString();
+                obatModel.kpo_satuan = reader["kpo_satuan"].ToString();
                 reader.Close();
                 _connection.Close();
             }
@@ -82,7 +84,7 @@ namespace AstraHealth.Models
         {
             try
             {
-                string query = "insert into ahl_trkeperluanObat values(@p1, @p2, @p3, @p4, @p5, @p6, @p7)";
+                string query = "insert into ahl_trkeperluanObat values(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)";
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", obatModel.kpo_nama_obat);
                 command.Parameters.AddWithValue("@p2", obatModel.kpo_jumlah);
@@ -91,6 +93,7 @@ namespace AstraHealth.Models
                 command.Parameters.AddWithValue("@p5", obatModel.kpo_status);
                 command.Parameters.AddWithValue("@p6", obatModel.kpo_catatan);
                 command.Parameters.AddWithValue("@p7", obatModel.kpo_id_admin);
+                command.Parameters.AddWithValue("@p8", obatModel.kpo_satuan);
                 _connection.Open();
                 command.ExecuteNonQuery();
                 _connection.Close();
