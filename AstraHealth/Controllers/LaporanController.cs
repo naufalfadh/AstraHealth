@@ -48,21 +48,5 @@ namespace AstraHealth.Controllers
 
             return View(_pasienRepository.laporanProdiDanDepartemen());
         }
-
-        public IActionResult GeneratePdf(string html)
-        {
-            html = html.Replace("StrTag", "<").Replace("EndTag", ">");
-            HtmlToPdf converter = new HtmlToPdf();
-            PdfDocument oPdfDocument = converter.ConvertHtmlString(html);
-            byte[] pdf = oPdfDocument.Save();
-            oPdfDocument.Close();
-
-            return File(
-                pdf,
-                "application/pdf",
-                "Laporan.pdf"
-                );
-
-        }
     }
 }

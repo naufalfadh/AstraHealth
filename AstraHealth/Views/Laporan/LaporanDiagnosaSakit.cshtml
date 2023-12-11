@@ -88,7 +88,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="parentDiv">
                     <!-- Tabel Modal -->
                     <table class="table datatable" id="myTable">
                         <thead style="background-color: #37003C; color: white;">
@@ -117,7 +117,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-secondary" id="btnPdf">Cetak</button>
+                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
                 </div>
             </div>
         </div>
@@ -128,10 +128,16 @@
 
 
 <script>
-    $("#btnPdf").click(function(){
-        var sHtml= $("#pdfContainer").html();
-        sHtml = sHtml.replace(/</g, "StrTag").replace(/>/g, "EndTag");
-        window.open('../Laporan/GeneratePdf?html=' + sHtml, '_blank')
+    $("#printPdf").click(function () {
+        var element = document.getElementById('parentDiv');
+
+        //generate pdf
+        html2pdf().from(element).set({
+            margin:[30,10,5,10],
+            pagebreak:{avoid: 'tr'},
+            jsPDF:{orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true}
+        }).save()
+
     });
     $(document).ready(function () {
         $('#myTable').DataTable();
