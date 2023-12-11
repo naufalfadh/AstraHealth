@@ -34,9 +34,12 @@ namespace AstraHealth.Models
                         kpm_jumlah = Convert.ToInt32(reader["kpm_jumlah"]),
                         kpm_satuan = reader["kpm_satuan"].ToString(),
                         kpm_tanggal_pengajuan = Convert.ToDateTime(reader["kpm_tanggal_pengajuan"]),
-                        kpm_tanggal_aksi = Convert.ToDateTime(reader["kpm_tanggal_aksi"]),
-                        kpm_status = reader["kpm_status"].ToString(),
+                        kpm_tanggal_aksi = reader["kpm_tanggal_aksi"] == DBNull.Value ? null : Convert.ToDateTime(reader["kpm_tanggal_aksi"]),
+                        kpm_tanggal_diterima = reader["kpm_tanggal_diterima"] == DBNull.Value ? null : Convert.ToDateTime(reader["kpm_tanggal_diterima"]),
+                        kpm_status = reader["kpm_status"] == DBNull.Value ? null : reader["kpm_status"].ToString(),
                         kpm_catatan = reader["kpm_catatan"].ToString(),
+                        kpm_id_admin = reader["kpm_id_admin"].ToString(),
+                        kpm_id_manajer = reader["kpm_id_manajer"].ToString(),
                     };
                     keperluanMedisList.Add(keperluanMedis);
                 }
@@ -84,17 +87,15 @@ namespace AstraHealth.Models
         {
             try
             {
-                string query = "insert into ahl_trkeperluanMedis values(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)";
+                string query = "insert into ahl_trkeperluanMedis (kpm_nama_barang, kpm_jumlah, kpm_satuan, kpm_tanggal_pengajuan, kpm_status, kpm_id_admin, kpm_id_manajer) values(@p1, @p2, @p3, @p4, @p5, @p6, @p7)";
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", keperluanMedisModel.kpm_nama_barang);
                 command.Parameters.AddWithValue("@p2", keperluanMedisModel.kpm_jumlah);
                 command.Parameters.AddWithValue("@p3", keperluanMedisModel.kpm_satuan);
                 command.Parameters.AddWithValue("@p4", keperluanMedisModel.kpm_tanggal_pengajuan);
-                command.Parameters.AddWithValue("@p5", keperluanMedisModel.kpm_tanggal_aksi);
-                command.Parameters.AddWithValue("@p6", keperluanMedisModel.kpm_status);
-                command.Parameters.AddWithValue("@p7", keperluanMedisModel.kpm_catatan);
-                command.Parameters.AddWithValue("@p8", keperluanMedisModel.kpm_id_admin);
-                command.Parameters.AddWithValue("@p9", keperluanMedisModel.kpm_id_manajer);
+                command.Parameters.AddWithValue("@p5", keperluanMedisModel.kpm_status);
+                command.Parameters.AddWithValue("@p6", keperluanMedisModel.kpm_id_admin);
+                command.Parameters.AddWithValue("@p7", keperluanMedisModel.kpm_id_manajer);
                 _connection.Open();
                 command.ExecuteNonQuery();
                 _connection.Close();
@@ -126,14 +127,15 @@ namespace AstraHealth.Models
             }
         }
 
-        public void acceptData(int id)
+        public void acceptData(int id, string id_manajer)
         {
             try
             {
-                string query = "update ahl_trkeperluanMedis set kpm_status='diterima', kpm_tanggal_aksi=@p2 where kpm_id = @p1";
+                string query = "update ahl_trkeperluanMedis set kpm_status='diterima', kpm_tanggal_aksi=@p2, kpm_id_manajer=@p3 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
                 command.Parameters.AddWithValue("@p2", DateTime.Now);
+                command.Parameters.AddWithValue("@p3", id_manajer);
                 _connection.Open();
                 command.ExecuteNonQuery();
                 _connection.Close();
@@ -144,11 +146,30 @@ namespace AstraHealth.Models
             }
         }
 
-        public void rejectData(int id)
+        public void rejectData(int id, string id_manajer)
         {
             try
             {
-                string query = "update ahl_trkeperluanMedis set kpm_status='ditolak', kpm_tanggal_aksi=@p2 where kpm_id = @p1";
+                string query = "update ahl_trkeperluanMedis set kpm_status='ditolak', kpm_tanggal_aksi=@p2, kpm_id_manajer=@p3 where kpm_id = @p1";
+                using SqlCommand command = new SqlCommand(query, _connection);
+                command.Parameters.AddWithValue("@p1", id);
+                command.Parameters.AddWithValue("@p2", DateTime.Now);
+                command.Parameters.AddWithValue("@p3", id_manajer);
+                _connection.Open();
+                command.ExecuteNonQuery();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void recieveData(int id)
+        {
+            try
+            {
+                string query = "update ahl_trkeperluanMedis set kpm_status='barang diterima', kpm_tanggal_diterima=@p2 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
                 command.Parameters.AddWithValue("@p2", DateTime.Now);

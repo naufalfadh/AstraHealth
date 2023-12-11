@@ -133,12 +133,13 @@ namespace AstraHealth.Controllers
             }
 
 
-            var response = new { success = false, message = "Gagal menghapus pasien Model." };
+            var response = new { success = false, message = "Gagal menerima data." };
             try
             {
                 if (id != null)
                 {
-                    _medisRepository.acceptData(id);
+                    string id_manajer = HttpContext.Session.GetString("Id");
+                    _medisRepository.acceptData(id, id_manajer);
                     response = new { success = true, message = "Berhasil menerima data." };
                 }
                 else
@@ -174,13 +175,55 @@ namespace AstraHealth.Controllers
             }
 
 
-            var response = new { success = false, message = "Gagal menghapus pasien Model." };
+            var response = new { success = false, message = "Gagal menolak data." };
             try
             {
                 if (id != null)
                 {
-                    _medisRepository.rejectData(id);
+                    string id_manajer = HttpContext.Session.GetString("Id");
+                    _medisRepository.rejectData(id, id_manajer);
                     response = new { success = true, message = "Berhasil menolak data." };
+                }
+                else
+                {
+                    response = new { success = false, message = "Data tidak ditemukan" };
+                }
+            }
+            catch (Exception ex)
+            {
+                response = new { success = false, message = ex.Message };
+            }
+            return Json(response);
+        }
+
+        [HttpPost]
+        public IActionResult Receive(int id)
+        {
+            AkunModel akunModel = new AkunModel();
+
+            string serializedModel = HttpContext.Session.GetString("Identity");
+
+            if (serializedModel == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+            }
+            if (akunModel.akn_role == "manajer")
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+
+            var response = new { success = false, message = "Gagal menerima data." };
+            try
+            {
+                if (id != null)
+                {
+                    _medisRepository.recieveData(id);
+                    response = new { success = true, message = "Barang sudah diterima." };
                 }
                 else
                 {

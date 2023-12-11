@@ -77,13 +77,7 @@
                     <input asp-for="kpm_tanggal_pengajuan" type="datetime" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden/>
                 </div>
                 <div class="form-group">
-                    <input asp-for="kpm_tanggal_aksi" type="datetime" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
-                </div>
-                <div class="form-group">
-                    <input asp-for="kpm_status" type="text" class="form-control input-with-border" placeholder="Status" value="pending" hidden>
-                </div>
-                <div class="form-group">
-                    <input asp-for="kpm_catatan" type="text" class="form-control input-with-border" placeholder="Status" value="-" hidden>
+                    <input asp-for="kpm_status" type="text" class="form-control input-with-border" placeholder="Status" value="menunggu konfirmasi" hidden>
                 </div>
                 <div class="form-group">
                     <input asp-for="kpm_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden />

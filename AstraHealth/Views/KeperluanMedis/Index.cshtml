@@ -57,13 +57,18 @@
                                 <th scope="col">Status</th>
                                 @if (httpContext.Session.GetString("Role") == "admin")
                                 {
-                                    <th scope="col">Tanggal Aksi</th>
+                                    <th scope="col">Tanggal Diterima/Ditolak</th>
                                 }
-                                <th scope="col">Catatan</th>
                                 @if (httpContext.Session.GetString("Role") == "manajer")
                                 {
-                                    <th scope="col">Aksi</th>
+                                    <th scope="col">Diajukan oleh</th>
                                 }
+                                @if (httpContext.Session.GetString("Role") == "admin")
+                                {
+                                    <th scope="col">Diterima/Ditolak oleh</th>
+                                }
+                                <th scope="col">Catatan</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,14 +82,38 @@
                                     <td>@obat.kpm_satuan</td>
                                     <td>@obat.kpm_tanggal_pengajuan</td>
                                     <td>@obat.kpm_status</td>
+
                                     @if (httpContext.Session.GetString("Role") == "admin")
                                     {
-                                        <td>@obat.kpm_tanggal_aksi</td>
+                                        @if (obat.kpm_tanggal_aksi == null)
+                                        {
+                                            <td>-</td>
+                                        } else
+                                        {
+                                            <td>@obat.kpm_tanggal_aksi</td>
+                                        }
                                     }
-                                    <td>@obat.kpm_catatan</td>
-                                    @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpm_status == "pending")
-                                    {
 
+                                    @if (httpContext.Session.GetString("Role") == "manajer")
+                                    {
+                                        <td>@obat.kpm_id_admin</td>
+                                    }
+
+                                    @if (httpContext.Session.GetString("Role") == "admin")
+                                    {
+                                        <td>@obat.kpm_id_manajer</td>
+                                    }
+
+                                    @if (obat.kpm_catatan == null)
+                                    {
+                                        <td>@obat.kpm_catatan</td>
+                                    } else
+                                    {
+                                        <td>-</td>
+                                    }
+                                    
+                                    @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpm_status == "menunggu konfirmasi")
+                                    {
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                 <button class="btn btn-sm btn-success accept-button" data-id="@obat.kpm_id">
@@ -97,11 +126,24 @@
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             </div>
-
-         
                                         </td>
                                     }
-                                    @if(httpContext.Session.GetString("Role") == "manajer" && obat.kpm_status != "pending")
+                                    @if(httpContext.Session.GetString("Role") == "manajer" && obat.kpm_status != "menunggu konfirmasi")
+                                    {
+                                        <td>-</td>
+                                    }
+
+                                    @if (httpContext.Session.GetString("Role") == "admin" && obat.kpm_status == "diterima")
+                                    {
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                <button class="btn btn-sm btn-success receive-button" data-id="@obat.kpm_id">
+                                                    <i class="fas fa-check-circle"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    }
+                                    @if (httpContext.Session.GetString("Role") == "admin" && obat.kpm_status != "diterima")
                                     {
                                         <td>-</td>
                                     }
@@ -134,7 +176,7 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "/obat/Accept/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        url: "/keperluanmedis/Accept/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {
@@ -165,7 +207,38 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "/obat/Reject/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        url: "/keperluanmedis/Reject/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        type: "POST",
+                        success: function (data) {
+                            if (data.success) {
+                                swal("Sukses!", data.message, "success");
+                            } else {
+                                swal("Gagal!", data.message, "error");
+                            }
+                        },
+                        error: function () {
+                            swal("Error", "Terjadi kesalahan saat menghapus akun.", "error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $(".receive-button").click(function () {
+            var obatId = $(this).data("id");
+
+            swal({
+                title: "Barang sudah diterima?",
+                text: "Apakah Barang sudah diterima?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "/keperluanmedis/Receive/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {
