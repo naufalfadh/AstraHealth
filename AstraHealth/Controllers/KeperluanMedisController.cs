@@ -50,16 +50,16 @@ namespace AstraHealth.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(KeperluanMedisModel keperluanMedisModel)
+        public IActionResult Create(KeperluanAlatMedis keperluanAlatMedis)
         {
 
             if (ModelState.IsValid)
             {
-                _medisRepository.insertData(keperluanMedisModel);
+                _medisRepository.insertData(keperluanAlatMedis);
                 TempData["SuccessMessage"] = "Data berhasil ditambahkan";
                 return RedirectToAction("Index");
             }
-            return View(keperluanMedisModel);
+            return View(keperluanAlatMedis);
         }
 
         [HttpGet]

@@ -14,4 +14,9 @@
         public string kpm_id_admin { get; set; }
         public string kpm_id_manajer { get; set; }
     }
+
+    public class KeperluanAlatMedis
+    {
+        public List<KeperluanMedisModel> keperluanMedis { get; set; }
+    }
 }

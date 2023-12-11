@@ -37,7 +37,7 @@
                     }
                     @if (httpContext.Session.GetString("Role") == "admin")
                     {
-                        <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Obat</a>
+                        <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Alat Medis</a>
                         <a class="btn btn-primary" style="background-color: #0059AB;" href="@Url.Action("GeneratePdf", "Obat")">
                             <i class="fas fa-file-pdf"></i> Cetak PDF
                         </a>
@@ -99,9 +99,13 @@
                                         <td>@obat.kpm_id_admin</td>
                                     }
 
-                                    @if (httpContext.Session.GetString("Role") == "admin")
+                                    @if (httpContext.Session.GetString("Role") == "admin" && obat.kpm_tanggal_aksi != null)
                                     {
                                         <td>@obat.kpm_id_manajer</td>
+                                    }
+                                    @if (httpContext.Session.GetString("Role") == "admin" && obat.kpm_tanggal_aksi == null)
+                                    {
+                                        <td>-</td>
                                     }
 
                                     @if (obat.kpm_catatan == null)

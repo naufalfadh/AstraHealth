@@ -83,22 +83,25 @@ namespace AstraHealth.Models
             return keperluanMedisModel;
         }
 
-        public void insertData(KeperluanMedisModel keperluanMedisModel)
+        public void insertData(KeperluanAlatMedis keperluanAlatMedis)
         {
             try
             {
-                string query = "insert into ahl_trkeperluanMedis (kpm_nama_barang, kpm_jumlah, kpm_satuan, kpm_tanggal_pengajuan, kpm_status, kpm_id_admin, kpm_id_manajer) values(@p1, @p2, @p3, @p4, @p5, @p6, @p7)";
-                SqlCommand command = new SqlCommand(query, _connection);
-                command.Parameters.AddWithValue("@p1", keperluanMedisModel.kpm_nama_barang);
-                command.Parameters.AddWithValue("@p2", keperluanMedisModel.kpm_jumlah);
-                command.Parameters.AddWithValue("@p3", keperluanMedisModel.kpm_satuan);
-                command.Parameters.AddWithValue("@p4", keperluanMedisModel.kpm_tanggal_pengajuan);
-                command.Parameters.AddWithValue("@p5", keperluanMedisModel.kpm_status);
-                command.Parameters.AddWithValue("@p6", keperluanMedisModel.kpm_id_admin);
-                command.Parameters.AddWithValue("@p7", keperluanMedisModel.kpm_id_manajer);
-                _connection.Open();
-                command.ExecuteNonQuery();
-                _connection.Close();
+                foreach (var keperluanMedis in keperluanAlatMedis.keperluanMedis)
+                {
+                    string query = "insert into ahl_trkeperluanMedis (kpm_nama_barang, kpm_jumlah, kpm_satuan, kpm_tanggal_pengajuan, kpm_status, kpm_id_admin, kpm_id_manajer) values(@p1, @p2, @p3, @p4, @p5, @p6, @p7)";
+                    SqlCommand command = new SqlCommand(query, _connection);
+                    command.Parameters.AddWithValue("@p1", keperluanMedis.kpm_nama_barang);
+                    command.Parameters.AddWithValue("@p2", keperluanMedis.kpm_jumlah);
+                    command.Parameters.AddWithValue("@p3", keperluanMedis.kpm_satuan);
+                    command.Parameters.AddWithValue("@p4", keperluanMedis.kpm_tanggal_pengajuan);
+                    command.Parameters.AddWithValue("@p5", keperluanMedis.kpm_status);
+                    command.Parameters.AddWithValue("@p6", keperluanMedis.kpm_id_admin);
+                    command.Parameters.AddWithValue("@p7", keperluanMedis.kpm_id_manajer);
+                    _connection.Open();
+                    command.ExecuteNonQuery();
+                    _connection.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -134,7 +137,7 @@ namespace AstraHealth.Models
                 string query = "update ahl_trkeperluanMedis set kpm_status='diterima', kpm_tanggal_aksi=@p2, kpm_id_manajer=@p3 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
-                command.Parameters.AddWithValue("@p2", DateTime.Now);
+                command.Parameters.AddWithValue("@p2", @DateTime.Now.ToString("yyyy-MM-ddTHH:mm"));
                 command.Parameters.AddWithValue("@p3", id_manajer);
                 _connection.Open();
                 command.ExecuteNonQuery();
@@ -153,7 +156,7 @@ namespace AstraHealth.Models
                 string query = "update ahl_trkeperluanMedis set kpm_status='ditolak', kpm_tanggal_aksi=@p2, kpm_id_manajer=@p3 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
-                command.Parameters.AddWithValue("@p2", DateTime.Now);
+                command.Parameters.AddWithValue("@p2", @DateTime.Now.ToString("yyyy-MM-ddTHH:mm"));
                 command.Parameters.AddWithValue("@p3", id_manajer);
                 _connection.Open();
                 command.ExecuteNonQuery();
@@ -172,7 +175,7 @@ namespace AstraHealth.Models
                 string query = "update ahl_trkeperluanMedis set kpm_status='barang diterima', kpm_tanggal_diterima=@p2 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
-                command.Parameters.AddWithValue("@p2", DateTime.Now);
+                command.Parameters.AddWithValue("@p2", @DateTime.Now.ToString("yyyy-MM-ddTHH:mm"));
                 _connection.Open();
                 command.ExecuteNonQuery();
                 _connection.Close();
