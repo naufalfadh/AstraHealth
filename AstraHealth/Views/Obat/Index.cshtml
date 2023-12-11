@@ -38,10 +38,6 @@
                     @if (httpContext.Session.GetString("Role") == "admin")
                     {
                         <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Obat</a>
-                        <a class="btn btn-primary" style="background-color: #0059AB;" href="@Url.Action("GeneratePdf", "Obat")">
-                            <i class="fas fa-file-pdf"></i> Cetak PDF
-                        </a>
-
 
                         <p></p>
                     }
