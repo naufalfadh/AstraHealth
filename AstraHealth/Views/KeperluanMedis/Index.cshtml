@@ -10,14 +10,7 @@
     var httpContext = ViewContext.HttpContext;
 }
 
-<div class="pagetitle">
-    <h1>Tambah Keperluan Alat Medis</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">Tambah Keperluan Alat Medis</li>
-        </ol>
-    </nav>
-</div>
+
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
@@ -38,10 +31,7 @@
                     @if (httpContext.Session.GetString("Role") == "admin")
                     {
                         <a class="btn btn-primary" asp-action="Create">Tambah Keperluan Alat Medis</a>
-                        <a class="btn btn-primary" style="background-color: #0059AB;" href="@Url.Action("GeneratePdf", "Obat")">
-                            <i class="fas fa-file-pdf"></i> Cetak PDF
-                        </a>
-
+                     
 
                         <p></p>
                     }

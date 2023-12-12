@@ -1,0 +1,95 @@
+﻿@model AstraHealth.Models.RujukanModel
+
+@{
+    ViewData["Title"] = "Rujukan";
+}
+@{
+    var httpContext = ViewContext.HttpContext;
+}
+
+<style>
+    body {
+        padding-top: 100px; /* Atur spasi sesuai kebutuhan */
+    }
+
+    .input-with-border {
+        border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
+        border-radius: 4px; /* Bordes sudut */
+    }
+
+    .card {
+        padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+    }
+
+    .card-body {
+        background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
+        padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        border-radius: 8px; /* Bordes sudut */
+    }
+</style>
+
+
+<body>
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Rujukan</h4>
+                <form class="form-sample" method="post">
+                    <p class="card-description">
+                        Personal info
+                    </p>
+                    <input asp-for="rjk_id" class="form-control input-with-border" value="null" hidden />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="rjk_id_anamnesa" class="col-sm-3 col-form-label">ID Anamnesa</label>
+                                <div class="col-sm-9">
+                                    <input asp-for="rjk_id_anamnesa" class="form-control input-with-border" placeholder="Masukkan ID Annesaam" />
+                                    <span asp-validation-for="rjk_id_anamnesa" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="rjk_rumah_sakit" class="col-sm-3 col-form-label">Rumah Sakit</label>
+                                <div class="col-sm-9">
+                                    <input asp-for="rjk_rumah_sakit" class="form-control input-with-border" placeholder="Masukkan Nama Rumah Sakit" />
+                                    <span asp-validation-for="rjk_rumah_sakit" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="rjk_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+                                <div class="col-sm-9">
+                                    <input asp-for="rjk_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" />
+                                    <span asp-validation-for="rjk_keterangan" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label asp-for="rjk_tanggal" class="col-sm-3 col-form-label">Tanggal</label>
+                                <div class="col-sm-9">
+                                    <input asp-for="rjk_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                                    <span asp-validation-for="rjk_tanggal" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                   
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <a asp-controller="Pasien" asp-action="Create" class="btn btn-light">Cancel</a>
+             
+                </form>
+            </div>
+        </div>
+    </div>
+</body>

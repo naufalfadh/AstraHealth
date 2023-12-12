@@ -31,5 +31,6 @@ namespace AstraHealth.Controllers
 
             return View(_pasienRepository.getAllData());
         }
+
     }
 }
