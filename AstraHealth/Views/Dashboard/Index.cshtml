@@ -91,38 +91,25 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th><strong>ID Pasien</strong></th>
-                                            <th><strong>Nama Pasien</strong></th>
-                                            <th><strong>Prodi/Departemen</strong></th>
-                                            <th><strong>Keluhan</strong></th>
+                                            <th scope="col">Nama Pasien</th>
+                                            <th scope="col">Prodi atau Departemen</th>
+                                            <th scope="col">Diagnosa</th>
+                                            <th scope="col">Kecelakaan Kerja</th>
+                                            <th scope="col">Tanggal</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Data Dummy -->
-                                        <tr>
-                                            <td>0320220113</td>
-                                            <td>Naufal Fadhlurrohman</td>
-                                            <td>Manajemen Informatika</td>
-                                            <td>Sakit Kepala</td>
-                                        </tr>
-                                        <tr>
-                                            <td>0320220121</td>
-                                            <td>Hatta Fajriska Setiawan</td>
-                                            <td>Manajemen Informatika</td>
-                                            <td>Sakit Kepala</td>
-                                        </tr>
-                                        <tr>
-                                            <td>0320220112</td>
-                                            <td>Iskandar Maulana</td>
-                                            <td>Manajemen Informatika</td>
-                                            <td>Pusing</td>
-                                        </tr>
-                                        <tr>
-                                            <td>0320220111</td>
-                                            <td>Ganjar Prakoso</td>
-                                            <td>Teknik Alat Berat</td>
-                                            <td>Muntah-muntah</td>
-                                        </tr>
+                                        @foreach (var pasien in Model)
+                                        {
+                                            <tr>
+                                                <td>@pasien.anm_nama_pasien</td>
+                                                <td>@pasien.anm_prodi_atau_departemen</td>
+                                                <td>@pasien.anm_diagnosa</td>
+                                                <td>@pasien.anm_kecelakaan_kerja</td>
+                                                <td>@pasien.anm_tanggal</td>
+                                               
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>

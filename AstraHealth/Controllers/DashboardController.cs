@@ -7,6 +7,13 @@ namespace AstraHealth.Controllers
 {
     public class DashboardController : Controller
     {
+        private readonly Pasien _pasienRepository;
+
+        public DashboardController(IConfiguration configuration)
+        {
+            _pasienRepository = new Pasien(configuration);
+        }
+
         public IActionResult Index()
         {
             AkunModel akunModel = new AkunModel();
@@ -22,7 +29,7 @@ namespace AstraHealth.Controllers
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
 
-            return View();
+            return View(_pasienRepository.getAllData());
         }
     }
 }
