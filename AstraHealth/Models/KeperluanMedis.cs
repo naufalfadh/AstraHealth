@@ -137,7 +137,7 @@ namespace AstraHealth.Models
                 string query = "update ahl_trkeperluanMedis set kpm_status='diterima', kpm_tanggal_aksi=@p2, kpm_id_manajer=@p3 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
-                command.Parameters.AddWithValue("@p2", @DateTime.Now.ToString("yyyy-MM-ddTHH:mm"));
+                command.Parameters.AddWithValue("@p2", @DateTime.Now);
                 command.Parameters.AddWithValue("@p3", id_manajer);
                 _connection.Open();
                 command.ExecuteNonQuery();
@@ -156,7 +156,7 @@ namespace AstraHealth.Models
                 string query = "update ahl_trkeperluanMedis set kpm_status='ditolak', kpm_tanggal_aksi=@p2, kpm_id_manajer=@p3 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
-                command.Parameters.AddWithValue("@p2", @DateTime.Now.ToString("yyyy-MM-ddTHH:mm"));
+                command.Parameters.AddWithValue("@p2", @DateTime.Now);
                 command.Parameters.AddWithValue("@p3", id_manajer);
                 _connection.Open();
                 command.ExecuteNonQuery();
@@ -175,7 +175,7 @@ namespace AstraHealth.Models
                 string query = "update ahl_trkeperluanMedis set kpm_status='barang diterima', kpm_tanggal_diterima=@p2 where kpm_id = @p1";
                 using SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", id);
-                command.Parameters.AddWithValue("@p2", @DateTime.Now.ToString("yyyy-MM-ddTHH:mm"));
+                command.Parameters.AddWithValue("@p2", @DateTime.Now);
                 _connection.Open();
                 command.ExecuteNonQuery();
                 _connection.Close();

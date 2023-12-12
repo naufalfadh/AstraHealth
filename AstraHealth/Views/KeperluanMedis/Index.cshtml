@@ -187,7 +187,7 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "/keperluanmedis/Accept/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        url: "/keperluanMedis/Accept/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {
@@ -218,7 +218,7 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "/keperluanmedis/Reject/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        url: "/keperluanMedis/Reject/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {
@@ -249,7 +249,7 @@
             }).then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "/keperluanmedis/Receive/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        url: "/keperluanMedis/Receive/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {

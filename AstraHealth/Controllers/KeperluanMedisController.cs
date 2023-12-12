@@ -52,7 +52,6 @@ namespace AstraHealth.Controllers
         [HttpPost]
         public IActionResult Create(KeperluanAlatMedis keperluanAlatMedis)
         {
-
             if (ModelState.IsValid)
             {
                 _medisRepository.insertData(keperluanAlatMedis);

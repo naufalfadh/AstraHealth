@@ -46,7 +46,7 @@ namespace AstraHealth.Controllers
             // Dapatkan data anggota berdasarkan username dan password
             AkunModel akunModel = _akunRepository.getDataByUsernamePassword(akn_id, akn_password);
 
-            if (akunModel == null && akunModel.akn_status == "tidak aktif")
+            if (akunModel == null || akunModel.akn_status == "tidak aktif")
             {
                 // Jika data anggota tidak ditemukan, berarti kredensial salah
                 TempData["ErrorMessage"] = "Username atau password salah.";
