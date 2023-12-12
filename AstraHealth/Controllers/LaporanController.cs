@@ -48,5 +48,23 @@ namespace AstraHealth.Controllers
 
             return View(_pasienRepository.laporanProdiDanDepartemen());
         }
+
+        public IActionResult LaporanPemakaianObat()
+        {
+            AkunModel akunModel = new AkunModel();
+
+            string serializedModel = HttpContext.Session.GetString("Identity");
+
+            if (serializedModel == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+            }
+
+            return View(_pasienRepository.laporanPemaiakaianObat());
+        }
     }
 }

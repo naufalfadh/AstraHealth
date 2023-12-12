@@ -9,6 +9,30 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.0/html2pdf.bundle.min.js"></script>
 
+    <style>
+
+        .modal-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .title-wrapper {
+            margin-bottom: 10px;
+        }
+
+        .surat-info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+
+    </style>
+
 </head>
 
 <div class="pagetitle">
@@ -81,37 +105,47 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header" >
-                    <h2 class="modal-title modal-lg d-flex justify-content-center align-items-center">Laporan Prodi Dan Departemen</h2>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="parentDiv">
-                    <table class="table datatable">
-                        <thead style="background-color: #37003C; color: white;">
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">ID Pasien</th>
-                                <th scope="col">Nama Pasien</th>
-                                <th scope="col">Prodi/Departemen</th>
-                                <th scope="col">Tanggal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var pasien in Model)
-                            {
+                <div id="parentDiv">
+                    <div class="modal-header">
+                        <div class="title-wrapper">
+                            <h2 class="modal-title modal-lg" style="color: black;">UNI KESEHATAN KAMPUS</h2>
+                            <h3 class="modal-title modal-lg" style="font-size: 11px; color: black;">Jl. Gaharu Blok F-3 Delta Silicon 2 Lippo Cikarang, Kel. Cibatu, Kec. Cikarang Selatan, Bekasi, Jawa Barat 17530</h3>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table datatable">
+                            <thead style="background-color: #37003C; color: white;">
+                                <div class="surat-info">
+                                    <div class="nomor-surat-wrapper">
+                                        <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Nomor Surat: [Nomor Surat]</p>
+                                    </div>
+                                    <div class="tanggal-surat-wrapper">
+                                        <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
+                                    </div>
+                                </div>
                                 <tr>
-                                    <td scope="row">@num</td>
-                                    <td scope="row">@pasien.anm_id_pasien</td>
-                                    <td scope="row">@pasien.anm_nama_pasien</td>
-                                    <td scope="row">@pasien.anm_prodi_atau_departemen</td>
-                                    <td scope="row">@pasien.anm_tanggal</td>
+                                    <th scope="col">No</th>
+                                    <th scope="col">ID Pasien</th>
+                                    <th scope="col">Nama Pasien</th>
+                                    <th scope="col">Prodi/Departemen</th>
+                                    <th scope="col">Tanggal</th>
                                 </tr>
-                                num++;
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var pasien in Model)
+                                {
+                                    <tr>
+                                        <td scope="row">@num</td>
+                                        <td scope="row">@pasien.anm_id_pasien</td>
+                                        <td scope="row">@pasien.anm_nama_pasien</td>
+                                        <td scope="row">@pasien.anm_prodi_atau_departemen</td>
+                                        <td scope="row">@pasien.anm_tanggal</td>
+                                    </tr>
+                                    num++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -127,14 +161,33 @@
     $("#printPdf").click(function () {
         var element = document.getElementById('parentDiv');
 
+        // Mendapatkan nomor surat
+        var nomorSurat = generateNomorSurat(); // Ganti dengan logika untuk mendapatkan nomor surat
+
+        // Mendapatkan tanggal saat ini dan formatnya ke "dd/MMM/yyyy"
+        var today = new Date();
+        var options = { day: '2-digit', month: 'short', year: 'numeric' };
+        var tanggalSurat = today.toLocaleDateString('id-ID', options); // Format tanggal
+
+        // Menyisipkan nomor surat dan tanggal ke dalam elemen HTML
+        document.getElementById('nomorSurat').textContent = "Lampiran: " + nomorSurat;
+        document.getElementById('tanggalSurat').textContent = "Tanggal: " + tanggalSurat;
+
         //generate pdf
         html2pdf().from(element).set({
             margin: [30, 10, 5, 10],
             pagebreak: { avoid: 'tr' },
             jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
-        }).save()
-
+        }).save();
     });
+
+    // Contoh fungsi untuk menghasilkan nomor surat
+    function generateNomorSurat() {
+        // Logika untuk menghasilkan nomor surat
+        // Misalnya, Anda dapat menggunakan data tertentu atau urutan yang spesifik
+        return "Laporan Kesehatan Prodi Dan Departemen"; // Ganti dengan logika Anda
+    }
+
     $(document).ready(function () {
         $('#myTable').DataTable();
     });

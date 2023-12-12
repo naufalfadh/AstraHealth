@@ -275,7 +275,40 @@ namespace AstraHealth.Models
             return laporanList;
         }
 
+        public List<PasienModel> laporanPemaiakaianObat()
+        {
+            List<PasienModel> pasienList = new List<PasienModel>();
+            try
+            {
+                string query = "SELECT * FROM ahl_tranamnesa";
 
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    PasienModel pasien = new PasienModel
+                    {
+                        anm_id = reader["anm_id"].ToString(),
+                        anm_id_pasien = reader["anm_id_pasien"].ToString(),
+                        PemakaianObats = new List<PemakaianObatModel>()
+                    };
+
+                    pasienList.Add(pasien);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            // Panggil metode terpisah untuk mengambil data pemakaian obat
+            getAllPemakaianObat(pasienList);
+
+            return pasienList;
+        }
 
         /*public void updateData(PasienModel pasienModel)
         {

@@ -1,5 +1,222 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<AstraHealth.Models.PasienModel>
 @{
+    ViewData["Title"] = "Pasien";
+    int no = 1;
+    int num = 1;
 }
+
+<head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.0/html2pdf.bundle.min.js"></script>
+
+    <style>
+
+        .modal-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .title-wrapper {
+            margin-bottom: 10px;
+        }
+
+        .surat-info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+    </style>
+
+</head>
+
+<div class="pagetitle">
+    <h1>Pasien</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Register</li>
+        </ol>
+    </nav>
+</div>
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Register</h5>
+                    <hr />
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="row">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="bi bi-check-circle me-1"></i>
+                                <strong>Sukses!</strong> @TempData["SuccessMessage"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    }
+                    <button class="btn btn-primary" style="background-color: #0059AB;" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Cetak PDF
+                        <i class="fas fa-file-pdf"></i>
+                    </button>
+
+                    <p></p>
+                    <table class="table datatable" id="myTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">ID Pasien</th>
+                                <th scope="col">Pemakaian Obat</th>
+                                <th scope="col">Jumlah</th>
+                                <th scope="col">Satuan</th>
+                                <th scope="col">Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var pasien in Model)
+                            {
+                                <tr>
+                                    <td>@no</td>
+                                    <td>@pasien.anm_id_pasien</td>
+                                    <td>
+                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                        {
+                                            <div>@pasien.PemakaianObats[i].pmo_nama_obat</div>
+                                        }
+                                    </td>
+                                    <td>
+                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                        {
+                                            <div>@pasien.PemakaianObats[i].pmo_jumlah</div>
+                                        }
+                                    </td>
+                                    <td>
+                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                        {
+                                            <div>@pasien.PemakaianObats[i].pmo_satuan</div>
+                                        }
+                                    </td>
+                                    <td>@pasien.anm_tanggal</td>
+                                </tr>
+                                no++;
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div id="parentDiv">
+                    <div class="modal-header">
+                        <div class="title-wrapper">
+                            <h2 class="modal-title modal-lg" style="color: black;">UNI KESEHATAN KAMPUS</h2>
+                            <h3 class="modal-title modal-lg" style="font-size: 11px; color: black;">Jl. Gaharu Blok F-3 Delta Silicon 2 Lippo Cikarang, Kel. Cibatu, Kec. Cikarang Selatan, Bekasi, Jawa Barat 17530</h3>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table datatable">
+                            <thead style="background-color: #37003C; color: white;">
+                                <div class="surat-info">
+                                    <div class="nomor-surat-wrapper">
+                                        <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Nomor Surat: [Nomor Surat]</p>
+                                    </div>
+                                    <div class="tanggal-surat-wrapper">
+                                        <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
+                                    </div>
+                                </div>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">ID Pasien</th>
+                                    <th scope="col">Pemakaian Obat</th>
+                                    <th scope="col">Jumlah</th>
+                                    <th scope="col">Satuan</th>
+                                    <th scope="col">Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pasien in Model)
+                                {
+                                    <tr>
+                                        <td scope="row">@num</td>
+                                        <td scope="row">@pasien.anm_id_pasien</td>
+                                        <td>
+                                            @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                            {
+                                                <div>@pasien.PemakaianObats[i].pmo_nama_obat</div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                            {
+                                                <div>@pasien.PemakaianObats[i].pmo_jumlah</div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                            {
+                                                <div>@pasien.PemakaianObats[i].pmo_satuan</div>
+                                            }
+                                        </td>
+                                        <td scope="row">@pasien.anm_tanggal</td>
+                                    </tr>
+                                    num++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    $("#printPdf").click(function () {
+        var element = document.getElementById('parentDiv');
+
+        // Mendapatkan nomor surat
+        var nomorSurat = generateNomorSurat(); // Ganti dengan logika untuk mendapatkan nomor surat
+
+        // Mendapatkan tanggal saat ini dan formatnya ke "dd/MMM/yyyy"
+        var today = new Date();
+        var options = { day: '2-digit', month: 'short', year: 'numeric' };
+        var tanggalSurat = today.toLocaleDateString('id-ID', options); // Format tanggal
+
+        // Menyisipkan nomor surat dan tanggal ke dalam elemen HTML
+        document.getElementById('nomorSurat').textContent = "Lampiran: " + nomorSurat;
+        document.getElementById('tanggalSurat').textContent = "Tanggal: " + tanggalSurat;
+
+        //generate pdf
+        html2pdf().from(element).set({
+            margin: [30, 10, 5, 10],
+            pagebreak: { avoid: 'tr' },
+            jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+        }).save();
+    });
+
+    // Contoh fungsi untuk menghasilkan nomor surat
+    function generateNomorSurat() {
+        // Logika untuk menghasilkan nomor surat
+        // Misalnya, Anda dapat menggunakan data tertentu atau urutan yang spesifik
+        return "Laporan Pemakaian Obat"; // Ganti dengan logika Anda
+    }
+
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
