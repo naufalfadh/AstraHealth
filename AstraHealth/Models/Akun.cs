@@ -6,7 +6,6 @@ namespace AstraHealth.Models
     public class Akun
     {
         private readonly string _connectionString;
-        
         private readonly SqlConnection _connection;
 
         public Akun(IConfiguration configuration)

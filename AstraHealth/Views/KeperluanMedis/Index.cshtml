@@ -48,14 +48,12 @@
                                 @if (httpContext.Session.GetString("Role") == "admin")
                                 {
                                     <th scope="col">Tanggal Diterima/Ditolak</th>
+                                    <th scope="col">Diterima/Ditolak oleh</th>
                                 }
                                 @if (httpContext.Session.GetString("Role") == "manajer")
                                 {
                                     <th scope="col">Diajukan oleh</th>
-                                }
-                                @if (httpContext.Session.GetString("Role") == "admin")
-                                {
-                                    <th scope="col">Diterima/Ditolak oleh</th>
+                                    <th scope="col">Tanggal barang diterima</th>
                                 }
                                 <th scope="col">Catatan</th>
                                 <th scope="col">Aksi</th>
@@ -94,6 +92,15 @@
                                         <td>@obat.kpm_id_manajer</td>
                                     }
                                     @if (httpContext.Session.GetString("Role") == "admin" && obat.kpm_tanggal_aksi == null)
+                                    {
+                                        <td>-</td>
+                                    }
+
+                                    @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpm_tanggal_diterima != null)
+                                    {
+                                        <td>@obat.kpm_tanggal_diterima</td>
+                                    }
+                                    @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpm_tanggal_diterima == null)
                                     {
                                         <td>-</td>
                                     }
