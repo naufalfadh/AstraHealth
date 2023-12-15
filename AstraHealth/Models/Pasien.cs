@@ -19,7 +19,7 @@ namespace AstraHealth.Models
             List<PasienModel> pasienList = new List<PasienModel>();
             try
             {
-                string query = "SELECT * FROM ahl_tranamnesa";
+                string query = "SELECT t.*, a.akn_nama AS anm_nama_admin FROM ahl_tranamnesa t JOIN ahl_msakun a ON t.anm_id_admin = a.akn_id ORDER BY t.anm_tanggal DESC";
 
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
@@ -39,6 +39,7 @@ namespace AstraHealth.Models
                         anm_keterangan = reader["anm_keterangan"].ToString(),
                         anm_tanggal = reader.GetDateTime(reader.GetOrdinal("anm_tanggal")),
                         anm_id_admin = reader["anm_id_admin"].ToString(),
+                        anm_nama_admin = reader["anm_nama_admin"].ToString(), // Tambahkan properti untuk nama admin
                         PemakaianObats = new List<PemakaianObatModel>()
                     };
 
@@ -106,10 +107,10 @@ namespace AstraHealth.Models
                 command.Parameters.AddWithValue("@p3", pasienModel.anm_nama_pasien);
                 command.Parameters.AddWithValue("@p4", pasienModel.anm_prodi_atau_departemen);
                 command.Parameters.AddWithValue("@p5", pasienModel.anm_keluhan);
-                command.Parameters.AddWithValue("@p6", pasienModel.anm_tensi);
+                command.Parameters.AddWithValue("@p6", (object)pasienModel.anm_tensi ?? DBNull.Value);
                 command.Parameters.AddWithValue("@p7", pasienModel.anm_diagnosa);
                 command.Parameters.AddWithValue("@p8", pasienModel.anm_kecelakaan_kerja);
-                command.Parameters.AddWithValue("@p9", pasienModel.anm_keterangan);
+                command.Parameters.AddWithValue("@p9", (object)pasienModel.anm_keterangan ?? DBNull.Value);
                 command.Parameters.AddWithValue("@p10", pasienModel.anm_tanggal);
                 command.Parameters.AddWithValue("@p11", pasienModel.anm_id_admin);
                 _connection.Open();

@@ -1,6 +1,6 @@
 ﻿@model List<AstraHealth.Models.PasienModel>
 @{
-    ViewData["Title"] = "Pasien";
+    ViewData["Title"] = "Register";
     int no = 1;
 }
 
@@ -31,16 +31,16 @@
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">ID Pasien</th>
-                                <th scope="col">Nama Pasien</th>
-                                <th scope="col">Prodi atau Departemen</th>
+                                <th scope="col">NIM/NPK</th>
+                                <th scope="col">Nama</th>
+                                <th scope="col">Prodi/Departemen</th>
                                 <th scope="col">Keluhan</th>
                                 <th scope="col">Tensi</th>
                                 <th scope="col">Diagnosa</th>
                                 <th scope="col">Kecelakaan Kerja</th>
                                 <th scope="col">Keterangan</th>
                                 <th scope="col">Tanggal</th>
-                                <th scope="col">ID Admin</th>
+                                <th scope="col">Staff UKK</th>
                                 <th scope="col">Obat</th>
                                 <th scope="col">Jumlah</th>
                                 <th scope="col">Satuan</th>
@@ -57,10 +57,18 @@
                                     <td>@pasien.anm_keluhan</td>
                                     <td>@pasien.anm_tensi</td>
                                     <td>@pasien.anm_diagnosa</td>
-                                    <td>@pasien.anm_kecelakaan_kerja</td>
+
+                                    @if(pasien.anm_kecelakaan_kerja == 1){
+                                        <td>Iya</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Tidak</td>
+                                    }
+
                                     <td>@pasien.anm_keterangan</td>
                                     <td>@pasien.anm_tanggal</td>
-                                    <td>@pasien.anm_id_admin</td>
+                                    <td>@pasien.anm_nama_admin</td>
                                     <td>
                                         @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
                                         {

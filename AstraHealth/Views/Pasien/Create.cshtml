@@ -1,7 +1,7 @@
 ﻿@model AstraHealth.Models.PasienModel
 
 @{
-    ViewData["Title"] = "Registrasi Pasien";
+    ViewData["Title"] = "Anamnesa Pasien";
 }
 @{
     var httpContext = ViewContext.HttpContext;
@@ -34,16 +34,13 @@
     <div class="col-12 grid-margin">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Tambah Pasien Baru</h4>
+                <h4 class="card-title">Anamnesa Pasien</h4>
                 <form class="form-sample" method="post">
-                    <p class="card-description">
-                        Personal info
-                    </p>
                     <input asp-for="anm_id" class="form-control input-with-border" value="null" hidden />
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
-                                <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">ID Pasien</label>
+                                <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">NIM atau NPK</label>
                                 <div class="col-sm-9">
                                     <input asp-for="anm_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" />
                                     <span asp-validation-for="anm_id_pasien" class="text-danger"></span>
@@ -66,7 +63,7 @@
                                 <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen</label>
                                 <div class="col-sm-9">
                                     <select asp-for="anm_prodi_atau_departemen" class="form-control input-with-border">
-                                        <option value="">Pilih Prodi / Departemen</option>
+                                        <option value="" selected disabled>Pilih Prodi / Departemen</option>
                                         <option value="Pembuatan Peralatan dan Perkakas Produksi">Pembuatan Peralatan dan Perkakas Produksi</option>
                                         <option value="Teknik Produksi dan Proses Manufaktur">Teknik Produksi dan Proses Manufaktur</option>
                                         <option value="Teknologi Konstruksi Bangunan Gedung">Teknologi Konstruksi Bangunan Gedung</option>
@@ -79,7 +76,6 @@
                                         <option value="DKA">DKA</option>
                                         <option value="DAKAP">DAKAP</option>
                                         <option value="GA">GA</option>
-
                                     </select>
                                     <span asp-validation-for="anm_prodi_atau_departemen" class="text-danger"></span>
                                 </div>
@@ -101,7 +97,7 @@
                             <div class="form-group row">
                                 <label asp-for="anm_tensi" class="col-sm-3 col-form-label">Tensi</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="anm_tensi" class="form-control input-with-border" placeholder="Masukkan Tensi" />
+                                    <input asp-for="anm_tensi" class="form-control input-with-border" placeholder="Masukkan Tensi" value="" />
                                     <span asp-validation-for="anm_tensi" class="text-danger"></span>
                                 </div>
                             </div>
@@ -122,8 +118,9 @@
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <div class="col-sm-9">
-                                    <input id="anm_kecelakaan_kerja" name="rgs_kecelakaan_kerja" type="checkbox" class="col-sm-3 col-form-label form-check-label" />
-                                    <label for="anm_kecelakaan_kerja" class="col-sm-3 col-form-label">Kecelakaan Kerja</label>
+                                    <input asp-for="anm_kecelakaan_kerja" type="hidden" value="0" />
+                                    <input id="anm_kecelakaan_kerja_checkbox" name="anm_kecelakaan_kerja_checkbox" type="checkbox" class="col-sm-3 col-form-label form-check-input" />
+                                    <label for="anm_kecelakaan_kerja_checkbox" class="col-sm-3 col-form-label">Kecelakaan Kerja</label>
                                     <span asp-validation-for="anm_kecelakaan_kerja" class="text-danger"></span>
                                 </div>
                             </div>
@@ -132,7 +129,7 @@
                             <div class="form-group row">
                                 <label asp-for="anm_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
                                 <div class="col-sm-9">
-                                    <textarea asp-for="anm_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan"></textarea>
+                                    <textarea asp-for="anm_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" value=""></textarea>
                                     <span asp-validation-for="anm_keterangan" class="text-danger"></span>
                                 </div>
                             </div>
@@ -173,14 +170,44 @@
                            </tbody>
                         </table>
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button type="submit" name="submitButton" value="submit" class="btn btn-primary mr-2 submit-button">Submit</button>
+                    <button type="submit" name="submitButton" value="rujukan" class="btn btn-primary mr-2 rujukan-button">Rujukan</button>
                     <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Cancel</a>
-                    <a asp-controller="Rujukan" asp-action="Create" class="btn btn-primary">Rujukan</a>
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title modal-lg d-flex justify-content-center align-items-center">Laporan Diagnosa Sakit</h2>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="parentDiv">
+                    <!-- Tabel Modal -->
+                    <table class="table datatable" id="myTable">
+                        <thead style="background-color: #37003C; color: white;">
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
 </body>
+
 <script>
     $(document).ready(function () {
         var index = 0;
@@ -190,8 +217,23 @@
             var cols = "";
 
             cols += '<td><input name="PemakaianObats[' + index + '].pmo_nama_obat" class="form-control" /></td>';
-            cols += '<td><input name="PemakaianObats[' + index + '].pmo_jumlah" class="form-control" /></td>';
-            cols += '<td><input name="PemakaianObats[' + index + '].pmo_satuan" class="form-control" /></td>';
+            cols += '<td><input name="PemakaianObats[' + index + '].pmo_jumlah" class="form-control" type="number" /></td>';
+            cols += '<td>' +
+                '<select name="PemakaianObats[' + index + '].pmo_satuan" class="form-control input-with-border">' +
+                '<option value="" selected disabled>Pilih Satuan Obat</option>' +
+                '<option value="buah">Buah</option>' +
+                '<option value="kotak">Kotak</option>' +
+                '<option value="strip">Strip</option>' +
+                '<option value="botol">Botol</option>' +
+                '<option value="vial">Vial</option>' +
+                '<option value="ampul">Ampul</option>' +
+                '<option value="tube">Tube</option>' +
+                '<option value="paket">Paket</option>' +
+                '<option value="dus">Dus</option>' +
+                '<option value="sachet">Sachet</option>' +
+                '<option value="plat">Plat</option>' +
+                '</select>' +
+                '</td>';
 
             cols += '<td>';
             cols += '<input name="PemakaianObats[' + index + '].pmo_id" class="form-control input-with-border" value="null" hidden />';
@@ -208,6 +250,75 @@
         $("#tblPemakaianObat").on("click", ".btnHapusBaris", function () {
             $(this).closest("tr").remove();
         });
+
+        $(".submit-button").click(function (e) {
+            e.preventDefault(); // Mencegah pengiriman formulir secara default
+            var buttonValue = $(this).val();
+            $("input[name='submitButton']").val(buttonValue);
+
+            if (validateForm()) {
+                Swal.fire({
+                    title: "Surat Izin?",
+                    text: "Buat Surat Izin?",
+                    icon: "question",
+                    confirmButtonText: "Iya",
+                    showDenyButton: true,
+                    denyButtonText: "Tidak",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Jika "Iya" diklik, tampilkan modal
+                        $('#myModal').modal('show');
+                    } else {
+                        // Jika "Tidak" diklik, kirim formulir
+                        $('form').append('<input type="hidden" name="submitButton" value="submit" />');
+                        $('form').submit();
+                    }
+                });
+            }
+        });
+
+        $(".rujukan-button").click(function (e) {
+            e.preventDefault(); // Mencegah pengiriman formulir secara default
+            $('input[name="submitButton"]').val("rujukan");
+
+            if (validateForm()) {
+                $('form').append('<input type="hidden" name="submitButton" value="rujukan" />');
+                $('form').submit();
+            }
+        });
+
+        $("#myModal").on("hidden.bs.modal", function () {
+            // Jika modal ditutup, lanjutkan menyimpan data
+            $('form').append('<input type="hidden" name="submitButton" value="submit" />');
+            $('form').submit();
+        });
+
+        function validateForm() {
+            // Ganti dengan nama kolom yang sesuai
+            var requiredFields = ["anm_id_pasien", "anm_nama_pasien", "anm_prodi_atau_departemen", "anm_keluhan", "anm_diagnosa", "anm_prodi_atau_departemen"];
+
+            for (var i = 0; i < requiredFields.length; i++) {
+                var field = requiredFields[i];
+                var value = $("#" + field).val();
+                if (!value) {
+                    Swal.fire("Gagal!", "Isi data dengan lengkap!", "warning");
+                    return false;
+                }
+            }
+            return true;
+        }
     });
 
+
+    $("#printPdf").click(function () {
+        var element = document.getElementById('parentDiv');
+
+        //generate pdf
+        html2pdf().from(element).set({
+            margin: [30, 10, 5, 10],
+            pagebreak: { avoid: 'tr' },
+            jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+        }).save()
+
+    });
 </script>

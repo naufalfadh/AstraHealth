@@ -33,9 +33,9 @@ namespace AstraHealth.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(string id_anamnesa)
         {
-            AkunModel rujukanModel = new AkunModel();
+            AkunModel akunnModel = new AkunModel();
 
             string serializedModel = HttpContext.Session.GetString("Identity");
 
@@ -45,24 +45,23 @@ namespace AstraHealth.Controllers
             }
             else
             {
-                rujukanModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+                akunnModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
-            /*if (rujukanModel.akn_role == "admin")
-            {
-                return RedirectToAction("Index", "Pasien");
-            }*/
-            return View();
+
+            RujukanModel rujukanModel = new RujukanModel();
+            rujukanModel.rjk_id_anamnesa = id_anamnesa;
+
+            return View(rujukanModel);
         }
 
         [HttpPost]
         public IActionResult Create(RujukanModel rujukanModel)
         {
-
             if (ModelState.IsValid)
             {
                 _rujukanRepository.insertData(rujukanModel);
                 TempData["SuccessMessage"] = "Data berhasil ditambahkan";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Pasien");
             }
             return View(rujukanModel);
         }

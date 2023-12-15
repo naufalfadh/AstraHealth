@@ -55,30 +55,43 @@ namespace AstraHealth.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(PasienModel pasienModel)
+        public IActionResult Create(PasienModel pasienModel, string submitButton)
         {
             if (ModelState.IsValid)
             {
-                pasienModel.anm_kecelakaan_kerja = Request.Form["anm_kecelakaan_kerja"] == "on" ? 1 : 0;
+                if (bool.TryParse(Request.Form["anm_kecelakaan_kerja_checkbox"], out bool kecelakaanKerjaCheckboxValue))
+                {
+                    pasienModel.anm_kecelakaan_kerja = kecelakaanKerjaCheckboxValue ? 1 : 0;
+                }
                 pasienModel.anm_id = _pasienRepository.getAnamnesaId();
 
-                for (int i = 0; i < pasienModel.PemakaianObats.Count; i++)
+                if (pasienModel.PemakaianObats != null && pasienModel.PemakaianObats.Count > 0)
                 {
-                    int id = _pasienRepository.getPemakaianObatId() + i;
-                    pasienModel.PemakaianObats[i].pmo_id = id.ToString();
-                    pasienModel.PemakaianObats[i].pmo_id_anamnesa = pasienModel.anm_id;
+                    for (int i = 0; i < pasienModel.PemakaianObats.Count; i++)
+                    {
+                        int id = _pasienRepository.getPemakaianObatId() + i;
+                        pasienModel.PemakaianObats[i].pmo_id = id.ToString();
+                        pasienModel.PemakaianObats[i].pmo_id_anamnesa = pasienModel.anm_id;
+                    }
                 }
-
 
                 _pasienRepository.insertData(pasienModel);
                 TempData["SuccessMessage"] = "Data berhasil ditambahkan";
-                return RedirectToAction("Index");
+
+                string id_anamnesa = pasienModel.anm_id;
+
+                if (submitButton == "rujukan")
+                {
+                    return RedirectToAction("Create", "Rujukan", new { id_anamnesa });
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(pasienModel);
         }
-
-
 
         /*[HttpPost]
         public IActionResult Delete(int id)

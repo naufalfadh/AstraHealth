@@ -40,7 +40,12 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="akn_password" class="control-label">Password</label>
-                                <input asp-for="akn_password" class="form-control" />
+                                <input asp-for="akn_password" type="password" class="form-control" id="password" />
+                                <div class="form-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
                                 <span asp-validation-for="akn_password" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -64,3 +69,13 @@
         </div>
     </div>
 </div>
+<script>
+    // Set the password input value using JavaScript
+    document.getElementById('password').value = '@Model.akn_password';
+
+    function togglePassword() {
+        var input = document.getElementById('password');
+        var type = input.type === 'password' ? 'text' : 'password';
+        input.type = type;
+    }
+</script>

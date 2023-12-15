@@ -84,12 +84,12 @@
 
                                     @if (httpContext.Session.GetString("Role") == "manajer")
                                     {
-                                        <td>@obat.kpm_id_admin</td>
+                                        <td>@obat.kpm_nama_admin</td>
                                     }
 
                                     @if (httpContext.Session.GetString("Role") == "admin" && obat.kpm_tanggal_aksi != null)
                                     {
-                                        <td>@obat.kpm_id_manajer</td>
+                                        <td>@obat.kpm_nama_manajer</td>
                                     }
                                     @if (httpContext.Session.GetString("Role") == "admin" && obat.kpm_tanggal_aksi == null)
                                     {
@@ -168,22 +168,27 @@
         $(".accept-button").click(function () {
             var obatId = $(this).data("id");
 
-            swal({
+            Swal.fire({
                 title: "Terima data?",
                 text: "Apakah anda yakin ingin menerima data ini?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
+                icon: "question",
+                confirmButtonText: "Iya",
+                showDenyButton: true,
+                denyButtonText: "Tidak",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kode yang dijalankan saat tombol "Iya" ditekan
                     $.ajax({
-                        url: "/keperluanMedis/Accept/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        url: "/keperluanMedis/Accept/" + obatId,
                         type: "POST",
                         success: function (data) {
                             if (data.success) {
-                                swal("Sukses!", data.message, "success");
+                                Swal.fire("Sukses!", data.message, "success").then(() => {
+                                    // Refresh halaman setelah pengguna menekan tombol "OK"
+                                    location.reload();
+                                });
                             } else {
-                                swal("Gagal!", data.message, "error");
+                                Swal.fire("Gagal!", data.message, "error");
                             }
                         },
                         error: function () {
@@ -199,22 +204,27 @@
         $(".reject-button").click(function () {
             var obatId = $(this).data("id");
 
-            swal({
+            Swal.fire({
                 title: "Tolak data?",
                 text: "Apakah anda yakin ingin menolak data ini?",
                 icon: "warning",
-                buttons: true,
+                confirmButtonText: "Iya",
+                showDenyButton: true,
+                denyButtonText: "Tidak",
                 dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
+            }).then((result) => {
+                if (result.isConfirmed) {
                     $.ajax({
                         url: "/keperluanMedis/Reject/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {
-                                swal("Sukses!", data.message, "success");
+                                Swal.fire("Sukses!", data.message, "success").then(() => {
+                                    // Refresh halaman setelah pengguna menekan tombol "OK"
+                                    location.reload();
+                                });
                             } else {
-                                swal("Gagal!", data.message, "error");
+                                Swal.fire("Gagal!", data.message, "error");
                             }
                         },
                         error: function () {
@@ -230,22 +240,26 @@
         $(".receive-button").click(function () {
             var obatId = $(this).data("id");
 
-            swal({
+            Swal.fire({
                 title: "Barang sudah diterima?",
                 text: "Apakah Barang sudah diterima?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
+                icon: "question",
+                confirmButtonText: "Iya",
+                showDenyButton: true,
+                denyButtonText: "Tidak",
+            }).then((result) => {
+                if (result.isConfirmed) {
                     $.ajax({
                         url: "/keperluanMedis/Receive/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {
-                                swal("Sukses!", data.message, "success");
+                                Swal.fire("Sukses!", data.message, "success").then(() => {
+                                    // Refresh halaman setelah pengguna menekan tombol "OK"
+                                    location.reload();
+                                });
                             } else {
-                                swal("Gagal!", data.message, "error");
+                                Swal.fire("Gagal!", data.message, "error");
                             }
                         },
                         error: function () {

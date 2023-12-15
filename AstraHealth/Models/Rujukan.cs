@@ -87,7 +87,7 @@ namespace AstraHealth.Models
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", rujukanModel.rjk_id_anamnesa);
                 command.Parameters.AddWithValue("@p2", rujukanModel.rjk_rumah_sakit);
-                command.Parameters.AddWithValue("@p3", rujukanModel.rjk_keterangan);
+                command.Parameters.AddWithValue("@p3", (object)rujukanModel.rjk_keterangan ?? DBNull.Value);
                 command.Parameters.AddWithValue("@p4", rujukanModel.rjk_tanggal);
                 _connection.Open();
                 command.ExecuteNonQuery();

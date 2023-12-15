@@ -39,13 +39,12 @@
                     <p class="card-description">
                         Personal info
                     </p>
-                    <input asp-for="rjk_id" class="form-control input-with-border" value="null" hidden />
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <label asp-for="rjk_id_anamnesa" class="col-sm-3 col-form-label">ID Anamnesa</label>
                                 <div class="col-sm-9">
-                                    <input asp-for="rjk_id_anamnesa" class="form-control input-with-border" placeholder="Masukkan ID Annesaam" />
+                                    <input asp-for="rjk_id_anamnesa" class="form-control input-with-border" placeholder="Masukkan ID Anamnesa" readonly />
                                     <span asp-validation-for="rjk_id_anamnesa" class="text-danger"></span>
                                 </div>
                             </div>
@@ -81,15 +80,87 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                    
-                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                    <a asp-controller="Pasien" asp-action="Create" class="btn btn-light">Cancel</a>
-             
+                    <button type="submit" class="btn btn-primary mr-2 submit-button">Submit</button>
+                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Cancel</a>
+                    
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title modal-lg d-flex justify-content-center align-items-center">Laporan Diagnosa Sakit</h2>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="parentDiv">
+                    <!-- Tabel Modal -->
+                    <table class="table datatable" id="myTable">
+                        <thead style="background-color: #37003C; color: white;">
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
 </body>
+<script>
+    $(document).ready(function () {
+        $(".submit-button").click(function (e) {
+            e.preventDefault(); // Mencegah pengiriman formulir secara default
+
+            if (validateForm()) {
+                Swal.fire({
+                    title: "Surat Izin?",
+                    text: "Buat Surat Izin?",
+                    icon: "question",
+                    confirmButtonText: "Iya",
+                    showDenyButton: true,
+                    denyButtonText: "Tidak",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Jika "Iya" diklik, tampilkan modal
+                        $('#myModal').modal('show');
+                    } else {
+                        // Jika "Tidak" diklik, kirim formulir
+                        $('form').submit();
+                    }
+                });
+            }
+        });
+
+        $("#myModal").on("hidden.bs.modal", function () {
+            // Jika modal ditutup, lanjutkan menyimpan data
+            $('form').submit();
+        });
+
+        function validateForm() {
+            // Ganti dengan nama kolom yang sesuai
+            var requiredFields = ["rjk_rumah_sakit"];
+
+            for (var i = 0; i < requiredFields.length; i++) {
+                var field = requiredFields[i];
+                var value = $("#" + field).val();
+                if (!value) {
+                    Swal.fire("Gagal!", "Isi data dengan lengkap!", "warning");
+                    return false;
+                }
+            }
+            return true;
+        }
+    });
+</script>

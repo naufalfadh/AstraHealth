@@ -21,7 +21,11 @@ namespace AstraHealth.Models
             List<KeperluanMedisModel> keperluanMedisList = new List<KeperluanMedisModel>();
             try
             {
-                string query = "select * from ahl_trkeperluanMedis";
+                string query = "SELECT km.*, admin.akn_nama AS kpm_nama_admin, manajer.akn_nama AS kpm_nama_manajer " +
+                       "FROM ahl_trkeperluanMedis km " +
+                       "JOIN ahl_msakun admin ON km.kpm_id_admin = admin.akn_id " +
+                       "JOIN ahl_msakun manajer ON km.kpm_id_manajer = manajer.akn_id " +
+                       "ORDER BY km.kpm_tanggal_pengajuan DESC";
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
@@ -40,6 +44,8 @@ namespace AstraHealth.Models
                         kpm_catatan = reader["kpm_catatan"].ToString(),
                         kpm_id_admin = reader["kpm_id_admin"].ToString(),
                         kpm_id_manajer = reader["kpm_id_manajer"].ToString(),
+                        kpm_nama_admin = reader["kpm_nama_admin"].ToString(),
+                        kpm_nama_manajer = reader["kpm_nama_manajer"].ToString(),
                     };
                     keperluanMedisList.Add(keperluanMedis);
                 }
