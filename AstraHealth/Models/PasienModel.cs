@@ -28,5 +28,6 @@ namespace AstraHealth.Models
         public string pmo_nama_obat { get; set; }
         public int pmo_jumlah { get; set; }
         public string pmo_satuan { get; set; }
+        public DateTime? pmo_tanggal { get; set; }
     }
 }

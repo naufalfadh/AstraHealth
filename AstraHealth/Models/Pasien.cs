@@ -211,7 +211,7 @@ namespace AstraHealth.Models
 
             try
             {
-                string query = "SELECT anm_id_pasien, anm_nama_pasien,anm_keluhan,anm_tensi, anm_diagnosa, anm_tanggal FROM ahl_tranamnesa";
+                string query = "SELECT anm_id_pasien, anm_nama_pasien, anm_prodi_atau_departemen, anm_keluhan,anm_tensi, anm_diagnosa, anm_tanggal FROM ahl_tranamnesa";
 
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
@@ -222,6 +222,7 @@ namespace AstraHealth.Models
                     {
                         anm_id_pasien = reader["anm_id_pasien"].ToString(),
                         anm_nama_pasien = reader["anm_nama_pasien"].ToString(),
+                        anm_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
                         anm_keluhan = reader["anm_keluhan"].ToString(),
                         anm_tensi = reader["anm_tensi"].ToString(),
                         anm_diagnosa = reader["anm_diagnosa"].ToString(),
@@ -246,7 +247,7 @@ namespace AstraHealth.Models
 
             try
             {
-                string query = "SELECT anm_id_pasien, anm_nama_pasien,anm_keluhan,anm_tensi, anm_prodi_atau_departemen, anm_tanggal FROM ahl_tranamnesa";
+                string query = "SELECT anm_id_pasien, anm_nama_pasien, anm_prodi_atau_departemen, anm_keluhan, anm_tensi, anm_diagnosa, anm_tanggal FROM ahl_tranamnesa";
 
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
@@ -257,9 +258,10 @@ namespace AstraHealth.Models
                     {
                         anm_id_pasien = reader["anm_id_pasien"].ToString(),
                         anm_nama_pasien = reader["anm_nama_pasien"].ToString(),
+                        anm_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
                         anm_keluhan = reader["anm_keluhan"].ToString(),
                         anm_tensi = reader["anm_tensi"].ToString(),
-                        anm_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
+                        anm_diagnosa = reader["anm_diagnosa"].ToString(),
                         anm_tanggal = reader.GetDateTime(reader.GetOrdinal("anm_tanggal"))
                     };
 
@@ -276,39 +278,114 @@ namespace AstraHealth.Models
             return laporanList;
         }
 
-        public List<PasienModel> laporanPemaiakaianObat()
+        public List<PemakaianObatModel> laporanPemaiakaianObat()
         {
-            List<PasienModel> pasienList = new List<PasienModel>();
+            List<PemakaianObatModel> pemakaianObatList = new List<PemakaianObatModel>();
             try
             {
-                string query = "SELECT * FROM ahl_tranamnesa";
+                string query = "SELECT po.pmo_id, po.pmo_id_anamnesa, po.pmo_nama_obat, po.pmo_jumlah, po.pmo_satuan, anm.anm_tanggal " +
+                               "FROM ahl_trpemakaianObat po " +
+                               "JOIN ahl_tranamnesa anm ON po.pmo_id_anamnesa = anm.anm_id";
 
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    PasienModel pasien = new PasienModel
+                    PemakaianObatModel obat = new PemakaianObatModel
                     {
-                        anm_id = reader["anm_id"].ToString(),
-                        anm_id_pasien = reader["anm_id_pasien"].ToString(),
-                        PemakaianObats = new List<PemakaianObatModel>()
+                        pmo_id = reader["pmo_id"].ToString(),
+                        pmo_id_anamnesa = reader["pmo_id_anamnesa"].ToString(),
+                        pmo_nama_obat = reader["pmo_nama_obat"].ToString(),
+                        pmo_jumlah = Convert.ToInt32(reader["pmo_jumlah"]),
+                        pmo_satuan = reader["pmo_satuan"].ToString(),
+                        pmo_tanggal = Convert.ToDateTime(reader["anm_tanggal"]),
                     };
 
-                    pasienList.Add(pasien);
+                    pemakaianObatList.Add(obat);
                 }
                 reader.Close();
-                _connection.Close();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+            finally
+            {
+                _connection.Close();
+            }
 
-            // Panggil metode terpisah untuk mengambil data pemakaian obat
-            getAllPemakaianObat(pasienList);
+            return pemakaianObatList;
+        }
 
-            return pasienList;
+        public List<RujukanPasienModel> laporanKecelakaanKerjaDanRujukan()
+        {
+            List<RujukanPasienModel> laporanList = new List<RujukanPasienModel>();
+
+            try
+            {
+                // Query pertama untuk mengambil data rujukan dan join dengan anamnesa
+                string queryRujukan = "SELECT r.rjk_id, r.rjk_id_anamnesa, a.anm_id_pasien, a.anm_nama_pasien, " +
+                                      "a.anm_prodi_atau_departemen, a.anm_diagnosa, a.anm_kecelakaan_kerja, " +
+                                      "r.rjk_rumah_sakit, r.rjk_keterangan, r.rjk_tanggal " +
+                                      "FROM ahl_trrujukan r " +
+                                      "JOIN ahl_tranamnesa a ON r.rjk_id_anamnesa = a.anm_id";
+
+                SqlCommand commandRujukan = new SqlCommand(queryRujukan, _connection);
+                _connection.Open();
+                SqlDataReader readerRujukan = commandRujukan.ExecuteReader();
+                while (readerRujukan.Read())
+                {
+                    RujukanPasienModel laporan = new RujukanPasienModel
+                    {
+                        rjk_id = Convert.ToInt32(readerRujukan["rjk_id"]),
+                        rjk_id_anamnesa = readerRujukan["rjk_id_anamnesa"].ToString(),
+                        rjk_id_pasien = readerRujukan["anm_id_pasien"].ToString(),
+                        rjk_nama_pasien = readerRujukan["anm_nama_pasien"].ToString(),
+                        rjk_prodi_atau_departemen = readerRujukan["anm_prodi_atau_departemen"].ToString(),
+                        rjk_diagnosa = readerRujukan["anm_diagnosa"].ToString(),
+                        rjk_kecelakaan_kerja = Convert.ToInt32(readerRujukan["anm_kecelakaan_kerja"]),
+                        rjk_rumah_sakit = readerRujukan["rjk_rumah_sakit"].ToString(),
+                        rjk_keterangan = readerRujukan["rjk_keterangan"].ToString(),
+                        rjk_tanggal = readerRujukan.GetDateTime(readerRujukan.GetOrdinal("rjk_tanggal"))
+                    };
+
+                    laporanList.Add(laporan);
+                }
+                readerRujukan.Close();
+
+                // Query kedua untuk mengambil data anamnesa dengan kecelakaan kerja = 1 yang belum tergabung dalam hasil query pertama
+                string queryAnamnesaKecelakaanKerja = "SELECT * FROM ahl_tranamnesa a " +
+                                                      "WHERE a.anm_kecelakaan_kerja = 1 AND NOT EXISTS " +
+                                                      "(SELECT 1 FROM ahl_trrujukan r WHERE r.rjk_id_anamnesa = a.anm_id)";
+
+                SqlCommand commandAnamnesaKecelakaanKerja = new SqlCommand(queryAnamnesaKecelakaanKerja, _connection);
+                SqlDataReader readerAnamnesaKecelakaanKerja = commandAnamnesaKecelakaanKerja.ExecuteReader();
+                while (readerAnamnesaKecelakaanKerja.Read())
+                {
+                    RujukanPasienModel laporan = new RujukanPasienModel
+                    {
+                        rjk_id_pasien = readerAnamnesaKecelakaanKerja["anm_id_pasien"].ToString(),
+                        rjk_nama_pasien = readerAnamnesaKecelakaanKerja["anm_nama_pasien"].ToString(),
+                        rjk_prodi_atau_departemen = readerAnamnesaKecelakaanKerja["anm_prodi_atau_departemen"].ToString(),
+                        rjk_diagnosa = readerAnamnesaKecelakaanKerja["anm_diagnosa"].ToString(),
+                        rjk_kecelakaan_kerja = Convert.ToInt32(readerAnamnesaKecelakaanKerja["anm_kecelakaan_kerja"]),
+                    };
+
+                    laporanList.Add(laporan);
+                }
+                readerAnamnesaKecelakaanKerja.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+
+            return laporanList;
         }
 
         /*public void updateData(PasienModel pasienModel)

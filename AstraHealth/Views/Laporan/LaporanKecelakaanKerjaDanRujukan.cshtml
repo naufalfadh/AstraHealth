@@ -1,6 +1,6 @@
-﻿@model List<AstraHealth.Models.PasienModel>
+﻿@model List<AstraHealth.Models.RujukanPasienModel>
 @{
-    ViewData["Title"] = "Laporan Prodi dan Departemen";
+    ViewData["Title"] = "Laporan Kecelakaan Kerja dan Rujukan";
     int no = 1;
     int num = 1;
 }
@@ -10,7 +10,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.0/html2pdf.bundle.min.js"></script>
 
     <style>
-
         .modal-header {
             display: flex;
             flex-direction: column;
@@ -28,9 +27,6 @@
             display: flex;
             justify-content: space-between;
         }
-
-
-
     </style>
 
 </head>
@@ -40,7 +36,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Register</h5>
+                    <h5 class="card-title">Laporan Kecelakaan Kerja dan Rujukan</h5>
                     <hr />
                     @if (TempData["SuccessMessage"] != null)
                     {
@@ -58,6 +54,7 @@
                     </button>
 
                     <p></p>
+                    <!-- Tabel Utama -->
                     <table class="table datatable" id="myTable">
                         <thead>
                             <tr>
@@ -65,24 +62,33 @@
                                 <th scope="col">NIM/NPK</th>
                                 <th scope="col">Nama Pasien</th>
                                 <th scope="col">Prodi/Departemen</th>
-                                <th scope="col">Keluhan</th>
-                                <th scope="col">Tensi</th>
                                 <th scope="col">Diagnosa</th>
+                                <th scope="col">Kecelakaan Kerja</th>
+                                <th scope="col">Rumah Sakit</th>
+                                <th scope="col">Keterangan</th>
                                 <th scope="col">Tanggal</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var pasien in Model)
+                            @foreach (var rujukanPasien in Model)
                             {
                                 <tr>
                                     <td>@no</td>
-                                    <td>@pasien.anm_id_pasien</td>
-                                    <td>@pasien.anm_nama_pasien</td>
-                                    <td>@pasien.anm_prodi_atau_departemen</td>
-                                    <td>@pasien.anm_keluhan</td>
-                                    <td>@pasien.anm_tensi</td>
-                                    <td>@pasien.anm_diagnosa</td>
-                                    <td>@pasien.anm_tanggal</td>
+                                    <td>@rujukanPasien.rjk_id_pasien</td>
+                                    <td>@rujukanPasien.rjk_nama_pasien</td>
+                                    <td>@rujukanPasien.rjk_prodi_atau_departemen</td>
+                                    <td>@rujukanPasien.rjk_diagnosa</td>
+                                    @if(rujukanPasien.rjk_kecelakaan_kerja == 1){
+                                        <td>Iya</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Tidak</td>
+                                    }
+
+                                    <td>@rujukanPasien.rjk_rumah_sakit</td>
+                                    <td>@rujukanPasien.rjk_keterangan</td>
+                                    <td>@rujukanPasien.rjk_tanggal</td>
                                 </tr>
                                 no++;
                             }
@@ -107,7 +113,8 @@
                         </div>
                     </div>
                     <div class="modal-body">
-                        <table class="table datatable">
+                        <!-- Tabel Modal -->
+                        <table class="table datatable" id="myTable">
                             <thead style="background-color: #37003C; color: white;">
                                 <div class="surat-info">
                                     <div class="nomor-surat-wrapper">
@@ -123,19 +130,32 @@
                                     <th scope="col">Nama Pasien</th>
                                     <th scope="col">Prodi/Departemen</th>
                                     <th scope="col">Diagnosa</th>
+                                    <th scope="col">Kecelakaan Kerja</th>
+                                    <th scope="col">Rumah Sakit</th>
+                                    <th scope="col">Keterangan</th>
                                     <th scope="col">Tanggal</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var pasien in Model)
+                                @foreach (var rujukanPasien in Model)
                                 {
                                     <tr>
                                         <td scope="row">@num</td>
-                                        <td scope="row">@pasien.anm_id_pasien</td>
-                                        <td scope="row">@pasien.anm_nama_pasien</td>
-                                        <td scope="row">@pasien.anm_prodi_atau_departemen</td>
-                                        <td scope="row">@pasien.anm_diagnosa</td>
-                                        <td scope="row">@pasien.anm_tanggal</td>
+                                        <td scope="row">@rujukanPasien.rjk_id_pasien</td>
+                                        <td scope="row">@rujukanPasien.rjk_nama_pasien</td>
+                                        <td scope="row">@rujukanPasien.rjk_prodi_atau_departemen</td>
+                                        <td scope="row">@rujukanPasien.rjk_diagnosa</td>
+                                        @if (rujukanPasien.rjk_kecelakaan_kerja == 1)
+                                        {
+                                            <td scope="row">Iya</td>
+                                        }
+                                        else
+                                        {
+                                            <td scope="row">Tidak</td>
+                                        }
+                                        <td scope="row">@rujukanPasien.rjk_rumah_sakit</td>
+                                        <td scope="row">@rujukanPasien.rjk_keterangan</td>
+                                        <td scope="row">@rujukanPasien.rjk_tanggal</td>
                                     </tr>
                                     num++;
                                 }
@@ -152,6 +172,8 @@
     </div>
 
 </section>
+
+
 
 <script>
     $("#printPdf").click(function () {
@@ -181,7 +203,7 @@
     function generateNomorSurat() {
         // Logika untuk menghasilkan nomor surat
         // Misalnya, Anda dapat menggunakan data tertentu atau urutan yang spesifik
-        return "Laporan Kesehatan Prodi Dan Departemen"; // Ganti dengan logika Anda
+        return "Laporan Diagnosa Sakit"; // Ganti dengan logika Anda
     }
 
     $(document).ready(function () {

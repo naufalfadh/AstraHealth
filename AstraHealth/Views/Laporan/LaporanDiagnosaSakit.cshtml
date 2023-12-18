@@ -1,6 +1,6 @@
 ﻿@model List<AstraHealth.Models.PasienModel>
 @{
-    ViewData["Title"] = "Pasien";
+    ViewData["Title"] = "Laporan Diagnosa Sakit";
     int no = 1;
     int num = 1;
 }
@@ -31,14 +31,6 @@
 
 </head>
 
-<div class="pagetitle">
-    <h1>Pasien</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">Register</li>
-        </ol>
-    </nav>
-</div>
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
@@ -67,8 +59,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">ID Pasien</th>
+                                <th scope="col">NIM/NPK</th>
                                 <th scope="col">Nama Pasien</th>
+                                <th scope="col">Prodi/Departemen</th>
                                 <th scope="col">Keluhan</th>
                                 <th scope="col">Tensi</th>
                                 <th scope="col">Diagnosa</th>
@@ -82,6 +75,7 @@
                                     <td>@no</td>
                                     <td>@pasien.anm_id_pasien</td>
                                     <td>@pasien.anm_nama_pasien</td>
+                                    <td>@pasien.anm_prodi_atau_departemen</td>
                                     <td>@pasien.anm_keluhan</td>
                                     <td>@pasien.anm_tensi</td>
                                     <td>@pasien.anm_diagnosa</td>
@@ -123,8 +117,9 @@
                                 </div>
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">ID Pasien</th>
+                                    <th scope="col">NIM/NPK</th>
                                     <th scope="col">Nama Pasien</th>
+                                    <th scope="col">Prodi/Departemen</th>
                                     <th scope="col">Diagnosa</th>
                                     <th scope="col">Tanggal</th>
                                 </tr>
@@ -136,6 +131,7 @@
                                         <td scope="row">@num</td>
                                         <td scope="row">@pasien.anm_id_pasien</td>
                                         <td scope="row">@pasien.anm_nama_pasien</td>
+                                        <td scope="row">@pasien.anm_prodi_atau_departemen</td>
                                         <td scope="row">@pasien.anm_diagnosa</td>
                                         <td scope="row">@pasien.anm_tanggal</td>
                                     </tr>
