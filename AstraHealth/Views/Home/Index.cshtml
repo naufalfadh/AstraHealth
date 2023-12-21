@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="~/content/vendors/base/vendor.bundle.base.css">
     <link rel="stylesheet" href="~/content/css/style.css">
     <link rel="shortcut icon" href="~/content/images/favicon.png" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         body {
             background-image: url('content/images/IMG_Background.jpg');
@@ -53,7 +56,7 @@
 <body>
     <!-- Header -->
     <header>
-        <img src="~/content/images/IMG_Logo.png" alt="logo" style="max-width: 200px;>
+        <img src="~/content/images/IMG_Logo.png" alt="logo" style="max-width: 200px;">
     </header>
     <section class="section">
     <div class="container-scroller">
@@ -100,6 +103,7 @@
                                 <br>
                                 <div class="col-12">
                                     <button class="btn btn-primary w-100" type="submit">Masuk</button>
+                                    
                                 </div>
 
                                 @if (TempData["ErrorMessage"] != null)
@@ -124,6 +128,7 @@
         <!-- page-body-wrapper ends -->
     </div>
     </section>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const passwordInput = document.getElementById('passwordInput');
@@ -138,23 +143,11 @@
                 togglePassword.classList.toggle('mdi-eye-off-outline', type === 'text');
             });
         });
-    </script>
+           </script>
 
-    <!-- container-scroller -->
-    <!-- base:js -->
     <script src="~/content/vendors/base/vendor.bundle.base.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page-->
-    <!-- End plugin js for this page-->
-    <!-- inject:js -->
     <script src="~/content/js/template.js"></script>
-    <!-- endinject -->
-    <!-- plugin js for this page -->
-    <!-- End plugin js for this page -->
-    <!-- Custom js for this page-->
-    <!-- End custom js for this page-->
 
 </body>
 
 </html>
-s

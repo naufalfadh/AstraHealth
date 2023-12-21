@@ -14,10 +14,11 @@
     <style>
 
         body {
-            padding-top: 60px; /* Atur spasi sesuai kebutuhan */
+            padding-top: 60px; 
         }
 
         .row {
+            background-image    
             padding-left: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
             padding-right: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         }
@@ -46,11 +47,7 @@
             <div class="carousel-item">
                 <img class="d-block w-100" src="~/content/images/Banner2.jpg" alt="Second slide">
             </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="~/content/images/io.png" alt="Third slide">
-            </div>
        
-            <!-- Add more carousel items with additional images -->
         </div>
         <a class="carousel-control-prev" href="#bannerCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -76,95 +73,6 @@
             </div>
         </div>
 
-
-        <!-- Bagian Tabel Pasien -->
-        <div class="col-lg-8">
-            <div class="row">
-                <div class="col-sm-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
-                                <div>
-                                    <h4 class="card-title mb-1">Pasien Terbaru</h4>
-                                </div>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Nama Pasien</th>
-                                            <th scope="col">Prodi atau Departemen</th>
-                                            <th scope="col">Diagnosa</th>
-                                            <th scope="col">Kecelakaan Kerja</th>
-                                            <th scope="col">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var pasien in Model)
-                                        {
-                                            <tr>
-                                                <td>@pasien.anm_nama_pasien</td>
-                                                <td>@pasien.anm_prodi_atau_departemen</td>
-                                                <td>@pasien.anm_diagnosa</td>
-                                                <td>@pasien.anm_kecelakaan_kerja</td>
-                                                <td>@pasien.anm_tanggal</td>
-                                               
-                                            </tr>
-                                          
-                                        }
-                                    </tbody>
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <div class="row">
-                <div class="col-sm-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
-                                <div>
-                                    <h4 class="card-title mb-1">Prodi dan departemen</h4>
-                                </div>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="prodiDepartemenChart"></canvas>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        <div class="col-lg-4">
-            <div class="row">
-                <div class="col-sm-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
-                                <div>
-                                    <h4 class="card-title mb-1">Keluhan</h4>
-                                </div>
-                            </div>
-                            <div class="chart-container">
-                                <canvas id="keluhanChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
- 
-  
         <div class="container">
             <br>
             <div class="row justify-content-center" style="margin: 0;">
@@ -182,7 +90,7 @@
                                 </div>
                                 <br>
                                 <!-- Tombol untuk memunculkan modal -->
-                            <button class="btn btn-primary" style="background-color: #0059AB;" data-toggle="modal" data-target="#myModal">
+                                <button class="btn btn-primary" style="background-color: #0059AB;" data-toggle="modal" data-target="#myModal">
                                     Selengkapnya
                                     <i class="fas fa-arrow-right"></i>
                                 </button>
@@ -193,7 +101,8 @@
                 </div>
             </div>
         </div>
-
+        <br>
+        <br>
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -209,8 +118,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h4><strong>
-                            Informasi UKK
+                        <h4>
+                            <strong>
+                                Informasi UKK
                             </strong>
                         </h4>
                         <p>Unit Kesehatan Kampus bertujuan untuk memberikan layanan kesehatan kepada mahasiswa dan karyawan. Berikut adalah beberapa informasi penting:</p>
@@ -227,7 +137,7 @@
                                 <img src="~/content/images/JadwalOperasional.jpeg" />
                             </strong>
                         </h4>
-                       
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -236,7 +146,59 @@
             </div>
         </div>
 
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-sm-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
+                                <div>
+                                    <h4 class="card-title mb-1">Pasien baru baru ini</h4>
+                                </div>
+                            </div>
 
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">NIM/NPK</th>
+                                            <th scope="col">Nama Pasien</th>
+                                            <th scope="col">Prodi atau Departemen</th>
+                                            <th scope="col">Keluhan</th>
+                                            <th scope="col">Keterangan</th>
+                                            <th scope="col">Tanggal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var pasien in Model)
+                                        {
+                                            <tr>
+                                                <td>@pasien.anm_id_pasien</td>
+                                                <td>@pasien.anm_nama_pasien</td>
+                                                <td>@pasien.anm_prodi_atau_departemen</td>
+                                                <td>@pasien.anm_keluhan</td>
+                                                <td>@pasien.anm_keterangan</td>
+                                                <td>@pasien.anm_tanggal</td>
+
+                                            </tr>
+
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+
+        
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Data Dummy
@@ -280,7 +242,7 @@
             // Options untuk responsif
             var options = {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false 
             };
 
             // Mendapatkan elemen canvas
@@ -293,10 +255,9 @@
                 options: options
             });
         });
-
-
-
+       
     </script>
+
       
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

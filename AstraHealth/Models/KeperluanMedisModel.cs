@@ -14,7 +14,7 @@
         public string kpm_id_admin { get; set; }
         public string kpm_id_manajer { get; set; }
         public string? kpm_nama_manajer { get; set; }
-        public string kpm_nama_admin { get; set; }
+        public string? kpm_nama_admin { get; set; }
     }
 
     public class KeperluanAlatMedis
