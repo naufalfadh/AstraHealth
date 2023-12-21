@@ -17,8 +17,9 @@
             padding-top: 60px; 
         }
 
-        .row {
-            background-image    
+        .row {/* 
+            background-image: url('content/images/IMG_Background.jpg'); */
+            background-color:white;
             padding-left: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
             padding-right: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         }
@@ -70,6 +71,93 @@
             </div>
             <div class="col-lg-4" style="text-align: center; padding: 40px 0px;">
                 <img src="~/content/images/IMG_LogoSatuIndonesia.png" class="wow fadeInUp fast" style="width: 40%; visibility: visible; animation-name: fadeInUp; animation-iteration-count: 1;">
+            </div>
+        </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-sm-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
+                                <div>
+                                    <h4 class="card-title mb-1">Pasien baru baru ini</h4>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">NIM/NPK</th>
+                                            <th scope="col">Nama Pasien</th>
+                                            <th scope="col">Prodi atau Departemen</th>
+                                            <th scope="col">Keluhan</th>
+                                            <th scope="col">Keterangan</th>
+                                            <th scope="col">Tanggal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var pasien in Model)
+                                        {
+                                            <tr>
+                                                <td>@pasien.anm_id_pasien</td>
+                                                <td>@pasien.anm_nama_pasien</td>
+                                                <td>@pasien.anm_prodi_atau_departemen</td>
+                                                <td>@pasien.anm_keluhan</td>
+                                                <td>@pasien.anm_keterangan</td>
+                                                <td>@pasien.anm_tanggal</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <hr /> <!-- Garis pemisah antara tabel dan chart -->
+
+                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
+                                <div>
+                                    <h4 class="card-title mb-1">Pemakaian Obat</h4>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="pemakaianObatChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-sm-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
+                                <div>
+                                    <h4 class="card-title mb-1">Grafik Prodi, Kecelakaan Kerja, dan Keluhan</h4>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <!-- Canvas untuk Prodi dan Departemen Chart -->
+                                <canvas id="prodiDepartemenChart"></canvas>
+                            </div>
+                            <hr /> <!-- Garis pemisah antara chart -->
+                            <div class="chart-container">
+                                <!-- Canvas untuk Kecelakaan Kerja Chart -->
+                                <canvas id="kecelakaanKerjaChart"></canvas>
+                            </div>
+                            <hr /> <!-- Garis pemisah antara chart -->
+                            <div class="chart-container">
+                                <!-- Canvas untuk Keluhan Chart -->
+                                <canvas id="keluhanChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -145,58 +233,35 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-8">
-            <div class="row">
-                <div class="col-sm-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
-                                <div>
-                                    <h4 class="card-title mb-1">Pasien baru baru ini</h4>
-                                </div>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">NIM/NPK</th>
-                                            <th scope="col">Nama Pasien</th>
-                                            <th scope="col">Prodi atau Departemen</th>
-                                            <th scope="col">Keluhan</th>
-                                            <th scope="col">Keterangan</th>
-                                            <th scope="col">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var pasien in Model)
-                                        {
-                                            <tr>
-                                                <td>@pasien.anm_id_pasien</td>
-                                                <td>@pasien.anm_nama_pasien</td>
-                                                <td>@pasien.anm_prodi_atau_departemen</td>
-                                                <td>@pasien.anm_keluhan</td>
-                                                <td>@pasien.anm_keterangan</td>
-                                                <td>@pasien.anm_tanggal</td>
-
-                                            </tr>
-
-                                        }
-                                    </tbody>
-
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+    </div>
+    
+    <div class="col-lg-12" style="text-align: center;">
+        <h3 style="font-weight: bold;">
+           Unit Kesehatan Kampus<br>
+            Politeknik Astra Cikarang
+        </h3>
+        <h5><i>"Bekerja sama dengan Rumah Sakit EMC Cikarang yang dapat membantu Mahasiswa Politeknik Astra"</i></h5>
+        <br>
+    </div>
+        <div class="col-lg-4 mb-4 mx-auto">
+            <div class="card card-cascade wider wow fadeIn fast" style="visibility: visible; animation-name: fadeIn; animation-iteration-count: 1;">
+                <div class="view view-cascade overlay">
+                    <img class="card-img-top" src="~/content/images/rs.png" alt="Rumah Sakit EMC Cikarang">
+                    <a href="https://www.polytechnic.astra.ac.id/pembuatan-peralatan-perkakas-produksi/" target="_blank">
+                        <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                    </a>
+                </div>
+                <div class="card-body card-body-cascade text-center">
+                    <h4 class="card-title"><strong>Rumah Sakit EMC Cikarang</strong></h4>
+                    <p class="card-text" style="margin-bottom: 5px !important;">
+                        <i>"Alamat: Komplek The Oasis, Komplek The Oasis Kav Jl. Raya Cikarang - Cibarusah No.1 Kav. I, Selatan, Sukaresmi, Cikarang Sel., Kabupaten Bekasi, Jawa Barat 17530"</i>
+                    </p>
                 </div>
             </div>
         </div>
 
-       
 
-        
-
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -250,13 +315,69 @@
 
             // Membuat chart keluhanChart
             var keluhanChart = new Chart(canvas, {
-                type: 'polarArea', // Mengganti jenis chart ke bar
+                type: 'pie', // Mengganti jenis chart ke bar
                 data: keluhanData,
                 options: options
             });
         });
-       
-    </script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+                // Data Dummy
+                var pemakaianObat = {
+                    labels: ['Sanmol', 'Paracetamol', 'Bodrex','Mixagrip','Panadol','Antimo'],
+                    datasets: [{
+                        data: [2, 1, 1,5,9,4], // Menambahkan nilai nol sesuai dengan jumlah label
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFFF00', '#0000FF', '#800080', '#808080'], // Warna untuk setiap label
+                        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFFF00', '#0000FF', '#800080', '#808080']
+                    }]
+                };
+
+                // Options untuk responsif
+                var options = {
+                    responsive: true,
+                    maintainAspectRatio: false
+                };
+
+                // Mendapatkan elemen canvas
+                var canvas = document.getElementById('pemakaianObatChart').getContext('2d');
+
+                // Membuat chart keluhanChart
+                var pemakaianObatChart = new Chart(canvas, {
+                    type: 'bar', // Mengganti jenis chart ke bar
+                    data: pemakaianObat,
+                    options: options
+                });
+            });
+
+    
+            document.addEventListener('DOMContentLoaded', function () {
+                // Data Dummy
+                var kecelakaanKerja = {
+                    labels: ['Iya', 'Tidak'],
+                    datasets: [{
+                        data: [2, 5], // Menambahkan nilai nol sesuai dengan jumlah label
+                        backgroundColor: ['#FF6384', '#0000FF'], // Warna untuk setiap label
+                        hoverBackgroundColor: ['#FF6384', '#0000FF']
+                    }]
+                };
+
+                // Options untuk responsif
+                var options = {
+                    responsive: true,
+                    maintainAspectRatio: false
+                };
+
+                // Mendapatkan elemen canvas
+                var canvas = document.getElementById('kecelakaanKerjaChart').getContext('2d');
+
+                // Membuat chart keluhanChart
+                var kecelakaanKerjaChart = new Chart(canvas, {
+                    type: 'pie', // Mengganti jenis chart ke pie
+                    data: kecelakaanKerja,
+                    options: options
+                });
+            });
+        </script>
 
       
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
