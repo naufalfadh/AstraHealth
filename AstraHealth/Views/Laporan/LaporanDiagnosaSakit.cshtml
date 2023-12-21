@@ -52,6 +52,8 @@
                         Cetak PDF
                         <i class="fas fa-file-pdf"></i>
                     </button>
+                    <!-- Formulir Pemilihan Rentang Waktu -->
+                  
 
                     <p></p>
                     <!-- Tabel Utama -->
@@ -184,6 +186,11 @@
         return "Laporan Diagnosa Sakit"; // Ganti dengan logika Anda
     }
 
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+
+    // Fungsi ini akan dijalankan ketika halaman selesai dimuat
     $(document).ready(function () {
         $('#myTable').DataTable();
     });
