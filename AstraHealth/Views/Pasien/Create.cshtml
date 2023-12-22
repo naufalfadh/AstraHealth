@@ -225,9 +225,9 @@
                         </div>
                     </div>
                     <div class="modal-body">
-                        <p style="color: black;">Nama : </p>
-                        <p style="color: black;">Dept/Prodi/UPT : </p>
-                        <p style="color: black;">NRP/NIM : </p>
+                        <p style="color: black;">Nama: </p>
+                        <p style="color: black;">Dept/Prodi/UPT: </p>
+                        <p style="color: black;">NRP/NIM: </p>
                         <br>
                         <p style="color: black;">Hasil Pemersiksaan :</p>
                         <p style="color: black;">Mengalami gejala</p>
@@ -241,6 +241,11 @@
                         <div class="tanggal-surat-wrapper">
                             <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: [Tanggal]</p>
                         </div>
+                        <br>
+                        <div class="logo-container">
+                            <img src="~/content/images/Tanda_tangan.jpg" alt="logo" />
+                        </div>
+                        <p style="color: black;">Dina Yuliana Amd.Keb</p>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -259,10 +264,10 @@
         var element = document.getElementById('parentDiv');
 
         // Mendapatkan nilai dari field-field yang ada di form
-        var namaPasien = $("input[name='anm_nama_pasien']").val();
-        var prodiDepartemen = $("select[name='anm_prodi_atau_departemen'] option:selected").text();
-        var idPasien = $("input[name='anm_id_pasien']").val();
-        var keluhan = $("textarea[name='anm_keluhan']").val();
+        var namaPasien = $("input[name='anm_nama_pasien']").val() || '';
+        var prodiDepartemen = $("select[name='anm_prodi_atau_departemen'] option:selected").text() || '';
+        var idPasien = $("input[name='anm_id_pasien']").val() || '';
+        var diagnosa = $("textarea[name='anm_diagnosa']").val() || '';
 
         // Mendapatkan tanggal saat ini dan formatnya ke "dd/MMM/yyyy"
         var today = new Date();
@@ -272,12 +277,12 @@
         document.getElementById('tanggalSurat').textContent = "Cikarang: " + tanggalSurat;
 
         // Generate teks untuk dimasukkan ke dalam modal-body
-        var modalText = `<p style="color: black;">Nama              : ${namaPasien}</p>
-                        <p style="color: black;">Dept/Prodi/UPT    : ${prodiDepartemen}</p>
-                        <p style="color: black;">NRP/NIM           : ${idPasien}</p>
+        var modalText = `<p style="color: black;">Nama:      ${namaPasien}</p>
+                        <p style="color: black;">Dept/Prodi/UPT:     ${prodiDepartemen}</p>
+                        <p style="color: black;">NRP/NIM:     ${idPasien}</p>
                         <br>
                         <p style="color: black;">Hasil Pemersiksaan :</p>
-                        <p style="color: black;">Mengalami gejala ${keluhan}</p>
+                            <p style="color: black;">Mengalami gejala ${diagnosa}</p>
                         <br>
                         <br>
                         <br>
@@ -287,20 +292,28 @@
                         <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
                         <div class="tanggal-surat-wrapper">
                             <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: ${tanggalSurat}</p>
-                        </div>`;
-
+                        </div>
+                        <br>
+                        <div class="logo-container">
+                            <img src="~/content/images/Tanda_tangan.jpg" alt="logo" />
+                        </div>
+                        <p style="color: black;">Dina Yuliana Amd.Keb</p>`;
 
         // Mengganti isi dari modal-body dengan teks yang telah disiapkan
         $('.modal-body').html(modalText);
 
         //generate pdf
-        html2pdf().from(element).set({
-            margin: 5,
-            filename: 'surat keterangan sakit pasien.pdf',
-            html2canvas: { scale: 2 },
-            jsPDF: { format: 'a4' }
-        }).save();
+        html2pdf()
+            .from(element)
+            .set({
+                margin: [5, 10], // Atur margin kiri dan atas (dalam satuan milimeter)
+                filename: 'surat keterangan sakit pasien.pdf',
+                html2canvas: { scale: 1 },
+                jsPDF: { format: 'a4' }
+            })
+            .save();
     });
+
 
     $(document).ready(function () {
         var index = 0;
