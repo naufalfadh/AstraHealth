@@ -3,6 +3,10 @@
 *@
 @model List<AstraHealth.Models.PasienModel>
 @{
+    // Serialize PasienModel to JSON using C#
+    var pasienData = Html.Raw(Json.Serialize(Model));
+}
+@{
     ViewData["Title"] = "Dashboard AstraHealth";
 }
 <head>
@@ -86,43 +90,42 @@
                                 </div>
                             </div>
 
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">NIM/NPK</th>
-                                            <th scope="col">Nama Pasien</th>
-                                            <th scope="col">Prodi atau Departemen</th>
-                                            <th scope="col">Keluhan</th>
-                                            <th scope="col">Keterangan</th>
-                                            <th scope="col">Tanggal</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var pasien in Model)
-                                        {
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
                                             <tr>
-                                                <td>@pasien.anm_id_pasien</td>
-                                                <td>@pasien.anm_nama_pasien</td>
-                                                <td>@pasien.anm_prodi_atau_departemen</td>
-                                                <td>@pasien.anm_keluhan</td>
-                                                <td>@pasien.anm_keterangan</td>
-                                                <td>@pasien.anm_tanggal</td>
+                                                <th scope="col">NIM atau NPK</th>
+                                                <th scope="col">Nama</th>
+                                                <th scope="col">Prodi atau Departemen</th>
+                                                <th scope="col">Diagnosa</th>
+                                                <th scope="col">Tanggal</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var pasien in Model.Where(p => p.anm_tanggal.Date == DateTime.Now.Date))
+                                            {
+                                                <tr>
+                                                    <td>@pasien.anm_id_pasien</td>
+                                                    <td>@pasien.anm_nama_pasien</td>
+                                                    <td>@pasien.anm_prodi_atau_departemen</td>
+                                                    <td>@pasien.anm_diagnosa</td>
+                                                    <td>@pasien.anm_tanggal</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
 
                             <hr /> <!-- Garis pemisah antara tabel dan chart -->
 
                             <div class="d-sm-flex align-items-start justify-content-between mb-4">
                                 <div>
-                                    <h4 class="card-title mb-1">Pemakaian Obat</h4>
+                                    <h4 class="card-title mb-1">Program Studi dan Departemen dengan Sakit Terbanyak</h4>
                                 </div>
                             </div>
                             <div class="chart-container">
-                                <canvas id="pemakaianObatChart"></canvas>
+                                <canvas id="prodiDepartemenChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -138,22 +141,32 @@
                         <div class="card-body">
                             <div class="d-sm-flex align-items-start justify-content-between mb-4">
                                 <div>
-                                    <h4 class="card-title mb-1">Grafik Prodi, Kecelakaan Kerja, dan Keluhan</h4>
+                                    <h4 class="card-title mb-1">Diagnosa Sakit Terbanyak</h4>
                                 </div>
                             </div>
                             <div class="chart-container">
                                 <!-- Canvas untuk Prodi dan Departemen Chart -->
-                                <canvas id="prodiDepartemenChart"></canvas>
+                                <canvas id="keluhanChart"></canvas>
                             </div>
                             <hr /> <!-- Garis pemisah antara chart -->
+                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
+                                <div>
+                                    <h4 class="card-title mb-1">Pemakaian Obat</h4>
+                                </div>
+                            </div>
                             <div class="chart-container">
                                 <!-- Canvas untuk Kecelakaan Kerja Chart -->
-                                <canvas id="kecelakaanKerjaChart"></canvas>
+                                    <canvas id="pemakaianObatChart"></canvas>
                             </div>
                             <hr /> <!-- Garis pemisah antara chart -->
+                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
+                                <div>
+                                    <h4 class="card-title mb-1">Kecelakaan Kerja dan Rujukan</h4>
+                                </div>
+                            </div>
                             <div class="chart-container">
                                 <!-- Canvas untuk Keluhan Chart -->
-                                <canvas id="keluhanChart"></canvas>
+                                    <canvas id="kecelakaanKerjaChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -240,7 +253,7 @@
            Unit Kesehatan Kampus<br>
             Politeknik Astra Cikarang
         </h3>
-        <h5><i>"Bekerja sama dengan Rumah Sakit EMC Cikarang yang dapat membantu Mahasiswa Politeknik Astra"</i></h5>
+        <h5><i>"Bekerja sama dengan Rumah Sakit EMC Cikarang yang dapat membantu Civitas Politeknik Astra"</i></h5>
         <br>
     </div>
         <div class="col-lg-4 mb-4 mx-auto">
@@ -266,15 +279,186 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Data Dummy
-            var prodiDepartemenData = {
-                labels: ['Manajemen Informatika', 'Teknik Alat Berat'],
+            var keluhanData = {
+                labels: [],
                 datasets: [{
-                    data: [3, 1], // Jumlah data sesuai dengan jumlah prodi dan departemen
-                    backgroundColor: ['#FF6384', '#36A2EB'], // Warna untuk setiap prodi atau departemen
-                    hoverBackgroundColor: ['#FF6384', '#36A2EB']
+                    data: [],
+                    backgroundColor: [],
+                    hoverBackgroundColor: []
                 }]
             };
+
+            // Embedding PasienModel data in a script tag
+            var pasienData = @Html.Raw(Json.Serialize(Model));
+
+            // Isi data dari model PasienModel
+            var diagnosaSakitData = pasienData || []; // Ensure pasienData is initialized
+
+            // Mengisi data labels dan datasets dari diagnosaSakitData
+            diagnosaSakitData.forEach(function (item) {
+                if (item.diagnosa_sakit != null) {
+                    keluhanData.labels.push(item.diagnosa_sakit);
+                    keluhanData.datasets[0].data.push(item.jumlah_diagnosa);
+
+                    // Generate warna acak untuk setiap label
+                    var randomColor = getRandomColor();
+                    keluhanData.datasets[0].backgroundColor.push(randomColor);
+                    keluhanData.datasets[0].hoverBackgroundColor.push(randomColor);
+                }
+            });
+
+            // Options untuk responsif
+            var options = {
+                responsive: true,
+                maintainAspectRatio: false
+            };
+
+            // Mendapatkan elemen canvas
+            var canvas = document.getElementById('keluhanChart').getContext('2d');
+
+            // Membuat chart keluhanChart
+            var keluhanChart = new Chart(canvas, {
+                type: 'pie',
+                data: keluhanData,
+                options: options
+            });
+
+            // Fungsi untuk mendapatkan warna acak
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var pemakaianObatData = {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    backgroundColor: [],
+                    hoverBackgroundColor: []
+                }]
+            };
+
+            // Embedding PasienModel data in a script tag
+            var pasienData = @Html.Raw(Json.Serialize(Model));
+
+            // Isi data dari model PasienModel
+            var pemakaianObatDataItems = pasienData || []; // Ensure pasienData is initialized
+
+            // Mengisi data labels dan datasets dari pemakaianObatData
+            pemakaianObatDataItems.forEach(function (item) {
+                if (item.nama_obat != null) {
+                    pemakaianObatData.labels.push(item.nama_obat);
+                    pemakaianObatData.datasets[0].data.push(item.jumlah_pemakaian_obat);
+
+                    // Generate warna acak untuk setiap label
+                    var randomColor = getRandomColor();
+                    pemakaianObatData.datasets[0].backgroundColor.push(randomColor);
+                    pemakaianObatData.datasets[0].hoverBackgroundColor.push(randomColor);
+                }
+            });
+
+            // Options untuk responsif
+            var options = {
+                responsive: true,
+                maintainAspectRatio: false
+            };
+
+            // Mendapatkan elemen canvas
+            var canvas = document.getElementById('pemakaianObatChart').getContext('2d');
+
+            // Membuat chart pemakaianObatChart
+            var pemakaianObatChart = new Chart(canvas, {
+                type: 'pie',
+                data: pemakaianObatData,
+                options: options
+            });
+
+            // Fungsi untuk mendapatkan warna acak
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var kecelakaanKerjaRujukanData = {
+                labels: ['Kecelakaan Kerja', 'Rujukan'],
+                datasets: [{
+                    data: [], // Menambahkan nilai nol sesuai dengan jumlah label
+                    backgroundColor: ['#FF6384', '#0000FF'], // Warna untuk setiap label
+                    hoverBackgroundColor: ['#FF6384', '#0000FF']
+                }]
+            };
+
+            // Embedding PasienModel data in a script tag
+            var pasienData = @Html.Raw(Json.Serialize(Model));
+
+            // Isi data dari model PasienModel
+            var kecelakaanKerjaRujukanDataItems = pasienData || []; // Ensure pasienData is initialized
+
+            // Mengisi data labels dan datasets dari pemakaianObatData
+            kecelakaanKerjaRujukanDataItems.forEach(function (item) {
+                if (item.jumlah_kecelakaan_kerja != null && item.jumlah_rujukan != null) {
+                    kecelakaanKerjaRujukanData.datasets[0].data.push(item.jumlah_kecelakaan_kerja);
+                    kecelakaanKerjaRujukanData.datasets[0].data.push(item.jumlah_rujukan);
+                }
+            });
+
+            // Options untuk responsif
+            var options = {
+                responsive: true,
+                maintainAspectRatio: false
+            };
+
+            // Mendapatkan elemen canvas
+            var canvas = document.getElementById('kecelakaanKerjaChart').getContext('2d');
+
+            // Membuat chart kecelakaanKerjaChart
+            var kecelakaanKerjaChart = new Chart(canvas, {
+                type: 'pie',
+                data: kecelakaanKerjaRujukanData,
+                options: options
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var prodiDepartemenData = {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    backgroundColor: [],
+                    hoverBackgroundColor: []
+                }]
+            };
+
+            // Embedding PasienModel data in a script tag
+            var pasienData = @Html.Raw(Json.Serialize(Model));
+
+            // Isi data dari model PasienModel
+            var prodiDepartemenItems = pasienData || []; // Ensure pasienData is initialized
+
+            // Mengisi data labels dan datasets dari prodiDepartemenItems
+            prodiDepartemenItems.forEach(function (item) {
+                if (item.nama_prodi_atau_departemen != null && item.jumlah_prodi_atau_departemen != null) {
+                    prodiDepartemenData.labels.push(item.nama_prodi_atau_departemen);
+                    prodiDepartemenData.datasets[0].data.push(item.jumlah_prodi_atau_departemen);
+
+                    // Generate warna acak untuk setiap label
+                    var randomColor = getRandomColor();
+                    prodiDepartemenData.datasets[0].backgroundColor.push(randomColor);
+                    prodiDepartemenData.datasets[0].hoverBackgroundColor.push(randomColor);
+                }
+            });
 
             // Options untuk responsif
             var options = {
@@ -285,99 +469,25 @@
             // Mendapatkan elemen canvas
             var canvas = document.getElementById('prodiDepartemenChart').getContext('2d');
 
-            // Membuat chart pie
+            // Membuat chart prodiDepartemenChart
             var prodiDepartemenChart = new Chart(canvas, {
-                type: 'pie',
+                type: 'bar',
                 data: prodiDepartemenData,
                 options: options
             });
+
+            // Fungsi untuk mendapatkan warna acak
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Data Dummy
-            var keluhanData = {
-                labels: ['Sakit Kepala', 'Pusing', 'Muntah-Muntah'],
-                datasets: [{
-                    data: [2, 1, 1], // Menambahkan nilai nol sesuai dengan jumlah label
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFFF00'], // Warna untuk setiap label
-                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFFF00']
-                }]
-            };
-
-            // Options untuk responsif
-            var options = {
-                responsive: true,
-                maintainAspectRatio: false 
-            };
-
-            // Mendapatkan elemen canvas
-            var canvas = document.getElementById('keluhanChart').getContext('2d');
-
-            // Membuat chart keluhanChart
-            var keluhanChart = new Chart(canvas, {
-                type: 'pie', // Mengganti jenis chart ke bar
-                data: keluhanData,
-                options: options
-            });
-        });
-
-            document.addEventListener('DOMContentLoaded', function () {
-                // Data Dummy
-                var pemakaianObat = {
-                    labels: ['Sanmol', 'Paracetamol', 'Bodrex','Mixagrip','Panadol','Antimo'],
-                    datasets: [{
-                        data: [2, 1, 1,5,9,4], // Menambahkan nilai nol sesuai dengan jumlah label
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFFF00', '#0000FF', '#800080', '#808080'], // Warna untuk setiap label
-                        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFFF00', '#0000FF', '#800080', '#808080']
-                    }]
-                };
-
-                // Options untuk responsif
-                var options = {
-                    responsive: true,
-                    maintainAspectRatio: false
-                };
-
-                // Mendapatkan elemen canvas
-                var canvas = document.getElementById('pemakaianObatChart').getContext('2d');
-
-                // Membuat chart keluhanChart
-                var pemakaianObatChart = new Chart(canvas, {
-                    type: 'bar', // Mengganti jenis chart ke bar
-                    data: pemakaianObat,
-                    options: options
-                });
-            });
-
-    
-            document.addEventListener('DOMContentLoaded', function () {
-                // Data Dummy
-                var kecelakaanKerja = {
-                    labels: ['Iya', 'Tidak'],
-                    datasets: [{
-                        data: [2, 5], // Menambahkan nilai nol sesuai dengan jumlah label
-                        backgroundColor: ['#FF6384', '#0000FF'], // Warna untuk setiap label
-                        hoverBackgroundColor: ['#FF6384', '#0000FF']
-                    }]
-                };
-
-                // Options untuk responsif
-                var options = {
-                    responsive: true,
-                    maintainAspectRatio: false
-                };
-
-                // Mendapatkan elemen canvas
-                var canvas = document.getElementById('kecelakaanKerjaChart').getContext('2d');
-
-                // Membuat chart keluhanChart
-                var kecelakaanKerjaChart = new Chart(canvas, {
-                    type: 'pie', // Mengganti jenis chart ke pie
-                    data: kecelakaanKerja,
-                    options: options
-                });
-            });
-        </script>
+    </script>
 
       
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
