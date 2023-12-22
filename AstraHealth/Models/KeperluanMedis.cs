@@ -73,12 +73,11 @@ namespace AstraHealth.Models
                 keperluanMedisModel.kpm_id = Convert.ToInt32(reader["kpm_id"].ToString());
                 keperluanMedisModel.kpm_nama_barang = reader["kpm_nama_barang"].ToString();
                 keperluanMedisModel.kpm_jumlah = Convert.ToInt32(reader["kpm_jumlah"].ToString());
-                keperluanMedisModel.kpm_tanggal_pengajuan = Convert.ToDateTime(reader["kpm_tanggal_pengajuan"].ToString());
-                keperluanMedisModel.kpm_tanggal_aksi = Convert.ToDateTime(reader["kpm_tanggal_aksi"].ToString());
-                keperluanMedisModel.kpm_status = reader["kpm_status"].ToString();
-                keperluanMedisModel.kpm_catatan = reader["kpm_catatan"].ToString();
-                keperluanMedisModel.kpm_id_admin = reader["kpm_id_admin"].ToString();
                 keperluanMedisModel.kpm_satuan = reader["kpm_satuan"].ToString();
+                keperluanMedisModel.kpm_tanggal_pengajuan = Convert.ToDateTime(reader["kpm_tanggal_pengajuan"]);
+                keperluanMedisModel.kpm_status = reader["kpm_status"].ToString();
+                keperluanMedisModel.kpm_id_admin = reader["kpm_id_admin"].ToString();
+                keperluanMedisModel.kpm_id_manajer = reader["kpm_id_manajer"].ToString();
                 reader.Close();
                 _connection.Close();
             }

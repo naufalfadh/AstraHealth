@@ -123,7 +123,6 @@
                             <div class="form-group row">
                                 <div class="col-sm-9">
                                     <div class="form-check">
-                                        <input asp-for="anm_kecelakaan_kerja" type="hidden" value="false" />
                                         <input id="anm_kecelakaan_kerja_checkbox" name="anm_kecelakaan_kerja_checkbox" type="checkbox" class="form-check-input" />
                                         <label class="form-check-label" for="anm_kecelakaan_kerja_checkbox">Kecelakaan Kerja</label>
                                     </div>
@@ -177,7 +176,7 @@
                            </tbody>
                         </table>
                     </div>
-                    <button type="submit" name="submitButton" value="submit" class="btn btn-primary mr-2 submit-button">Tambah</button>
+                    <button type="submit" name="submitButton" value="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
                     <button type="submit" name="submitButton" value="rujukan" class="btn btn-primary mr-2 rujukan-button">Rujukan</button>
                     <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Kembali</a>
                 </form>
@@ -303,6 +302,9 @@
         function validateForm() {
             // Ganti dengan nama kolom yang sesuai
             var requiredFields = ["anm_id_pasien", "anm_nama_pasien", "anm_prodi_atau_departemen", "anm_keluhan", "anm_diagnosa", "anm_prodi_atau_departemen"];
+    
+            // Array untuk menyimpan pesan kesalahan obat
+            var obatErrors = [];
 
             for (var i = 0; i < requiredFields.length; i++) {
                 var field = requiredFields[i];
@@ -312,6 +314,25 @@
                     return false;
                 }
             }
+
+            // Validasi obat
+            var obatRows = $("#tblPemakaianObat tbody tr");
+            obatRows.each(function(index, row) {
+                var namaObat = $(row).find("input[name$='pmo_nama_obat']").val();
+                var jumlah = $(row).find("input[name$='pmo_jumlah']").val();
+                var satuan = $(row).find("select[name$='pmo_satuan']").val();
+
+                if (!namaObat || !jumlah || !satuan) {
+                    obatErrors.push("Isi data obat dengan lengkap pada baris " + (index + 1));
+                }
+            });
+
+            // Menampilkan pesan kesalahan obat jika ada
+            if (obatErrors.length > 0) {
+                Swal.fire("Gagal!", obatErrors.join("<br>"), "warning");
+                return false;
+            }
+
             return true;
         }
     });

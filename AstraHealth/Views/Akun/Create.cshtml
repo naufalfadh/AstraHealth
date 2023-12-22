@@ -73,7 +73,7 @@
                     <div class="form-group">
                         <input asp-for="akn_status" type="text" class="form-control input-with-border" placeholder="Status" value="aktif" hidden>
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2">Simpan</button>
+                    <button type="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
                     <a asp-controller="Akun" asp-action="Index" class="btn btn-light">Kembali</a>
                 </form>
             </div>
@@ -87,4 +87,26 @@
         input.attr('type', type);
         $(button).find('i').toggleClass('fa-eye fa-eye-slash');
     }
+
+    $(document).ready(function () {
+        $(".submit-button").click(function (e) {
+            if (!validateForm()) {
+                e.preventDefault();
+            }
+        });
+
+        function validateForm() {
+            // Ganti dengan nama kolom yang sesuai
+            var requiredFields = ["akn_id", "akn_nama", "akn_password", "akn_role"];
+
+            for (var i = 0; i < requiredFields.length; i++) {
+                var field = requiredFields[i];
+                var value = $("#" + field).val();
+                if (!value) {
+                    Swal.fire("Gagal!", "Isi data dengan lengkap!", "warning");
+                    return false;
+                }
+            }
+        }
+    });
 </script>

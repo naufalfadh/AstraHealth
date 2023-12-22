@@ -81,7 +81,7 @@
                         </tbody>
                     </table>
                 </div>
-                <button type="submit" class="btn btn-primary mr-2">Simpan</button>
+                <button type="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
                 <a asp-controller="KeperluanMedis" asp-action="Index" class="btn btn-light">Kembali</a>
             </form>
         </div>
@@ -130,6 +130,42 @@
         $("#tblKeperluanMedis").on("click", ".btnHapusBaris", function () {
             $(this).closest("tr").remove();
         });
+
+        $(".submit-button").click(function (e) {
+            if (!validateForm()) {
+                e.preventDefault();
+            }
+        });
+
+        function validateForm() {
+            // Ganti dengan nama kolom yang sesuai
+            var requiredFields = ["anm_id_pasien", "anm_nama_pasien", "anm_prodi_atau_departemen", "anm_keluhan", "anm_diagnosa", "anm_prodi_atau_departemen"];
+
+            for (var i = 0; i < requiredFields.length; i++) {
+                var field = requiredFields[i];
+                var value = $("#" + field).val();
+                if (!value) {
+                    Swal.fire("Gagal!", "Isi data dengan lengkap!", "warning");
+                    return false;
+                }
+            }
+
+            // Validasi input nama barang, jumlah, dan satuan
+            var obatRows = $("#tblKeperluanMedis tbody tr");
+            obatRows.each(function (index, row) {
+                var namaBarang = $(row).find("input[name$='kpm_nama_barang']").val();
+                var jumlah = $(row).find("input[name$='kpm_jumlah']").val();
+                var satuan = $(row).find("select[name$='kpm_satuan']").val();
+
+                if (!namaBarang || !jumlah || !satuan) {
+                    Swal.fire("Gagal!", "Isi data keperluan alat medis dengan lengkap pada baris " + (index + 1), "warning");
+                    return false;
+                }
+            });
+
+            return true;
+        }
+
     });
 </script>
 

@@ -107,10 +107,10 @@
 
                                     @if (obat.kpm_catatan == null)
                                     {
-                                        <td>@obat.kpm_catatan</td>
+                                        <td>-</td>
                                     } else
                                     {
-                                        <td>-</td>
+                                        <td>@obat.kpm_catatan</td>
                                     }
                                     
                                     @if (httpContext.Session.GetString("Role") == "manajer" && obat.kpm_status == "menunggu konfirmasi")
@@ -123,7 +123,7 @@
                                                 <button class="btn btn-sm btn-danger reject-button" data-id="@obat.kpm_id">
                                                     <i class="fas fa-times-circle"></i>
                                                 </button>
-                                                <a asp-controller="obat" asp-action="Edit" asp-route-id="@obat.kpm_id" class="btn btn-sm btn-primary btn-info-modal">
+                                                <a asp-controller="keperluanMedis" asp-action="Edit" asp-route-id="@obat.kpm_id" class="btn btn-sm btn-primary btn-info-modal">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                             </div>
