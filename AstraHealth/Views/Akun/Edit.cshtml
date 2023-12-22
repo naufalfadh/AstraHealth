@@ -10,6 +10,7 @@
     .card {
         padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-top : 80px;
     }
 
     .card-body {
@@ -23,10 +24,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Edit Akun</h4>
-                    </div>
+                 
                     <div class="card-body">
+                        <div class="pagetitle">
+                            <nav>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">Akun</li>
+                                    <li class="breadcrumb-item active">Edit Akun</li>
+                                </ol>
+                            </nav>
+                        </div>
                         <form method="post" asp-controller="Akun" asp-action="Edit">
                             <div class="form-group">
                                 <label asp-for="akn_id" class="control-label">NPK</label>

@@ -55,10 +55,7 @@ namespace AstraHealth.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (bool.TryParse(Request.Form["anm_kecelakaan_kerja_checkbox"], out bool kecelakaanKerjaCheckboxValue))
-                {
-                    pasienModel.anm_kecelakaan_kerja = kecelakaanKerjaCheckboxValue ? 1 : 0;
-                }
+                pasienModel.anm_kecelakaan_kerja = Request.Form["anm_kecelakaan_kerja_checkbox"] == "on" ? 1 : 0;
                 pasienModel.anm_id = _pasienRepository.getAnamnesaId();
 
                 if (pasienModel.PemakaianObats != null && pasienModel.PemakaianObats.Count > 0)

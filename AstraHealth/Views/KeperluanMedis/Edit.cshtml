@@ -18,15 +18,25 @@
         border-radius: 8px; /* Bordes sudut */
     }
 </style>
+
+
 <div class="content">
     <div class="contrainer-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Edit Keperluan Alat Medis</h4>
+                       
                     </div>
                     <div class="card-body">
+                        <div class="pagetitle">
+                            <nav>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">Keperluan Alat Medis</li>
+                                    <li class="breadcrumb-item active">Edit Keperluan Alat Medis</li>
+                                </ol>
+                            </nav>
+                        </div>
                         <form method="post" asp-controller="KeperluanMedis" asp-action="Edit">
                             <div class="form-group">
                                 <input asp-for="kpm_id" class="form-control" hidden />
