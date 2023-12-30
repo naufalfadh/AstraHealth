@@ -6,36 +6,61 @@
 @{
     var httpContext = ViewContext.HttpContext;
 }
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.0/html2pdf.bundle.min.js"></script>
 
-<style>
-    body {
-        padding-top: 100px; /* Atur spasi sesuai kebutuhan */
-    }
+    <style>
+        body {
+            padding-top: 100px; /* Atur spasi sesuai kebutuhan */
+        }
 
-    .input-with-border {
-        border: 10px solid #ddd; /* Warna dan ketebalan garis tepi */
-        border-radius: 4px; /* Bordes sudut */
-    }
+        .input-with-border {
+            border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
+            border-radius: 4px; /* Bordes sudut */
+        }
 
-    .card {
-        
-        padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
-        padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
-    }
+        .card {
+            padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+            padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        }
 
-    .card-body {
-       
-        padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
-        border-radius: 8px; /* Bordes sudut */
-    }
-    .form-check{
-        margin-left:40px;
-    }
-</style>
+        .card-body {
+            background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
+            padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+            border-radius: 8px; /* Bordes sudut */
+        }
 
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .title-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1; /* Mengisi sisa ruang yang tersedia */
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            width: 96px;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+        }
+    </style>
+
+
+</head>
 
 <body>
-    <div class="col-12 grid-margin ">
+    <div class="col-12 grid-margin">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Anamnesa Pasien</h4>
@@ -122,13 +147,11 @@
                         <div class="col-md-6">
                             <div class="form-group row">
                                 <div class="col-sm-9">
-                                    <div class="form-check">
-                                        <input id="anm_kecelakaan_kerja_checkbox" name="anm_kecelakaan_kerja_checkbox" type="checkbox" class="form-check-input" />
-                                        <label class="form-check-label" for="anm_kecelakaan_kerja_checkbox">Kecelakaan Kerja</label>
-                                    </div>
+                                    <input asp-for="anm_kecelakaan_kerja" type="hidden" value="0" />
+                                    <input id="anm_kecelakaan_kerja_checkbox" name="anm_kecelakaan_kerja_checkbox" type="checkbox" class="col-sm-3 col-form-label form-check-input" />
+                                    <label for="anm_kecelakaan_kerja_checkbox" class="col-sm-3 col-form-label">Kecelakaan Kerja</label>
                                     <span asp-validation-for="anm_kecelakaan_kerja" class="text-danger"></span>
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -176,9 +199,9 @@
                            </tbody>
                         </table>
                     </div>
-                    <button type="submit" name="submitButton" value="submit" class="btn btn-primary mr-2 submit-button">Tambah</button>
+                    <button type="submit" name="submitButton" value="submit" class="btn btn-primary mr-2 submit-button">Submit</button>
                     <button type="submit" name="submitButton" value="rujukan" class="btn btn-primary mr-2 rujukan-button">Rujukan</button>
-                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Kembali</a>
+                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Cancel</a>
                 </form>
             </div>
         </div>
@@ -188,20 +211,41 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title modal-lg d-flex justify-content-center align-items-center">Laporan Diagnosa Sakit</h2>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="parentDiv">
-                    <!-- Tabel Modal -->
-                    <table class="table datatable" id="myTable">
-                        <thead style="background-color: #37003C; color: white;">
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                <div id="parentDiv">
+                    <div class="modal-header">
+                        <div class="logo-container">
+                            <img src="~/content/images/IMG_Logo.png" alt="logo" />
+                        </div>
+                        <div class="title-wrapper">
+                            <h3 class="modal-title modal-lg" style="color: black;">SURAT KETERANGAN</h3>
+                            <h3 class="modal-title modal-lg" style="color: black;">PEMERIKSAAN KESEHATAAN PASIEN</h3>
+                        </div>
+                        <div class="logo-container">
+                            <img src="~/content/images/IMG_Logo.png" alt="logo" />
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <p style="color: black;">Nama: </p>
+                        <p style="color: black;">Dept/Prodi/UPT: </p>
+                        <p style="color: black;">NRP/NIM: </p>
+                        <br>
+                        <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
+                        <p style="color: black;">Mengalami gejala</p>
+                        <br>
+                        <br>
+                        <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
+                        <p style="color: black;">Selama (Satu) Hari</p>
+                        <br>
+                        <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
+                        <div class="tanggal-surat-wrapper">
+                            <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: [Tanggal]</p>
+                        </div>
+                        <br>
+                        <div class="logo-container">
+                            <img src="~/content/images/Tanda_tangan.jpg" alt="logo" />
+                        </div>
+                        <p style="color: black;">Dina Yuliana Amd.Keb</p>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -215,6 +259,61 @@
 </body>
 
 <script>
+    $("#printPdf").click(function () {
+        var element = document.getElementById('parentDiv');
+
+        // Mendapatkan nilai dari field-field yang ada di form
+        var namaPasien = $("input[name='anm_nama_pasien']").val() || '';
+        var prodiDepartemen = $("select[name='anm_prodi_atau_departemen'] option:selected").text() || '';
+        var idPasien = $("input[name='anm_id_pasien']").val() || '';
+        var diagnosa = $("textarea[name='anm_diagnosa']").val() || '';
+
+        // Mendapatkan tanggal saat ini dan formatnya ke "dd/MMM/yyyy"
+        var today = new Date();
+        var options = { day: '2-digit', month: 'short', year: 'numeric' };
+        var tanggalSurat = today.toLocaleDateString('id-ID', options); // Format tanggal
+
+        document.getElementById('tanggalSurat').textContent = "Cikarang: " + tanggalSurat;
+
+        // Generate teks untuk dimasukkan ke dalam modal-body
+        var modalText = `<p style="color: black;">Nama:      ${namaPasien}</p>
+                        <p style="color: black;">Dept/Prodi/UPT:     ${prodiDepartemen}</p>
+                        <p style="color: black;">NRP/NIM:     ${idPasien}</p>
+                        <br>
+                        <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
+                            <p style="color: black;">Mengalami gejala ${diagnosa}</p>
+                        <br>
+                        <br>
+                        <br>
+                        <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
+                        <p style="color: black;">Selama (Satu) Hari</p>
+                        <br>
+                        <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
+                        <div class="tanggal-surat-wrapper">
+                            <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: ${tanggalSurat}</p>
+                        </div>
+                        <br>
+                        <div class="logo-container">
+                            <img src="~/content/images/Tanda_tangan.jpg" alt="logo" />
+                        </div>
+                        <p style="color: black;">Dina Yuliana Amd.Keb</p>`;
+
+        // Mengganti isi dari modal-body dengan teks yang telah disiapkan
+        $('.modal-body').html(modalText);
+
+        //generate pdf
+        html2pdf()
+            .from(element)
+            .set({
+                margin: [5, 10], // Atur margin kiri dan atas (dalam satuan milimeter)
+                filename: 'surat keterangan sakit pasien.pdf',
+                html2canvas: { scale: 1 },
+                jsPDF: { format: 'a4' }
+            })
+            .save();
+    });
+
+
     $(document).ready(function () {
         var index = 0;
 
@@ -316,15 +415,5 @@
     });
 
 
-    $("#printPdf").click(function () {
-        var element = document.getElementById('parentDiv');
 
-        //generate pdf
-        html2pdf().from(element).set({
-            margin: [30, 10, 5, 10],
-            pagebreak: { avoid: 'tr' },
-            jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
-        }).save()
-
-    });
 </script>

@@ -118,7 +118,7 @@
                             <thead style="background-color: #37003C; color: white;">
                                 <div class="surat-info">
                                     <div class="nomor-surat-wrapper">
-                                        <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Nomor Surat: [Nomor Surat]</p>
+                                        <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Lampiran: [Lampiran]</p>
                                     </div>
                                     <div class="tanggal-surat-wrapper">
                                         <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
@@ -193,9 +193,10 @@
 
         //generate pdf
         html2pdf().from(element).set({
-            margin: [30, 10, 5, 10],
-            pagebreak: { avoid: 'tr' },
-            jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+            margin: 5,
+            filename: 'laporan kecelakaan kerja dan rujukan.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: { format: 'a4' }
         }).save();
     });
 
