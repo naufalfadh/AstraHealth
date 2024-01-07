@@ -14,84 +14,89 @@
        
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
   
-
     <style>
-
-        body {
-            padding-top: 60px; 
-        }
-
-        .row {/* 
-            background-image: url('content/images/IMG_Background.jpg'); */
-            background-color:white;
-            padding-left: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
-            padding-right: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
-        }
-
     table {
         border-collapse: collapse;
         width: 100%;
     }
-
     td {
         border: 3px solid #ddd;
         padding: 8px;
         text-align: left;
-     
     }
-   
     </style>
 
 </head>
 <body>
-    <div id="bannerCarousel" class="carousel slide" data-ride="carousel" >
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="~/content/images/Banner.png" alt="First slide">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="~/content/images/Banner2.jpg" alt="Second slide">
-            </div>
-       
-        </div>
-        <a class="carousel-control-prev" href="#bannerCarousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#bannerCarousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="bannerCarousel" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active">
+                                            <img class="d-block w-100" src="~/content/images/Banner.png" alt="First slide">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img class="d-block w-100" src="~/content/images/Banner2.jpg" alt="Second slide">
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#bannerCarousel" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#bannerCarousel" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
 
-    <div class="row">
-
-        <div class="row">
-            <div class="col-lg-4" style="text-align: center; padding: 40px 0px;">
-                <img src="~/content/images/IMG_LogoTransformationInHarmony.png" class="wow fadeInUp fast" style="width: 60%; visibility: visible; animation-name: fadeInUp; animation-iteration-count: 1;">
-            </div>
-            <div class="col-lg-4" style="text-align: center; padding: 40px 0px;">
-                <img src="~/content/images/IMG_LogoKampusMerdeka.png" class="wow fadeInUp fast" style="width: 30%; visibility: visible; animation-name: fadeInUp; animation-iteration-count: 1;">
-            </div>
-            <div class="col-lg-4" style="text-align: center; padding: 40px 0px;">
-                <img src="~/content/images/IMG_LogoSatuIndonesia.png" class="wow fadeInUp fast" style="width: 40%; visibility: visible; animation-name: fadeInUp; animation-iteration-count: 1;">
-            </div>
-        </div>
-
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="row">
-                <div class="col-sm-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
-                                <div>
-                                    <h4 class="card-title mb-1">Pasien baru baru ini</h4>
+                                <div class="row">
+                                    <div class="col-lg-4" style="text-align: center; padding: 40px 0px;">
+                                        <img src="~/content/images/IMG_LogoTransformationInHarmony.png" class="wow fadeInUp fast" style="width: 60%; visibility: visible; animation-name: fadeInUp; animation-iteration-count: 1;">
+                                    </div>
+                                    <div class="col-lg-4" style="text-align: center; padding: 40px 0px;">
+                                        <img src="~/content/images/IMG_LogoKampusMerdeka.png" class="wow fadeInUp fast" style="width: 30%; visibility: visible; animation-name: fadeInUp; animation-iteration-count: 1;">
+                                    </div>
+                                    <div class="col-lg-4" style="text-align: center; padding: 40px 0px;">
+                                        <img src="~/content/images/IMG_LogoSatuIndonesia.png" class="wow fadeInUp fast" style="width: 40%; visibility: visible; animation-name: fadeInUp; animation-iteration-count: 1;">
+                                    </div>
                                 </div>
                             </div>
-
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h4 class="card-title mb-0">Register terbaru</h4>
+                                    <div class="dropdown">
+                                        <a href="#" class="text-success btn btn-link  px-1"><i class="mdi mdi-refresh"></i></a>
+                                        <a href="#" class="text-success btn btn-link px-1 dropdown-toggle dropdown-arrow-none" data-bs-toggle="dropdown" id="profileDropdownvisittoday"><i class="mdi mdi-dots-horizontal"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdownvisittoday">
+                                            <a class="dropdown-item">
+                                                <i class="mdi mdi-grease-pencil text-primary"></i>
+                                                Edit
+                                            </a>
+                                            <a class="dropdown-item">
+                                                <i class="mdi mdi-delete text-primary"></i>
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive pt-3">
+                                    <table class="table datatable table-bordered" id="myTable" ">
                                         <thead>
                                             <tr>
                                                 <th scope="col">NIM atau NPK</th>
@@ -115,384 +120,501 @@
                                         </tbody>
                                     </table>
                                 </div>
-
-
-                            <hr /> <!-- Garis pemisah antara tabel dan chart -->
-
-                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
-                                <div>
-                                    <h4 class="card-title mb-1">Program Studi dan Departemen dengan Sakit Terbanyak</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-8 flex-column d-flex stretch-card">
+                        <div class="col-sm-12 grid-margin d-flex stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h4 class="card-title">Kunjungan Program Studi dan Departemen</h4>
+                                    </div>
+                                    <div class="d-flex align-items-end">
+                                        <label for="dari" class="col-sm-2">Dari : </label>
+                                        <label for="sampai" class="col-sm-2">Sampai : </label>
+                                    </div>
+                                    <div class="d-flex align-items-end">
+                                        <input type="date" id="prodiDepartemenDari" class="form-control-sm col-sm-2" />
+                                        <input type="date" id="prodiDepartemenSampai" class="form-control-sm col-sm-2" />
+                                    </div>
+                                    <hr />
+                                    <div id="prodi atau departemen chart">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="chart-container">
-                                <canvas id="prodiDepartemenChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 flex-column d-flex stretch-card">
+                        <div class="row flex-grow">
+                            <div class="col-sm-12 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <h4 class="card-title">Kecelakaan Kerja dan Rujukan</h4>
+                                                </div>
+                                                <div class="d-flex align-items-end">
+                                                    <label for="dari" class="col-sm-3">Dari : </label>
+                                                    <label for="sampai" class="col-sm-3">Sampai : </label>
+                                                </div>
+                                                <div class="d-flex align-items-end">
+                                                    <input type="date" id="kecelakaanRujukanDari" class="form-control-sm col-sm-3" />
+                                                    <input type="date" id="kecelakaanRujukanSampai" class="form-control-sm col-sm-3" />
+                                                </div>
+                                                <hr />
+                                                <div id="Kecelakaan Kerja dan Rujukan"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h4 class="card-title">Diagnosa Terbanyak</h4>
+                                </div>
+                                <div class="d-flex align-items-end">
+                                    <label for="dari" class="col-sm-2">Dari : </label>
+                                    <label for="sampai" class="col-sm-2">Sampai : </label>
+                                </div>
+                                <div class="d-flex align-items-end">
+                                    <input type="date" id="diagnosaDari" class="form-control-sm col-sm-2" />
+                                    <input type="date" id="diagnosaSampai" class="form-control-sm col-sm-2" />
+                                </div>
+                                <hr />
+                                <div id="Diagnosa Sakit"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h4 class="card-title">Pemakaian Obat</h4>
+                                </div>
+                                <div class="d-flex align-items-end">
+                                    <label for="dari" class="col-sm-2">Dari : </label>
+                                    <label for="sampai" class="col-sm-2">Sampai : </label>
+                                </div>
+                                <div class="d-flex align-items-end">
+                                    <input type="date" id="obatDari" class="form-control-sm col-sm-2" />
+                                    <input type="date" id="obatSampai" class="form-control-sm col-sm-2" />
+                                </div>
+                                <hr />
+                                <div id="Pemakaian Obat"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <!-- Added "modal-lg" class for a larger modal -->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2>
+                                        <strong class="modal-title" id="exampleModalLabel">Jadwal Operasional</strong>
+                                    </h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>
+                                        <strong>
+                                            Informasi UKK
+                                        </strong>
+                                    </h4>
+                                    <p>Unit Kesehatan Kampus bertujuan untuk memberikan layanan kesehatan kepada mahasiswa dan karyawan. Berikut adalah beberapa informasi penting:</p>
+                                    <ul>
+                                        <li>Layanan kesehatan: Unit Kesehatan Kampus menyediakan layanan kesehatan umum, pemeriksaan kesehatan berkala, serta penanganan awal dalam keadaan darurat.</li>
+                                        <li>Jadwal operasional: Unit Kesehatan Kampus beroperasi sesuai dengan jadwal yang ditentukan untuk memastikan ketersediaan layanan kesehatan yang optimal.</li>
+                                    </ul>
+                                    <br>
+                                    <h4>
+                                        <strong>
+                                            Jadwal Operasional :
+                                            <br>
+                                            <br>
+                                            <img src="~/content/images/JadwalOperasional.jpeg" />
+                                        </strong>
+                                    </h4>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align: center;">
+                            <h3 style="font-weight: bold;">
+                                Unit Kesehatan Kampus<br>
+                                Politeknik Astra Cikarang
+                            </h3>
+                            <h5><i>"Bekerja sama dengan Rumah Sakit EMC Cikarang yang dapat membantu Civitas Politeknik Astra"</i></h5>
+                            <br>
+                        </div>
+                        <div class="col-lg-4 mb-4 mx-auto">
+                            <div class="card card-cascade wider wow fadeIn fast" style="visibility: visible; animation-name: fadeIn; animation-iteration-count: 1;">
+                                <div class="view view-cascade overlay">
+                                    <img class="card-img-top" src="~/content/images/rs.png" alt="Rumah Sakit EMC Cikarang">
+                                    <a href="https://www.polytechnic.astra.ac.id/pembuatan-peralatan-perkakas-produksi/" target="_blank">
+                                        <div class="mask rgba-white-slight waves-effect waves-light"></div>
+                                    </a>
+                                </div>
+                                <div class="card-body card-body-cascade text-center">
+                                    <h4 class="card-title"><strong>Rumah Sakit EMC Cikarang</strong></h4>
+                                    <p class="card-text" style="margin-bottom: 5px !important;">
+                                        <i>"Alamat: Komplek The Oasis, Komplek The Oasis Kav Jl. Raya Cikarang - Cibarusah No.1 Kav. I, Selatan, Sukaresmi, Cikarang Sel., Kabupaten Bekasi, Jawa Barat 17530"</i>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-        <div class="col-lg-4">
-            <div class="row">
-                <div class="col-sm-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
-                                <div>
-                                    <h4 class="card-title mb-1">Diagnosa Sakit Terbanyak</h4>
-                                </div>
-                            </div>
-                            <div class="chart-container">
-                                <!-- Canvas untuk Prodi dan Departemen Chart -->
-                                <canvas id="keluhanChart"></canvas>
-                            </div>
-                            <hr /> <!-- Garis pemisah antara chart -->
-                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
-                                <div>
-                                    <h4 class="card-title mb-1">Pemakaian Obat</h4>
-                                </div>
-                            </div>
-                            <div class="chart-container">
-                                <!-- Canvas untuk Kecelakaan Kerja Chart -->
-                                    <canvas id="pemakaianObatChart"></canvas>
-                            </div>
-                            <hr /> <!-- Garis pemisah antara chart -->
-                            <div class="d-sm-flex align-items-start justify-content-between mb-4">
-                                <div>
-                                    <h4 class="card-title mb-1">Kecelakaan Kerja dan Rujukan</h4>
-                                </div>
-                            </div>
-                            <div class="chart-container">
-                                <!-- Canvas untuk Keluhan Chart -->
-                                    <canvas id="kecelakaanKerjaChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <br>
-            <div class="row justify-content-center" style="margin: 0;">
-                <div class="col-lg-12" style="text-align: center;">
-                    <h3 style="font-weight: bold;">Jadwal Operasional</h3>
-                    <h5><i>"Mahasiswa/wi dan karyawan dapat melihat Jam Operasional berikut ini"</i></h5>
-                    <br>
-                </div>
-                <div class="col-lg-4 mb-3 wow fadeIn fast" style="visibility: visible; animation-name: fadeIn; animation-iteration-count: 1;">
-                    <div class="card-wrapper">
-                        <div id="card-0" class="card text-center flipped">
-                            <div>
-                                <div class="card-up" style="background-color: #0059AB; height: auto; padding: 20px; font-size: 25px; color: white; font-weight: bold;">
-                                    Jadwal Operasional
-                                </div>
-                                <br>
-                                <!-- Tombol untuk memunculkan modal -->
-                                <button class="btn btn-primary" style="background-color: #0059AB;" data-toggle="modal" data-target="#myModal">
-                                    Selengkapnya
-                                    <i class="fas fa-arrow-right"></i>
-                                </button>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
-
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <!-- Added "modal-lg" class for a larger modal -->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>
-                            <strong class="modal-title" id="exampleModalLabel">Jadwal Operasional</strong>
-                        </h2>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h4>
-                            <strong>
-                                Informasi UKK
-                            </strong>
-                        </h4>
-                        <p>Unit Kesehatan Kampus bertujuan untuk memberikan layanan kesehatan kepada mahasiswa dan karyawan. Berikut adalah beberapa informasi penting:</p>
-                        <ul>
-                            <li>Layanan kesehatan: Unit Kesehatan Kampus menyediakan layanan kesehatan umum, pemeriksaan kesehatan berkala, serta penanganan awal dalam keadaan darurat.</li>
-                            <li>Jadwal operasional: Unit Kesehatan Kampus beroperasi sesuai dengan jadwal yang ditentukan untuk memastikan ketersediaan layanan kesehatan yang optimal.</li>
-                        </ul>
-                        <br>
-                        <h4>
-                            <strong>
-                                Jadwal Operasional :
-                                <br>
-                                <br>
-                                <img src="~/content/images/JadwalOperasional.jpeg" />
-                            </strong>
-                        </h4>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-lg-12" style="text-align: center;">
-        <h3 style="font-weight: bold;">
-           Unit Kesehatan Kampus<br>
-            Politeknik Astra Cikarang
-        </h3>
-        <h5><i>"Bekerja sama dengan Rumah Sakit EMC Cikarang yang dapat membantu Civitas Politeknik Astra"</i></h5>
-        <br>
-    </div>
-        <div class="col-lg-4 mb-4 mx-auto">
-            <div class="card card-cascade wider wow fadeIn fast" style="visibility: visible; animation-name: fadeIn; animation-iteration-count: 1;">
-                <div class="view view-cascade overlay">
-                    <img class="card-img-top" src="~/content/images/rs.png" alt="Rumah Sakit EMC Cikarang">
-                    <a href="https://www.polytechnic.astra.ac.id/pembuatan-peralatan-perkakas-produksi/" target="_blank">
-                        <div class="mask rgba-white-slight waves-effect waves-light"></div>
-                    </a>
-                </div>
-                <div class="card-body card-body-cascade text-center">
-                    <h4 class="card-title"><strong>Rumah Sakit EMC Cikarang</strong></h4>
-                    <p class="card-text" style="margin-bottom: 5px !important;">
-                        <i>"Alamat: Komplek The Oasis, Komplek The Oasis Kav Jl. Raya Cikarang - Cibarusah No.1 Kav. I, Selatan, Sukaresmi, Cikarang Sel., Kabupaten Bekasi, Jawa Barat 17530"</i>
-                    </p>
-                </div>
-            </div>
-        </div>
-
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var keluhanData = {
-                labels: [],
-                datasets: [{
-                    data: [],
-                    backgroundColor: [],
-                    hoverBackgroundColor: []
-                }]
-            };
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
 
-            // Embedding PasienModel data in a script tag
-            var pasienData = @Html.Raw(Json.Serialize(Model));
+        //set date
+        // Fungsi untuk mengatur tanggal pertama bulan ini
+        function setFirstDayOfMonth(inputId) {
+            var input = document.getElementById(inputId);
+            var currentDate = new Date();
+            var firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            input.value = formatDate(firstDayOfMonth);
+        }
 
-            // Isi data dari model PasienModel
-            var diagnosaSakitData = pasienData || []; // Ensure pasienData is initialized
+        // Fungsi untuk mengatur tanggal terakhir bulan ini
+        function setLastDayOfMonth(inputId) {
+            var input = document.getElementById(inputId);
+            var currentDate = new Date();
+            var lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+            input.value = formatDate(lastDayOfMonth);
+        }
 
-            // Mengisi data labels dan datasets dari diagnosaSakitData
-            diagnosaSakitData.forEach(function (item) {
-                if (item.diagnosa_sakit != null) {
-                    keluhanData.labels.push(item.diagnosa_sakit);
-                    keluhanData.datasets[0].data.push(item.jumlah_diagnosa);
+        // Fungsi untuk mengubah format tanggal menjadi 'yyyy-MM-dd'
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
 
-                    // Generate warna acak untuk setiap label
-                    var randomColor = getRandomColor();
-                    keluhanData.datasets[0].backgroundColor.push(randomColor);
-                    keluhanData.datasets[0].hoverBackgroundColor.push(randomColor);
+        // Memanggil fungsi untuk mengatur nilai input
+        setFirstDayOfMonth('prodiDepartemenDari');
+        setLastDayOfMonth('prodiDepartemenSampai');
+
+        setFirstDayOfMonth('kecelakaanRujukanDari');
+        setLastDayOfMonth('kecelakaanRujukanSampai');
+
+        setFirstDayOfMonth('diagnosaDari');
+        setLastDayOfMonth('diagnosaSampai');
+
+        setFirstDayOfMonth('obatDari');
+        setLastDayOfMonth('obatSampai');
+        //end set date
+
+        // Embedding PasienModel data in a script tag
+        var pasienData = @Html.Raw(Json.Serialize(Model));
+
+        // Isi data dari model PasienModel
+        var PasienDataItems = pasienData || []; // Ensure pasienData is initialized
+
+    //kecelakaan kerja chart
+        var kecelakaanKerjaRujukanData = [];
+
+        var kecelakaanKerjaRujukanData = PasienDataItems.reduce(function (acc, item) {
+            if (item.jumlah_kecelakaan_kerja != null && item.jumlah_rujukan != null) {
+                acc.push({
+                    name: item.jumlah_kecelakaan_kerja > 0 ? 'Kecelakaan Kerja' : '',
+                    y: item.jumlah_kecelakaan_kerja,
+                    drilldown: 'Kecelakaan Kerja'
+                });
+                acc.push({
+                    name: item.jumlah_rujukan > 0 ? 'Rujukan Rumah Sakit' : '',
+                    y: item.jumlah_rujukan,
+                    drilldown: 'Rujukan Rumah Sakit'
+                });
+            }
+            return acc;
+        }, []);
+
+        Highcharts.chart('Kecelakaan Kerja dan Rujukan', {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: '',
+                align: 'left'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                },
+            },
+
+            plotOptions: {
+                series: {
+                    borderRadius: 5,
+                    dataLabels: [{
+                        enabled: true,
+                        distance: 15,
+                        format: '{point.name}'
+                    }, {
+                        enabled: true,
+                        distance: '-30%',
+                        filter: {
+                            property: 'percentage',
+                            operator: '>',
+                            value: 5
+                        },
+                        format: '{point.y}',
+                        style: {
+                            fontSize: '0.9em',
+                            textOutline: 'none'
+                        }
+                    }]
                 }
-            });
+            },
 
-            // Options untuk responsif
-            var options = {
-                responsive: true,
-                maintainAspectRatio: false
-            };
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> of total<br/>'
+            },
 
-            // Mendapatkan elemen canvas
-            var canvas = document.getElementById('keluhanChart').getContext('2d');
-
-            // Membuat chart keluhanChart
-            var keluhanChart = new Chart(canvas, {
-                type: 'pie',
-                data: keluhanData,
-                options: options
-            });
-
-            // Fungsi untuk mendapatkan warna acak
-            function getRandomColor() {
-                var letters = '0123456789ABCDEF';
-                var color = '#';
-                for (var i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
+            series: [
+                {
+                    name: 'Kecelakaan Kerjaa dan Rujukan',
+                    colorByPoint: true,
+                    data: kecelakaanKerjaRujukanData
                 }
-                return color;
+            ]
+        });
+    //end kecelakaan kerja chart
+
+    //diagnosa sakit chart
+        var diagnosaSakitData = [];
+
+        // Mengisi data labels dan datasets dari diagnosaSakitData
+        PasienDataItems.forEach(function (item) {
+            if (item.diagnosa_sakit != null && item.jumlah_diagnosa != null) {
+                diagnosaSakitData.push({
+                    name: item.diagnosa_sakit,
+                    y: item.jumlah_diagnosa,
+                    drilldown: item.diagnosa_sakit
+                });
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var pemakaianObatData = {
-                labels: [],
-                datasets: [{
-                    data: [],
-                    backgroundColor: [],
-                    hoverBackgroundColor: []
-                }]
-            };
+        Highcharts.chart('Diagnosa Sakit', {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: '',
+                align: 'left'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                },
+            },
 
-            // Embedding PasienModel data in a script tag
-            var pasienData = @Html.Raw(Json.Serialize(Model));
-
-            // Isi data dari model PasienModel
-            var pemakaianObatDataItems = pasienData || []; // Ensure pasienData is initialized
-
-            // Mengisi data labels dan datasets dari pemakaianObatData
-            pemakaianObatDataItems.forEach(function (item) {
-                if (item.nama_obat != null) {
-                    pemakaianObatData.labels.push(item.nama_obat);
-                    pemakaianObatData.datasets[0].data.push(item.jumlah_pemakaian_obat);
-
-                    // Generate warna acak untuk setiap label
-                    var randomColor = getRandomColor();
-                    pemakaianObatData.datasets[0].backgroundColor.push(randomColor);
-                    pemakaianObatData.datasets[0].hoverBackgroundColor.push(randomColor);
+            plotOptions: {
+                series: {
+                    borderRadius: 5,
+                    dataLabels: [{
+                        enabled: true,
+                        distance: 15,
+                        format: '{point.name}'
+                    }, {
+                        enabled: true,
+                        distance: '-30%',
+                        filter: {
+                            property: 'percentage',
+                            operator: '>',
+                            value: 5
+                        },
+                        format: '{point.y}',
+                        style: {
+                            fontSize: '0.9em',
+                            textOutline: 'none'
+                        }
+                    }]
                 }
-            });
+            },
 
-            // Options untuk responsif
-            var options = {
-                responsive: true,
-                maintainAspectRatio: false
-            };
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> of total<br/>'
+            },
 
-            // Mendapatkan elemen canvas
-            var canvas = document.getElementById('pemakaianObatChart').getContext('2d');
-
-            // Membuat chart pemakaianObatChart
-            var pemakaianObatChart = new Chart(canvas, {
-                type: 'pie',
-                data: pemakaianObatData,
-                options: options
-            });
-
-            // Fungsi untuk mendapatkan warna acak
-            function getRandomColor() {
-                var letters = '0123456789ABCDEF';
-                var color = '#';
-                for (var i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
+            series: [
+                {
+                    name: 'Diagnosa Sakit Terbanyak',
+                    colorByPoint: true,
+                    data: diagnosaSakitData
                 }
-                return color;
+            ]
+        });
+    //end diagnosa sakit chart
+
+    //pemakaian obat chart
+        var pemakaianObatData = [];
+
+        // Mengisi data labels dan datasets dari diagnosaSakitData
+        PasienDataItems.forEach(function (item) {
+            if (item.nama_obat != null && item.jumlah_pemakaian_obat != null) {
+                pemakaianObatData.push({
+                    name: item.nama_obat,
+                    y: item.jumlah_pemakaian_obat,
+                    drilldown: item.nama_obat
+                });
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var kecelakaanKerjaRujukanData = {
-                labels: ['Kecelakaan Kerja', 'Rujukan'],
-                datasets: [{
-                    data: [], // Menambahkan nilai nol sesuai dengan jumlah label
-                    backgroundColor: ['#FF6384', '#0000FF'], // Warna untuk setiap label
-                    hoverBackgroundColor: ['#FF6384', '#0000FF']
-                }]
-            };
+        Highcharts.chart('Pemakaian Obat', {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: '',
+                align: 'left'
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                },
+            },
 
-            // Embedding PasienModel data in a script tag
-            var pasienData = @Html.Raw(Json.Serialize(Model));
-
-            // Isi data dari model PasienModel
-            var kecelakaanKerjaRujukanDataItems = pasienData || []; // Ensure pasienData is initialized
-
-            // Mengisi data labels dan datasets dari pemakaianObatData
-            kecelakaanKerjaRujukanDataItems.forEach(function (item) {
-                if (item.jumlah_kecelakaan_kerja != null && item.jumlah_rujukan != null) {
-                    kecelakaanKerjaRujukanData.datasets[0].data.push(item.jumlah_kecelakaan_kerja);
-                    kecelakaanKerjaRujukanData.datasets[0].data.push(item.jumlah_rujukan);
+            plotOptions: {
+                series: {
+                    borderRadius: 5,
+                    dataLabels: [{
+                        enabled: true,
+                        distance: 15,
+                        format: '{point.name}'
+                    }, {
+                        enabled: true,
+                        distance: '-30%',
+                        filter: {
+                            property: 'percentage',
+                            operator: '>',
+                            value: 5
+                        },
+                        format: '{point.y}',
+                        style: {
+                            fontSize: '0.9em',
+                            textOutline: 'none'
+                        }
+                    }]
                 }
-            });
+            },
 
-            // Options untuk responsif
-            var options = {
-                responsive: true,
-                maintainAspectRatio: false
-            };
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> of total<br/>'
+            },
 
-            // Mendapatkan elemen canvas
-            var canvas = document.getElementById('kecelakaanKerjaChart').getContext('2d');
-
-            // Membuat chart kecelakaanKerjaChart
-            var kecelakaanKerjaChart = new Chart(canvas, {
-                type: 'pie',
-                data: kecelakaanKerjaRujukanData,
-                options: options
-            });
+            series: [
+                {
+                    name: 'Diagnosa Sakit Terbanyak',
+                    colorByPoint: true,
+                    data: pemakaianObatData
+                }
+            ]
         });
+    //end pemakaian obat chart
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var prodiDepartemenData = {
-                labels: [],
-                datasets: [{
-                    data: [],
-                    backgroundColor: [],
-                    hoverBackgroundColor: []
-                }]
-            };
+    //prodi departemen chart
+        var prodiDepartemenData = [];
 
-            // Embedding PasienModel data in a script tag
-            var pasienData = @Html.Raw(Json.Serialize(Model));
-
-            // Isi data dari model PasienModel
-            var prodiDepartemenItems = pasienData || []; // Ensure pasienData is initialized
-
-            // Mengisi data labels dan datasets dari prodiDepartemenItems
-            prodiDepartemenItems.forEach(function (item) {
-                if (item.nama_prodi_atau_departemen != null && item.jumlah_prodi_atau_departemen != null) {
-                    prodiDepartemenData.labels.push(item.nama_prodi_atau_departemen);
-                    prodiDepartemenData.datasets[0].data.push(item.jumlah_prodi_atau_departemen);
-
-                    // Generate warna acak untuk setiap label
-                    var randomColor = getRandomColor();
-                    prodiDepartemenData.datasets[0].backgroundColor.push(randomColor);
-                    prodiDepartemenData.datasets[0].hoverBackgroundColor.push(randomColor);
-                }
-            });
-
-            // Options untuk responsif
-            var options = {
-                responsive: true,
-                maintainAspectRatio: false
-            };
-
-            // Mendapatkan elemen canvas
-            var canvas = document.getElementById('prodiDepartemenChart').getContext('2d');
-
-            // Membuat chart prodiDepartemenChart
-            var prodiDepartemenChart = new Chart(canvas, {
-                type: 'bar',
-                data: prodiDepartemenData,
-                options: options
-            });
-
-            // Fungsi untuk mendapatkan warna acak
-            function getRandomColor() {
-                var letters = '0123456789ABCDEF';
-                var color = '#';
-                for (var i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
+        // Mengisi data labels dan datasets dari prodiDepartemenItems
+        PasienDataItems.forEach(function (item) {
+            if (item.nama_prodi_atau_departemen != null && item.jumlah_prodi_atau_departemen != null) {
+                prodiDepartemenData.push({
+                    name: item.nama_prodi_atau_departemen,
+                    y: item.jumlah_prodi_atau_departemen,
+                    drilldown: item.nama_prodi_atau_departemen
+                });
             }
         });
 
+        Highcharts.chart('prodi atau departemen chart', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                align: 'left',
+                text: ''
+            },
+            accessibility: {
+                announceNewData: {
+                    enabled: true
+                }
+            },
+            xAxis: {
+                type: 'category'
+            },
+            yAxis: {
+                title: {
+                    text: 'Total Kunjungan'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y}'
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> of total<br/>'
+            },
+
+            series: [
+                {
+                    name: 'Program Studi atau Departemen',
+                    colorByPoint: true,
+                    data: prodiDepartemenData
+                }
+            ]
+        });
+    //end prodi departemen chart
     </script>
-
-      
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.0/html2pdf.bundle.min.js"></script>
 </body>

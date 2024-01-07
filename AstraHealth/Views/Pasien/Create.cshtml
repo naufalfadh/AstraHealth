@@ -8,211 +8,221 @@
 }
 
 <style>
-    body {
-        padding-top: 100px; /* Atur spasi sesuai kebutuhan */
-    }
-
     .input-with-border {
-        border: 10px solid #ddd; /* Warna dan ketebalan garis tepi */
+        border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
         border-radius: 4px; /* Bordes sudut */
     }
 
+
     .card {
-        
         padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
     .card-body {
-       
+        background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
         padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         border-radius: 8px; /* Bordes sudut */
     }
+
     .form-check{
         margin-left:40px;
     }
 </style>
 
 
-<body>
-    <div class="col-12 grid-margin ">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Anamnesa Pasien</h4>
-                <form class="form-sample" method="post">
-                    <input asp-for="anm_id" class="form-control input-with-border" value="null" hidden />
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">NIM atau NPK</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="anm_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" />
-                                    <span asp-validation-for="anm_id_pasien" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="anm_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="anm_nama_pasien" class="form-control input-with-border" placeholder="Masukkan Nama Pasien" />
-                                    <span asp-validation-for="anm_nama_pasien" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen</label>
-                                <div class="col-sm-9">
-                                    <select asp-for="anm_prodi_atau_departemen" class="form-control input-with-border">
-                                        <option value="" selected disabled>Pilih Prodi / Departemen</option>
-                                        <option value="Pembuatan Peralatan dan Perkakas Produksi">Pembuatan Peralatan dan Perkakas Produksi</option>
-                                        <option value="Teknik Produksi dan Proses Manufaktur">Teknik Produksi dan Proses Manufaktur</option>
-                                        <option value="Teknologi Konstruksi Bangunan Gedung">Teknologi Konstruksi Bangunan Gedung</option>
-                                        <option value="Mesin Otomotif">Mesin Otomotif</option>
-                                        <option value="Mekatronika">Mekatronika</option>
-                                        <option value="Manajemen Informatika">Manajemen Informatika</option>
-                                        <option value="Teknologi Rekayasa Pemeliharaan Alat Berat">Teknologi Rekayasa Pemeliharaan Alat Berat</option>
-                                        <option value="Teknologi Rekayasa Logistik">Teknologi Rekayasa Logistik</option>
-                                        <option value="DAAA">DAAA</option>
-                                        <option value="DKA">DKA</option>
-                                        <option value="DAKAP">DAKAP</option>
-                                        <option value="GA">GA</option>
-                                    </select>
-                                    <span asp-validation-for="anm_prodi_atau_departemen" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="anm_keluhan" class="col-sm-3 col-form-label">Keluhan</label>
-                                <div class="col-sm-9">
-                                    <textarea asp-for="anm_keluhan" class="form-control input-with-border" placeholder="Masukkan Keluhan"></textarea>
-                                    <span asp-validation-for="anm_keluhan" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="anm_tensi" class="col-sm-3 col-form-label">Tensi</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="anm_tensi" class="form-control input-with-border" placeholder="Masukkan Tensi" value="" />
-                                    <span asp-validation-for="anm_tensi" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="anm_diagnosa" class="col-sm-3 col-form-label">Diagnosa</label>
-                                <div class="col-sm-9">
-                                    <textarea asp-for="anm_diagnosa" class="form-control input-with-border" placeholder="Masukkan Diagnosa"></textarea>
-                                    <span asp-validation-for="anm_diagnosa" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <div class="col-sm-9">
-                                    <div class="form-check">
-                                        <input id="anm_kecelakaan_kerja_checkbox" name="anm_kecelakaan_kerja_checkbox" type="checkbox" class="form-check-input" />
-                                        <label class="form-check-label" for="anm_kecelakaan_kerja_checkbox">Kecelakaan Kerja</label>
+<br>
+<br>
+<br>
+<br>
+<section class="section">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-12 grid-margin ">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Anamnesa Pasien</h4>
+                                <form class="form-sample" method="post">
+                                    <input asp-for="anm_id" class="form-control input-with-border" value="null" hidden />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">NIM atau NPK</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" />
+                                                    <span asp-validation-for="anm_id_pasien" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_nama_pasien" class="form-control input-with-border" placeholder="Masukkan Nama Pasien" />
+                                                    <span asp-validation-for="anm_nama_pasien" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span asp-validation-for="anm_kecelakaan_kerja" class="text-danger"></span>
-                                </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen</label>
+                                                <div class="col-sm-9">
+                                                    <select asp-for="anm_prodi_atau_departemen" class="form-control input-with-border">
+                                                        <option value="" selected disabled>Pilih Prodi / Departemen</option>
+                                                        <option value="Pembuatan Peralatan dan Perkakas Produksi">Pembuatan Peralatan dan Perkakas Produksi</option>
+                                                        <option value="Teknik Produksi dan Proses Manufaktur">Teknik Produksi dan Proses Manufaktur</option>
+                                                        <option value="Teknologi Konstruksi Bangunan Gedung">Teknologi Konstruksi Bangunan Gedung</option>
+                                                        <option value="Mesin Otomotif">Mesin Otomotif</option>
+                                                        <option value="Mekatronika">Mekatronika</option>
+                                                        <option value="Manajemen Informatika">Manajemen Informatika</option>
+                                                        <option value="Teknologi Rekayasa Pemeliharaan Alat Berat">Teknologi Rekayasa Pemeliharaan Alat Berat</option>
+                                                        <option value="Teknologi Rekayasa Logistik">Teknologi Rekayasa Logistik</option>
+                                                        <option value="DAAA">DAAA</option>
+                                                        <option value="DKA">DKA</option>
+                                                        <option value="DAKAP">DAKAP</option>
+                                                        <option value="GA">GA</option>
+                                                    </select>
+                                                    <span asp-validation-for="anm_prodi_atau_departemen" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="anm_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
-                                <div class="col-sm-9">
-                                    <textarea asp-for="anm_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" value=""></textarea>
-                                    <span asp-validation-for="anm_keterangan" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <div class="col-sm-9">
-                                    <input asp-for="anm_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
-                                    <span asp-validation-for="anm_tanggal" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <div class="col-sm-9">
-                                    <input asp-for="anm_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden/>
-                                    <span asp-validation-for="anm_id_admin" class="text-danger"></span>
-                                </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_keluhan" class="col-sm-3 col-form-label">Keluhan</label>
+                                                <div class="col-sm-9">
+                                                    <textarea asp-for="anm_keluhan" class="form-control input-with-border" placeholder="Masukkan Keluhan"></textarea>
+                                                    <span asp-validation-for="anm_keluhan" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_tensi" class="col-sm-3 col-form-label">Tensi</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_tensi" class="form-control input-with-border" placeholder="Masukkan Tensi" value="" />
+                                                    <span asp-validation-for="anm_tensi" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_diagnosa" class="col-sm-3 col-form-label">Diagnosa</label>
+                                                <div class="col-sm-9">
+                                                    <textarea asp-for="anm_diagnosa" class="form-control input-with-border" placeholder="Masukkan Diagnosa"></textarea>
+                                                    <span asp-validation-for="anm_diagnosa" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <div class="col-sm-9">
+                                                    <div class="form-check">
+                                                        <input id="anm_kecelakaan_kerja_checkbox" name="anm_kecelakaan_kerja_checkbox" type="checkbox" class="form-check-input" />
+                                                        <label class="form-check-label" for="anm_kecelakaan_kerja_checkbox">Kecelakaan Kerja</label>
+                                                    </div>
+                                                    <span asp-validation-for="anm_kecelakaan_kerja" class="text-danger"></span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+                                                <div class="col-sm-9">
+                                                    <textarea asp-for="anm_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" value=""></textarea>
+                                                    <span asp-validation-for="anm_keterangan" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
+                                                    <span asp-validation-for="anm_tanggal" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden />
+                                                    <span asp-validation-for="anm_id_admin" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control">Obat</label>
+                                        <button type="button" id="btnTambahBaris" form="pasienForm" class="btn btn-primary">Tambah</button>
+                                        <table id="tblPemakaianObat" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama Obat</th>
+                                                    <th>Jumlah</th>
+                                                    <th>Satuan</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <button type="submit" name="submitButton" value="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
+                                    <button type="submit" name="submitButton" value="rujukan" class="btn btn-primary mr-2 rujukan-button">Rujukan</button>
+                                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Kembali</a>
+                                </form>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-control">Obat</label>
-                        <button type="button" id="btnTambahBaris" form="pasienForm" class="btn btn-primary">Tambah</button>
-                        <table id="tblPemakaianObat" class="table">
-                        <thead>
-                            <tr>
-                                <th>Nama Obat</th>
-                                <th>Jumlah</th>
-                                <th>Satuan</th>
-                                <th>Aksi</th>
-                           </tr>
-                           </thead>
-                           <tbody>
-                           </tbody>
-                        </table>
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title modal-lg d-flex justify-content-center align-items-center">Laporan Diagnosa Sakit</h2>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="parentDiv">
+                                    <!-- Tabel Modal -->
+                                    <table class="table datatable" id="myTable">
+                                        <thead style="background-color: #37003C; color: white;">
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" name="submitButton" value="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
-                    <button type="submit" name="submitButton" value="rujukan" class="btn btn-primary mr-2 rujukan-button">Rujukan</button>
-                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Kembali</a>
-                </form>
+                    <!-- End Modal -->
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title modal-lg d-flex justify-content-center align-items-center">Laporan Diagnosa Sakit</h2>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="parentDiv">
-                    <!-- Tabel Modal -->
-                    <table class="table datatable" id="myTable">
-                        <thead style="background-color: #37003C; color: white;">
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Modal -->
-
-</body>
+</section>
 
 <script>
     $(document).ready(function () {

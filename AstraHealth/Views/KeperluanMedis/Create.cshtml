@@ -13,87 +13,99 @@
         border-radius: 4px; /* Bordes sudut */
     }
 
+
     .card {
-      
-        padding-top:65px;
         padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
     .card-body {
-       
+        background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
         padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         border-radius: 8px; /* Bordes sudut */
     }
-
-    .table {
-        border-color:black;
-    }
-
 </style>
 
-
-<div class="col-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <div class="pagetitle">
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Keperluan Alat Medis</li>
-                        <li class="breadcrumb-item active">Tambah Keperluan Alat Medis</li>
-                    </ol>
-                </nav>
-            </div>
-            <form class="forms-sample" method="post">
-                <div class="form-group">
-                    <button type="button" id="btnTambahBaris" form="alatMedisForm" class="btn btn-primary">Tambah</button>
-
-                    <table id="tblKeperluanMedis" class="table">
-                        <thead>
-                            <tr>
-                                <th>Nama Barang</th>
-                                <th>Jumlah</th>
-                                <th>Satuan</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input asp-for="keperluanMedis[0].kpm_nama_barang" class="form-control" /></td>
-                                <td><input asp-for="keperluanMedis[0].kpm_jumlah" class="form-control" /></td>
-                                <td>
-                                    <select asp-for="keperluanMedis[0].kpm_satuan" class="form-control input-with-border">
-                                        <option value="" selected disabled>Pilih Satuan Obat</option>
-                                        <option value="buah">Buah</option>
-                                        <option value="kotak">Kotak</option>
-                                        <option value="strip">Strip</option>
-                                        <option value="botol">Botol</option>
-                                        <option value="vial">Vial</option>
-                                        <option value="ampul">Ampul</option>
-                                        <option value="tube">Tube</option>
-                                        <option value="paket">Paket</option>
-                                        <option value="dus">Dus</option>
-                                        <option value="sachet">Sachet</option>
-                                        <option value="plat">Plat</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input asp-for="keperluanMedis[0].kpm_tanggal_pengajuan" type="datetime-local" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" style="display:none;" />
-                                    <input asp-for="keperluanMedis[0].kpm_status" type="text" class="form-control input-with-border" placeholder="Status" value="menunggu konfirmasi" style="display:none;" />
-                                    <input asp-for="keperluanMedis[0].kpm_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" style="display:none;" />
-                                    <input asp-for="keperluanMedis[0].kpm_id_manajer" class="form-control input-with-border" placeholder="Masukkan ID Manajer" value="@httpContext.Session.GetString("Id")" style="display:none;" />
-                                    <button type="button" class="btnHapusBaris btn btn-danger">Hapus</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+<br>
+<br>
+<br>
+<br>
+<body></body>
+<section class="section">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="col-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="pagetitle">
+                                <nav>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">Keperluan Alat Medis</li>
+                                        <li class="breadcrumb-item active">Tambah Keperluan Alat Medis</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                            <hr />
+                            <form class="forms-sample" method="post">
+                                <div class="form-group">
+                                    <button type="button" id="btnTambahBaris" form="alatMedisForm" class="btn btn-primary">Tambah</button>
+                                    <hr />
+                                    <div class="table-responsive">
+                                        <table id="tblKeperluanMedis" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama Barang</th>
+                                                    <th>Jumlah</th>
+                                                    <th>Satuan</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><input asp-for="keperluanMedis[0].kpm_nama_barang" class="form-control" /></td>
+                                                    <td><input asp-for="keperluanMedis[0].kpm_jumlah" class="form-control" /></td>
+                                                    <td>
+                                                        <select asp-for="keperluanMedis[0].kpm_satuan" class="form-control input-with-border">
+                                                            <option value="" selected disabled>Pilih Satuan Obat</option>
+                                                            <option value="buah">Buah</option>
+                                                            <option value="kotak">Kotak</option>
+                                                            <option value="strip">Strip</option>
+                                                            <option value="botol">Botol</option>
+                                                            <option value="vial">Vial</option>
+                                                            <option value="ampul">Ampul</option>
+                                                            <option value="tube">Tube</option>
+                                                            <option value="paket">Paket</option>
+                                                            <option value="dus">Dus</option>
+                                                            <option value="sachet">Sachet</option>
+                                                            <option value="plat">Plat</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input asp-for="keperluanMedis[0].kpm_tanggal_pengajuan" type="datetime-local" class="form-control input-with-border" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" style="display:none;" />
+                                                        <input asp-for="keperluanMedis[0].kpm_status" type="text" class="form-control input-with-border" placeholder="Status" value="menunggu konfirmasi" style="display:none;" />
+                                                        <input asp-for="keperluanMedis[0].kpm_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" style="display:none;" />
+                                                        <input asp-for="keperluanMedis[0].kpm_id_manajer" class="form-control input-with-border" placeholder="Masukkan ID Manajer" value="@httpContext.Session.GetString("Id")" style="display:none;" />
+                                                        <button type="button" class="btnHapusBaris btn btn-danger">Hapus</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <hr />
+                                <button type="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
+                                <a asp-controller="KeperluanMedis" asp-action="Index" class="btn btn-light">Kembali</a>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
-                <a asp-controller="KeperluanMedis" asp-action="Index" class="btn btn-light">Kembali</a>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</section>
 <script>
     $(document).ready(function () {
         var index = 1;

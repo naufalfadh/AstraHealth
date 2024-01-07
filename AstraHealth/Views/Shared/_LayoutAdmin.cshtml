@@ -29,37 +29,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.0/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+    <!--High CHart-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 
     <link href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
 
     <style>
-        body {
-           
-            background-size: 100%;
-            background-image: url("/content/images/IMG_Background.jpg");
-        }
-
-        #main {/* 
-            padding-left: 70px;
-            padding-right: 70px; */
-            background-color: #f0f0f0;
-        }
-
-        footer.main-footer {
-            background-color: white;
-            color: #0059AB;
-            padding: 10px;
-            text-align: center;
-            
-            bottom: 0; /* Menempatkan footer di bagian paling bawah */
-            width: 100%;
-        }
-
        .logo-container {
            padding-left:30px;
        }
 
-    
+        footer {
+            background-color: #ffffff; /* Warna latar belakang footer */
+            padding: 10px;
+            text-align: center;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -75,6 +61,36 @@
                         @{
                             var httpContext = ViewContext.HttpContext;
                         }
+
+                        <li class="nav-item dropdown d-lg-flex d-none">
+                            <a asp-controller="Dashboard" asp-action="Index" class="nav-link collapsed">
+                                <span class="btn btn-inverse-primary btn-sm">Dashboard</span>
+                            </a>
+                        </li>
+
+                        @if (httpContext.Session.GetString("Role") == "manajer")
+                        {
+                            <li class="nav-item dropdown d-lg-flex d-none">
+                                <a asp-controller="Akun" asp-action="Index" class="nav-link collapsed">
+                                    <span class="btn btn-inverse-primary btn-sm">Akun</span>
+                                </a>
+                            </li>
+                        }
+
+                        @if (httpContext.Session.GetString("Role") == "admin")
+                        {
+                            <li class="nav-item dropdown d-lg-flex d-none">
+                                <a asp-controller="Pasien" asp-action="Index" class="nav-link collapsed">
+                                    <span class="btn btn-inverse-primary btn-sm">Register</span>
+                                </a>
+                            </li>
+                        }
+
+                        <li class="nav-item dropdown d-lg-flex d-none">
+                            <a asp-controller="KeperluanMedis" asp-action="Index" class="nav-link collapsed">
+                                <span class="btn btn-inverse-primary btn-sm">Keperluan Alat Medis</span>
+                            </a>
+                        </li>
 
                         <li class="nav-item dropdown d-lg-flex d-none">
                             <a class="dropdown-toggle show-dropdown-arrow btn btn-inverse-primary btn-sm" id="nreportDropdown" href="#" data-bs-toggle="dropdown">
@@ -102,38 +118,8 @@
                         </li>
 
                         <li class="nav-item dropdown d-lg-flex d-none">
-                            <a asp-controller="KeperluanMedis" asp-action="Index" class="nav-link collapsed">
-                                <span class="btn btn-inverse-primary btn-sm">Keperluan Alat Medis</span>
-                            </a>
-                        </li>
-
-                        @if (httpContext.Session.GetString("Role") == "manajer")
-                        {
-                            <li class="nav-item dropdown d-lg-flex d-none">
-                                <a asp-controller="Akun" asp-action="Index" class="nav-link collapsed">
-                                    <span class="btn btn-inverse-primary btn-sm">Akun</span>
-                                </a>
-                            </li>
-                        }
-
-                        @if (httpContext.Session.GetString("Role") == "admin")
-                        {
-                            <li class="nav-item dropdown d-lg-flex d-none">
-                                <a asp-controller="Pasien" asp-action="Index" class="nav-link collapsed">
-                                    <span class="btn btn-inverse-primary btn-sm">Register</span>
-                                </a>
-                            </li>
-                        }
-
-                        <li class="nav-item dropdown d-lg-flex d-none">
-                            <a asp-controller="Dashboard" asp-action="Index" class="nav-link collapsed">
-                                <span class="btn btn-inverse-primary btn-sm">Dashboard</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item dropdown d-lg-flex d-none">
                             <a class="dropdown-toggle show-dropdown-arrow btn btn-inverse-primary btn-sm" id="profileDropdown" href="#" data-bs-toggle="dropdown">
-                                Selamat datang, @httpContext.Session.GetString("Nama")
+                                @httpContext.Session.GetString("Nama") (@httpContext.Session.GetString("Role"))
                                 <span class="online-status"></span>
                             </a>
 
@@ -160,19 +146,10 @@
         @RenderBody()
 
     </main><!-- End #main -->
-    <br>
-    <br>
-    <br>
-    <footer class="main-footer">
-        <div class="inner-footer">
-            <div class="container">
-                <div class="left-menu">
-                    <img src="~/content/images/IMG_Logo.png" alt="logo" style="max-width: 200px;" />
-                    <p>© 2023 All Rights Reserved</p>
-                </div>
-            
-            </div>
-        </div>
+    <footer>
+        <p class="text-black font-weight-medium text-right flex-grow align-self-end">
+            Hak Cipta &copy; 2023 Semua hak dilindungi.
+        </p>
     </footer>
     <!-- base:js -->
     <script>
@@ -196,7 +173,6 @@
     <script src="~/content/vendors/base/vendor.bundle.base.js"></script>
    
     <script src="~/content/js/template.js"></script>
-    ->
     <script src="~/content/vendors/chart.js/Chart.min.js"></script>
     <script src="~/content/vendors/progressbar.js/progressbar.min.js"></script>
     <script src="~/content/vendors/chartjs-plugin-datalabels/chartjs-plugin-datalabels.js"></script>
