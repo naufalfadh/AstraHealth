@@ -19,6 +19,18 @@ namespace AstraHealth.Models
         public string anm_id_admin { get; set; }
         public string? anm_nama_admin { get; set; }
         public List<PemakaianObatModel> PemakaianObats { get; set; } = new List<PemakaianObatModel>();
+
+        public string? diagnosa_sakit { get; set; }
+        public int? jumlah_diagnosa { get; set; }
+
+        public string? nama_obat { get; set; }
+        public int? jumlah_pemakaian_obat { get; set; }
+
+        public int? jumlah_kecelakaan_kerja { get; set; }
+        public int? jumlah_rujukan { get; set; }
+
+        public string? nama_prodi_atau_departemen { get; set; }
+        public int? jumlah_prodi_atau_departemen { get; set; }
     }
 
     public class PemakaianObatModel
@@ -29,5 +41,29 @@ namespace AstraHealth.Models
         public int pmo_jumlah { get; set; }
         public string pmo_satuan { get; set; }
         public DateTime? pmo_tanggal { get; set; }
+    }
+
+    public class DiagnosaSakit
+    {
+        public string diagnosa { get; set; }
+        public int jumlah { get; set; }
+    }
+
+    public class PemakaianObat
+    {
+        public string nama_obat { get; set; }
+        public int jumlah { get; set; }
+    }
+
+    public class ProdiDanDepartemen
+    {
+        public string prodi_dan_departemen { get; set; }
+        public int jumlah { get; set; }
+    }
+
+    public class KecelakaanKerjaDanRujukan
+    {
+        public int kecelakaan_kerja { get; set; }
+        public int rujukan { get; set; }
     }
 }

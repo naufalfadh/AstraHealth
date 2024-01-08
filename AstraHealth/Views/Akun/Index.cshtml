@@ -8,57 +8,68 @@
 }
 
 
+<br>
+<br>
+<br>
+<br>
 <section class="section">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Master akun</h5>
-                    <hr />
-                    @if (TempData["SuccessMessage"] != null)
-                    {
-                        <div class="row">
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <i class="bi bi-check-circle me-1"></i>
-                                <strong>Sukses!</strong> @TempData["SuccessMessage"]
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">akun</h5>
+                                <hr />
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="row">
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            <strong>Sukses!</strong> @TempData["SuccessMessage"]
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                }
+                                <a class="btn btn-primary" asp-action="Create">Tambah Akun</a>
+                                <hr />
+                                <table class="table datatable" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">NPK</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    `
+                                    <tbody>
+                                        @foreach (var akun in Model)
+                                        {
+                                            <tr>
+                                                <td>@(no++)</td>
+                                                <td>@akun.akn_id</td>
+                                                <td>@akun.akn_nama</td>
+                                                <td>@akun.akn_role</td>
+                                                <td>@akun.akn_status</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-danger delete-button" data-id="@akun.akn_id">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                    <a asp-controller="akun" asp-action="Edit" asp-route-id="@akun.akn_id" class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    }
-                    <a class="btn btn-primary" asp-action="Create">Tambah Akun</a>
-                    <p></p>
-                    <table class="table datatable" id="myTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">NPK</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Aksi</th>
-                            </tr>
-                        </thead>
-                   `    <tbody>
-                            @foreach (var akun in Model)
-                            {
-                                <tr>
-                                    <td>@(no++)</td>
-                                    <td>@akun.akn_id</td>
-                                    <td>@akun.akn_nama</td>
-                                    <td>@akun.akn_role</td>
-                                    <td>@akun.akn_status</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-danger delete-button" data-id="@akun.akn_id">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                        <a asp-controller="akun" asp-action="Edit" asp-route-id="@akun.akn_id" class="btn btn-sm btn-primary">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
             </div>
         </div>

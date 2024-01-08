@@ -388,6 +388,189 @@ namespace AstraHealth.Models
             return laporanList;
         }
 
+        public List<PasienModel> getLaporan()
+        {
+            List<PasienModel> pasienList = new List<PasienModel>();
+            try
+            {
+                // Modifikasi query untuk menyesuaikan dengan parameter tanggal
+                string query = "SELECT * FROM ahl_tranamnesa ORDER BY anm_tanggal DESC";
+
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    PasienModel pasien = new PasienModel
+                    {
+                        anm_id = reader["anm_id"].ToString(),
+                        anm_id_pasien = reader["anm_id_pasien"].ToString(),
+                        anm_nama_pasien = reader["anm_nama_pasien"].ToString(),
+                        anm_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
+                        anm_diagnosa = reader["anm_diagnosa"].ToString(),
+                        anm_kecelakaan_kerja = Convert.ToInt32(reader["anm_kecelakaan_kerja"].ToString()),
+                        anm_keterangan = reader["anm_keterangan"].ToString(),
+                        anm_tanggal = reader.GetDateTime(reader.GetOrdinal("anm_tanggal")),
+                        anm_id_admin = reader["anm_id_admin"].ToString(),
+                    };
+
+                    pasienList.Add(pasien);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+
+            // Panggil method untuk menghitung jumlah diagnosa dan menyimpannya di dalam list yang sama
+            getDistinctDiagnosa(pasienList);
+            getDistinctPemakaianObat(pasienList);
+            getKecelakaanKerjaDanRujukan(pasienList);
+            getDistinctProdiDanDepartemen(pasienList);
+
+            return pasienList;
+        }
+
+        public void getDistinctDiagnosa(List<PasienModel> pasienList)
+        {
+            try
+            {
+                string query = "SELECT anm_diagnosa, COUNT(*) as jumlah_diagnosa " +
+                               "FROM ahl_tranamnesa " +
+                               "GROUP BY anm_diagnosa " +
+                               "ORDER BY jumlah_diagnosa DESC";
+
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    PasienModel pasien = new PasienModel
+                    {
+                        diagnosa_sakit = reader["anm_diagnosa"].ToString(),
+                        jumlah_diagnosa = Convert.ToInt32(reader["jumlah_diagnosa"]),
+                    };
+
+                    pasienList.Add(pasien);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
+        public void getDistinctPemakaianObat(List<PasienModel> pasienList)
+        {
+            try
+            {
+                string query = "SELECT pmo_nama_obat, SUM(pmo_jumlah) AS jumlah_pemakaian_obat " +
+                               "FROM ahl_trpemakaianObat " +
+                               "GROUP BY pmo_nama_obat " +
+                               "ORDER BY jumlah_pemakaian_obat DESC";
+
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    PasienModel pasien = new PasienModel
+                    {
+                        nama_obat = reader["pmo_nama_obat"].ToString(),
+                        jumlah_pemakaian_obat = Convert.ToInt32(reader["jumlah_pemakaian_obat"]),
+                    };
+
+                    pasienList.Add(pasien);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
+        public void getKecelakaanKerjaDanRujukan(List<PasienModel> pasienList)
+        {
+            try
+            {
+                string query = "SELECT " +
+                               "(SELECT COUNT(*) FROM ahl_tranamnesa WHERE anm_kecelakaan_kerja = 1) AS jumlah_kecelakaan_kerja, " +
+                               "(SELECT COUNT(*) FROM ahl_trrujukan) AS jumlah_rujukan";
+
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    PasienModel pasien = new PasienModel
+                    {
+                        jumlah_kecelakaan_kerja = Convert.ToInt32(reader["jumlah_kecelakaan_kerja"]),
+                        jumlah_rujukan = Convert.ToInt32(reader["jumlah_rujukan"]),
+                    };
+
+                    pasienList.Add(pasien);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
+        public void getDistinctProdiDanDepartemen(List<PasienModel> pasienList)
+        {
+            try
+            {
+                string query = "SELECT anm_prodi_atau_departemen, COUNT(*) as jumlah_prodi_atau_departemen " +
+                               "FROM ahl_tranamnesa " +
+                               "GROUP BY anm_prodi_atau_departemen " +
+                               "ORDER BY jumlah_prodi_atau_departemen DESC";
+
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    PasienModel pasien = new PasienModel
+                    {
+                        nama_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
+                        jumlah_prodi_atau_departemen = Convert.ToInt32(reader["jumlah_prodi_atau_departemen"]),
+                    };
+
+                    pasienList.Add(pasien);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+
         /*public void updateData(PasienModel pasienModel)
         {
             try

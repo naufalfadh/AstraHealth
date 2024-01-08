@@ -35,122 +35,126 @@
 
 </head>
 
+<br>
+<br>
+<br>
+<br>
 <section class="section">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Register</h5>
-                    <hr />
-                    @if (TempData["SuccessMessage"] != null)
-                    {
-                        <div class="row">
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <i class="bi bi-check-circle me-1"></i>
-                                <strong>Sukses!</strong> @TempData["SuccessMessage"]
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                                    <h2>Laporan Program Studi dan Departemen</h2>
+                                    <button class="btn btn-primary" style="background-color: #0059AB;" data-bs-toggle="modal" data-bs-target="#myModal">
+                                        Cetak PDF
+                                        <i class="fas fa-file-pdf"></i>
+                                    </button>
+                                </div>
+                                <hr />
+                                <label for="dari" class="col-sm-0">Dari : </label>
+                                <input type="date" id="dari" class="form-control-sm col-sm-1" />
+                                <label for="sampai" class="col-sm-0">Sampai : </label>
+                                <input type="date" id="sampai" class="form-control-sm col-sm-1" />
+                                <hr />
+                                <table class="table datatable table-bordered" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">NIM/NPK</th>
+                                            <th scope="col">Nama Pasien</th>
+                                            <th scope="col">Prodi/Departemen</th>
+                                            <th scope="col">Keluhan</th>
+                                            <th scope="col">Tensi</th>
+                                            <th scope="col">Diagnosa</th>
+                                            <th scope="col">Tanggal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var pasien in Model)
+                                        {
+                                            <tr>
+                                                <td>@no</td>
+                                                <td>@pasien.anm_id_pasien</td>
+                                                <td>@pasien.anm_nama_pasien</td>
+                                                <td>@pasien.anm_prodi_atau_departemen</td>
+                                                <td>@pasien.anm_keluhan</td>
+                                                <td>@pasien.anm_tensi</td>
+                                                <td>@pasien.anm_diagnosa</td>
+                                                <td>@pasien.anm_tanggal</td>
+                                            </tr>
+                                            no++;
+                                        }
+                                    </tbody>
+
+                                </table>
                             </div>
                         </div>
-                    }
-                    <button class="btn btn-primary" style="background-color: #0059AB;" data-bs-toggle="modal" data-bs-target="#myModal">
-                        Cetak PDF
-                        <i class="fas fa-file-pdf"></i>
-                    </button>
-
-                    <p></p>
-                    <table class="table datatable" id="myTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">NIM/NPK</th>
-                                <th scope="col">Nama Pasien</th>
-                                <th scope="col">Prodi/Departemen</th>
-                                <th scope="col">Keluhan</th>
-                                <th scope="col">Tensi</th>
-                                <th scope="col">Diagnosa</th>
-                                <th scope="col">Tanggal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var pasien in Model)
-                            {
-                                <tr>
-                                    <td>@no</td>
-                                    <td>@pasien.anm_id_pasien</td>
-                                    <td>@pasien.anm_nama_pasien</td>
-                                    <td>@pasien.anm_prodi_atau_departemen</td>
-                                    <td>@pasien.anm_keluhan</td>
-                                    <td>@pasien.anm_tensi</td>
-                                    <td>@pasien.anm_diagnosa</td>
-                                    <td>@pasien.anm_tanggal</td>
-                                </tr>
-                                no++;
-                            }
-                        </tbody>
-
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div id="parentDiv">
-                    <div class="modal-header">
-                        <div class="title-wrapper">
-                            <h2 class="modal-title modal-lg" style="color: black;">UNIT KESEHATAN KAMPUS</h2>
-                            <h3 class="modal-title modal-lg" style="font-size: 11px; color: black;">Jl. Gaharu Blok F-3 Delta Silicon 2 Lippo Cikarang, Kel. Cibatu, Kec. Cikarang Selatan, Bekasi, Jawa Barat 17530</h3>
-                        </div>
                     </div>
-                    <div class="modal-body">
-                        <table class="table datatable">
-                            <thead style="background-color: #37003C; color: white;">
-                                <div class="surat-info">
-                                    <div class="nomor-surat-wrapper">
-                                        <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Lampiran: [Lampiran]</p>
-                                    </div>
-                                    <div class="tanggal-surat-wrapper">
-                                        <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
+                </div>
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div id="parentDiv">
+                                <div class="modal-header">
+                                    <div class="title-wrapper">
+                                        <h2 class="modal-title modal-lg" style="color: black;">UNIT KESEHATAN KAMPUS</h2>
+                                        <h3 class="modal-title modal-lg" style="font-size: 11px; color: black;">Jl. Gaharu Blok F-3 Delta Silicon 2 Lippo Cikarang, Kel. Cibatu, Kec. Cikarang Selatan, Bekasi, Jawa Barat 17530</h3>
                                     </div>
                                 </div>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">NIM/NPK</th>
-                                    <th scope="col">Nama Pasien</th>
-                                    <th scope="col">Prodi/Departemen</th>
-                                    <th scope="col">Diagnosa</th>
-                                    <th scope="col">Tanggal</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var pasien in Model)
-                                {
-                                    <tr>
-                                        <td scope="row">@num</td>
-                                        <td scope="row">@pasien.anm_id_pasien</td>
-                                        <td scope="row">@pasien.anm_nama_pasien</td>
-                                        <td scope="row">@pasien.anm_prodi_atau_departemen</td>
-                                        <td scope="row">@pasien.anm_diagnosa</td>
-                                        <td scope="row">@pasien.anm_tanggal</td>
-                                    </tr>
-                                    num++;
-                                }
-                            </tbody>
-                        </table>
+                                <div class="modal-body">
+                                    <table class="table datatable">
+                                        <thead style="background-color: #37003C; color: white;">
+                                            <div class="surat-info">
+                                                <div class="nomor-surat-wrapper">
+                                                    <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Lampiran: [Lampiran]</p>
+                                                </div>
+                                                <div class="tanggal-surat-wrapper">
+                                                    <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
+                                                </div>
+                                            </div>
+                                            <tr>
+                                                <th scope="col">No</th>
+                                                <th scope="col">NIM/NPK</th>
+                                                <th scope="col">Nama Pasien</th>
+                                                <th scope="col">Prodi/Departemen</th>
+                                                <th scope="col">Diagnosa</th>
+                                                <th scope="col">Tanggal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var pasien in Model)
+                                            {
+                                                <tr>
+                                                    <td scope="row">@num</td>
+                                                    <td scope="row">@pasien.anm_id_pasien</td>
+                                                    <td scope="row">@pasien.anm_nama_pasien</td>
+                                                    <td scope="row">@pasien.anm_prodi_atau_departemen</td>
+                                                    <td scope="row">@pasien.anm_diagnosa</td>
+                                                    <td scope="row">@pasien.anm_tanggal</td>
+                                                </tr>
+                                                num++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
 
 <script>
@@ -188,4 +192,34 @@
     $(document).ready(function () {
         $('#myTable').DataTable();
     });
+
+    //set date
+    // Fungsi untuk mengatur tanggal pertama bulan ini
+    function setFirstDayOfMonth(inputId) {
+        var input = document.getElementById(inputId);
+        var currentDate = new Date();
+        var firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+        input.value = formatDate(firstDayOfMonth);
+    }
+
+    // Fungsi untuk mengatur tanggal terakhir bulan ini
+    function setLastDayOfMonth(inputId) {
+        var input = document.getElementById(inputId);
+        var currentDate = new Date();
+        var lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+        input.value = formatDate(lastDayOfMonth);
+    }
+
+    // Fungsi untuk mengubah format tanggal menjadi 'yyyy-MM-dd'
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = (date.getMonth() + 1).toString().padStart(2, '0');
+        var day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    // Memanggil fungsi untuk mengatur nilai input
+    setFirstDayOfMonth('dari');
+    setLastDayOfMonth('sampai');
+        //end set date
 </script>

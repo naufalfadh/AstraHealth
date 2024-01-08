@@ -50,8 +50,19 @@
                                 <input asp-for="kpm_jumlah" class="form-control" readonly />
                             </div>
                             <div class="form-group">
-                                <label asp-for="kpm_satuan" class="control-label">Satuan</label>
-                                <input asp-for="kpm_satuan" class="form-control" readonly />
+                                <select asp-for="kpm_satuan" class="form-control input-with-border">
+                                    <option value="buah">Buah</option>
+                                    <option value="kotak">Kotak</option>
+                                    <option value="strip">Strip</option>
+                                    <option value="botol">Botol</option>
+                                    <option value="vial">Vial</option>
+                                    <option value="ampul">Ampul</option>
+                                    <option value="tube">Tube</option>
+                                    <option value="paket">Paket</option>
+                                    <option value="dus">Dus</option>
+                                    <option value="sachet">Sachet</option>
+                                    <option value="plat">Plat</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label asp-for="kpm_catatan" class="control-label">Catatan</label>
@@ -71,7 +82,10 @@
                                 <input asp-for="kpm_id_admin" class="form-control" hidden>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <input asp-for="kpm_id_manajer" class="form-control" hidden>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary submit-button">Simpan</button>
                                 <a asp-controller="Obat" asp-action="Index" class="btn btn-light">Cancel</a>
                             </div>
                         </form>
@@ -81,3 +95,21 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $(".submit-button").click(function (e) {
+            if (!validateForm()) {
+                e.preventDefault();
+            }
+        });
+
+        function validateForm() {
+            var field = "kpm_catatan";
+            var value = $("#" + field).val();
+            if (!value) {
+                Swal.fire("Gagal!", "Isi catatan terlebih dahulu!", "warning");
+                return false;
+            }
+        }
+    });
+</script>

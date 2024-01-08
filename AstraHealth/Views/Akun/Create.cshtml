@@ -14,7 +14,8 @@
     .card {
         padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
-
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
     .card-body {
@@ -22,64 +23,73 @@
         padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         border-radius: 8px; /* Bordes sudut */
     }
-
-    
 </style>
 
-<body>
-  
-    <div class="col-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="pagetitle">
-                    <h1>Master Akun</h1>
-                    <nav>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">Master Akun</li>
-                            <li class="breadcrumb-item active">Tambah Akun</li>
-                        </ol>
-                    </nav>
-                </div>
-                <form class="forms-sample" method="post">
-                    <div class="form-group">
-                        <label asp-for="akn_id">NPK</label>
-                        <input asp-for="akn_id" type="text" class="form-control input-with-border" placeholder="NPK">
-                        <span asp-validation-for="akn_id" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="akn_nama">Nama</label>
-                        <input asp-for="akn_nama" type="text" class="form-control input-with-border" placeholder="Nama">
-                        <span asp-validation-for="akn_nama" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="akn_password">Password</label>
-                        <input asp-for="akn_password" type="password" class="form-control input-with-border" placeholder="Password">
-                        <div class="form-group-append">
-                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword(this)">
-                                <i class="fas fa-eye"></i>
-                            </button>
+<br>
+<br>
+<br>
+<br>
+<section class="section">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="pagetitle">
+                                    <h1>Akun</h1>
+                                    <nav>
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">Akun</li>
+                                            <li class="breadcrumb-item active">Tambah Akun</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                                <form class="forms-sample" method="post">
+                                    <div class="form-group">
+                                        <label asp-for="akn_id">NPK</label>
+                                        <input asp-for="akn_id" type="text" class="form-control input-with-border" placeholder="NPK">
+                                        <span asp-validation-for="akn_id" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="akn_nama">Nama</label>
+                                        <input asp-for="akn_nama" type="text" class="form-control input-with-border" placeholder="Nama">
+                                        <span asp-validation-for="akn_nama" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="akn_password">Password</label>
+                                        <input asp-for="akn_password" type="password" class="form-control input-with-border" placeholder="Password">
+                                        <div class="form-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword(this)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <span asp-validation-for="akn_password" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="akn_role">Role</label>
+                                        <select asp-for="akn_role" class="form-control input-with-border">
+                                            <option value="" disabled selected>Pilih role</option>
+                                            <option value="admin">admin</option>
+                                            <option value="manajer">manajer</option>
+                                        </select>
+                                        <span asp-validation-for="akn_role" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="akn_status" type="text" class="form-control input-with-border" placeholder="Status" value="aktif" hidden>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
+                                    <a asp-controller="Akun" asp-action="Index" class="btn btn-light">Kembali</a>
+                                </form>
+                            </div>
                         </div>
-                        <span asp-validation-for="akn_password" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="akn_role">Role</label>
-                        <select asp-for="akn_role" class="form-control input-with-border">
-                            <option value="" disabled selected>Pilih role</option>
-                            <option value="admin">admin</option>
-                            <option value="manajer">manajer</option>
-                        </select>
-                        <span asp-validation-for="akn_role" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input asp-for="akn_status" type="text" class="form-control input-with-border" placeholder="Status" value="aktif" hidden>
-                    </div>
-                    <button type="submit" class="btn btn-primary mr-2">Simpan</button>
-                    <a asp-controller="Akun" asp-action="Index" class="btn btn-light">Kembali</a>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-</body>
+</section>
 <script>
     function togglePassword(button) {
         var input = $(button).closest('.form-group').find('input');
@@ -87,4 +97,26 @@
         input.attr('type', type);
         $(button).find('i').toggleClass('fa-eye fa-eye-slash');
     }
+
+    $(document).ready(function () {
+        $(".submit-button").click(function (e) {
+            if (!validateForm()) {
+                e.preventDefault();
+            }
+        });
+
+        function validateForm() {
+            // Ganti dengan nama kolom yang sesuai
+            var requiredFields = ["akn_id", "akn_nama", "akn_password", "akn_role"];
+
+            for (var i = 0; i < requiredFields.length; i++) {
+                var field = requiredFields[i];
+                var value = $("#" + field).val();
+                if (!value) {
+                    Swal.fire("Gagal!", "Isi data dengan lengkap!", "warning");
+                    return false;
+                }
+            }
+        }
+    });
 </script>

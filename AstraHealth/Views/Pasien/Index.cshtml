@@ -4,95 +4,103 @@
     int no = 1;
 }
 
-<style>
- 
-
-</style>
+<br>
+<br>
+<br>
+<br>
 <section class="section">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Register</h5>
-                    <hr />
-                    @if (TempData["SuccessMessage"] != null)
-                    {
-                        <div class="row">
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <i class="bi bi-check-circle me-1"></i>
-                                <strong>Sukses!</strong> @TempData["SuccessMessage"]
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h1 class="card-title">Register</h1>
+                                <hr />
+                                @if (TempData["SuccessMessage"] != null)
+                                {
+                                    <div class="row">
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            <strong>Sukses!</strong> @TempData["SuccessMessage"]
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                }
+                                <a class="btn btn-primary" asp-action="Create">Anamnesa Pasien</a>
+                                <hr />
+                                <div class="table-responsive pt-3">
+                                    <table class="table datatable table-bordered" id="myTable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">No</th>
+                                                <th scope="col">NIM/NPK</th>
+                                                <th scope="col">Nama</th>
+                                                <th scope="col">Prodi/Departemen</th>
+                                                <th scope="col">Keluhan</th>
+                                                <th scope="col">Tensi</th>
+                                                <th scope="col">Diagnosa</th>
+                                                <th scope="col">Kecelakaan Kerja</th>
+                                                <th scope="col">Keterangan</th>
+                                                <th scope="col">Tanggal</th>
+                                                <th scope="col">Staff UKK</th>
+                                                <th scope="col">Obat</th>
+                                                <th scope="col">Jumlah</th>
+                                                <th scope="col">Satuan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var pasien in Model)
+                                            {
+                                                <tr>
+                                                    <td>@no</td>
+                                                    <td>@pasien.anm_id_pasien</td>
+                                                    <td>@pasien.anm_nama_pasien</td>
+                                                    <td>@pasien.anm_prodi_atau_departemen</td>
+                                                    <td>@pasien.anm_keluhan</td>
+                                                    <td>@pasien.anm_tensi</td>
+                                                    <td>@pasien.anm_diagnosa</td>
+
+                                                    @if (pasien.anm_kecelakaan_kerja == 1)
+                                                    {
+                                                        <td>Iya</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>Tidak</td>
+                                                    }
+
+                                                    <td>@pasien.anm_keterangan</td>
+                                                    <td>@pasien.anm_tanggal</td>
+                                                    <td>@pasien.anm_nama_admin</td>
+                                                    <td>
+                                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                                        {
+                                                            <div>@pasien.PemakaianObats[i].pmo_nama_obat</div>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                                        {
+                                                            <div>@pasien.PemakaianObats[i].pmo_jumlah</div>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                                        {
+                                                            <div>@pasien.PemakaianObats[i].pmo_satuan</div>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                                no++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    }
-                    <a class="btn btn-primary" asp-action="Create">Anamnesa Pasien</a>
-                    <p></p>
-                    <table class="table datatable" id="myTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">NIM/NPK</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Prodi/Departemen</th>
-                                <th scope="col">Keluhan</th>
-                                <th scope="col">Tensi</th>
-                                <th scope="col">Diagnosa</th>
-                                <th scope="col">Kecelakaan Kerja</th>
-                                <th scope="col">Keterangan</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Staff UKK</th>
-                                <th scope="col">Obat</th>
-                                <th scope="col">Jumlah</th>
-                                <th scope="col">Satuan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var pasien in Model)
-                            {
-                                <tr>
-                                    <td>@no</td>
-                                    <td>@pasien.anm_id_pasien</td>
-                                    <td>@pasien.anm_nama_pasien</td>
-                                    <td>@pasien.anm_prodi_atau_departemen</td>
-                                    <td>@pasien.anm_keluhan</td>
-                                    <td>@pasien.anm_tensi</td>
-                                    <td>@pasien.anm_diagnosa</td>
-
-                                    @if(pasien.anm_kecelakaan_kerja == 1){
-                                        <td>Iya</td>
-                                    }
-                                    else
-                                    {
-                                        <td>Tidak</td>
-                                    }
-
-                                    <td>@pasien.anm_keterangan</td>
-                                    <td>@pasien.anm_tanggal</td>
-                                    <td>@pasien.anm_nama_admin</td>
-                                    <td>
-                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
-                                        {
-                                            <div>@pasien.PemakaianObats[i].pmo_nama_obat</div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
-                                        {
-                                            <div>@pasien.PemakaianObats[i].pmo_jumlah</div>
-                                        }
-                                    </td>
-                                    <td>
-                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
-                                        {
-                                            <div>@pasien.PemakaianObats[i].pmo_satuan</div>
-                                        }
-                                    </td>
-                                </tr>
-                                no++;
-                            }
-                        </tbody>
-
-                    </table>
+                    </div>
                 </div>
             </div>
         </div>

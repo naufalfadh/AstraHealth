@@ -29,7 +29,7 @@ namespace AstraHealth.Controllers
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
 
-            return View(_pasienRepository.getAllData());
+            return View(_pasienRepository.getLaporan());
         }
 
 
