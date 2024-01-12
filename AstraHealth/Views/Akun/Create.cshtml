@@ -37,16 +37,9 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="pagetitle">
-                                    <h1>Akun</h1>
-                                    <nav>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">Akun</li>
-                                            <li class="breadcrumb-item active">Tambah Akun</li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                                <form class="forms-sample" method="post">
+                                <h2>Tambah Akun</h2>
+                                <hr />
+                                <form asp-controller="Akun" asp-action="Create" class="forms-sample" method="post">
                                     <div class="form-group">
                                         <label asp-for="akn_id">NPK</label>
                                         <input asp-for="akn_id" type="text" class="form-control input-with-border" placeholder="NPK">
@@ -59,13 +52,15 @@
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="akn_password">Password</label>
-                                        <input asp-for="akn_password" type="password" class="form-control input-with-border" placeholder="Password">
-                                        <div class="form-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword(this)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
+                                        <div class="input-group">
+                                            <input asp-for="akn_password" id="passwordInput" type="password" class="form-control input-with-border" placeholder="Password">
+                                            <div class="form-group-append">
+                                                <span class="input-group-text bg-light border-left-0">
+                                                    <i id="togglePassword" class="mdi mdi-eye-outline text-primary"></i>
+                                                </span>
+                                            </div>
+                                            <span asp-validation-for="akn_password" class="text-danger"></span>
                                         </div>
-                                        <span asp-validation-for="akn_password" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="akn_role">Role</label>
@@ -91,12 +86,19 @@
     </div>
 </section>
 <script>
-    function togglePassword(button) {
-        var input = $(button).closest('.form-group').find('input');
-        var type = input.attr('type') === 'password' ? 'text' : 'password';
-        input.attr('type', type);
-        $(button).find('i').toggleClass('fa-eye fa-eye-slash');
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('passwordInput');
+        const togglePassword = document.getElementById('togglePassword');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            // Ubah ikon berdasarkan status password
+            togglePassword.classList.toggle('mdi-eye-outline', type === 'password');
+            togglePassword.classList.toggle('mdi-eye-off-outline', type === 'text');
+        });
+    });
 
     $(document).ready(function () {
         $(".submit-button").click(function (e) {
@@ -106,7 +108,6 @@
         });
 
         function validateForm() {
-            // Ganti dengan nama kolom yang sesuai
             var requiredFields = ["akn_id", "akn_nama", "akn_password", "akn_role"];
 
             for (var i = 0; i < requiredFields.length; i++) {
@@ -117,6 +118,8 @@
                     return false;
                 }
             }
+
+            return true; // Tambahkan ini agar formulir dianggap valid
         }
     });
 </script>

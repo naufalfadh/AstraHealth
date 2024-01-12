@@ -40,14 +40,7 @@
                 <div class="col-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <div class="pagetitle">
-                                <nav>
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item">Keperluan Alat Medis</li>
-                                        <li class="breadcrumb-item active">Tambah Keperluan Alat Medis</li>
-                                    </ol>
-                                </nav>
-                            </div>
+                            <h2>Tambah Keperluan Alat Medis</h2>
                             <hr />
                             <form class="forms-sample" method="post">
                                 <div class="form-group">
@@ -69,7 +62,7 @@
                                                     <td><input asp-for="keperluanMedis[0].kpm_jumlah" class="form-control" /></td>
                                                     <td>
                                                         <select asp-for="keperluanMedis[0].kpm_satuan" class="form-control input-with-border">
-                                                            <option value="" selected disabled>Pilih Satuan Obat</option>
+                                                            <option value="" selected disabled>Pilih Satuan</option>
                                                             <option value="buah">Buah</option>
                                                             <option value="kotak">Kotak</option>
                                                             <option value="strip">Strip</option>
@@ -153,22 +146,19 @@
         $(".submit-button").click(function (e) {
             if (!validateForm()) {
                 e.preventDefault();
+            } else {
+                // Tambahkan jeda 2 detik sebelum muncul alert
+                setTimeout(function () {
+                    Swal.fire("Sukses!", "Data berhasil disimpan.", "success").then(function () {
+                        // Setelah alert ditutup, refresh halaman
+                        window.location.reload();
+                    });
+                }, 2000);
             }
         });
 
         function validateForm() {
-            // Ganti dengan nama kolom yang sesuai
-            var requiredFields = ["anm_id_pasien", "anm_nama_pasien", "anm_prodi_atau_departemen", "anm_keluhan", "anm_diagnosa", "anm_prodi_atau_departemen"];
-
-            for (var i = 0; i < requiredFields.length; i++) {
-                var field = requiredFields[i];
-                var value = $("#" + field).val();
-                if (!value) {
-                    Swal.fire("Gagal!", "Isi data dengan lengkap!", "warning");
-                    return false;
-                }
-            }
-
+            var errors = [];
             // Validasi input nama barang, jumlah, dan satuan
             var obatRows = $("#tblKeperluanMedis tbody tr");
             obatRows.each(function (index, row) {
@@ -177,14 +167,20 @@
                 var satuan = $(row).find("select[name$='kpm_satuan']").val();
 
                 if (!namaBarang || !jumlah || !satuan) {
-                    Swal.fire("Gagal!", "Isi data keperluan alat medis dengan lengkap pada baris " + (index + 1), "warning");
-                    return false;
+                    errors.push("Isi data dengan lengkap pada baris " + (index + 1));
                 }
             });
 
+            // Menampilkan pesan kesalahan obat jika ada
+            if (errors.length > 0) {
+                // Tambahkan jeda 2 detik sebelum muncul alert
+                setTimeout(function () {
+                    Swal.fire("Gagal!", errors.join("<br>"), "warning");
+                }, 0);
+                return false;
+            }
             return true;
         }
-
     });
 </script>
 

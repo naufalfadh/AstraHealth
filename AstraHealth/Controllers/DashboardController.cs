@@ -7,11 +7,11 @@ namespace AstraHealth.Controllers
 {
     public class DashboardController : Controller
     {
-        private readonly Pasien _pasienRepository;
+        private readonly Laporan _laporanRepository;
 
         public DashboardController(IConfiguration configuration)
         {
-            _pasienRepository = new Pasien(configuration);
+            _laporanRepository = new Laporan(configuration);
         }
 
         public IActionResult Index()
@@ -29,7 +29,7 @@ namespace AstraHealth.Controllers
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
 
-            return View(_pasienRepository.getLaporan());
+            return View(_laporanRepository.getLaporan());
         }
 
 

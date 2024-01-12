@@ -67,52 +67,51 @@
                         <div class="auth-form-transparent text-left p-3">
                             <div class="card">
                                 <div class="card-body">
-                                        <h2>LOGIN</h2>
+                                    <h2>LOGIN</h2>
+                                    <hr />
+                                    <form method="post" action="Home/Login">
+                                        <div class="col-12">
+                                            <label asp-for="akn_id" class="control-label">Nama Akun</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend bg-transparent">
+                                                    <span class="input-group-text bg-transparent border-right-0">
+                                                        <i class="mdi mdi-account-outline text-primary"></i>
+                                                    </span>
+                                                </div>
+                                                <input asp-for="akn_id" class="form-control form-control-lg border-left-0" required />
+                                            </div>
+                                            <span asp-validation-for="akn_id" class="text-danger"></span>
+                                        </div>
+                                        <br>
+                                        <div class="col-12">
+                                            <label asp-for="akn_password" class="control-label">Kata Sandi</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend bg-transparent">
+                                                    <span class="input-group-text bg-transparent border-right-0">
+                                                        <i class="mdi mdi-lock-outline text-primary"></i>
+                                                    </span>
+                                                </div>
+                                                <input asp-for="akn_password" class="form-control form-control-lg border-left-0" type="password" id="passwordInput" required />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text bg-light border-left-0">
+                                                        <i id="togglePassword" class="mdi mdi-eye-outline text-primary"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <span asp-validation-for="akn_password" class="text-danger"></span>
+                                        </div>
                                         <hr />
-                                        <form method="post" action="Home/Login">
-                                            <div class="col-12">
-                                                <label asp-for="akn_id" class="control-label">Nama Akun</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend bg-transparent">
-                                                        <span class="input-group-text bg-transparent border-right-0">
-                                                            <i class="mdi mdi-account-outline text-primary"></i>
-                                                        </span>
-                                                    </div>
-                                                    <input asp-for="akn_id" class="form-control form-control-lg border-left-0" required />
-                                                </div>
-                                                <span asp-validation-for="akn_id" class="text-danger"></span>
-                                            </div>
-                                            <br>
-                                            <div class="col-12">
-                                                <label asp-for="akn_password" class="control-label">Kata Sandi</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend bg-transparent">
-                                                        <span class="input-group-text bg-transparent border-right-0">
-                                                            <i class="mdi mdi-lock-outline text-primary"></i>
-                                                        </span>
-                                                    </div>
-                                                    <input asp-for="akn_password" class="form-control form-control-lg border-left-0" type="password" id="passwordInput" required />
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text bg-light border-left-0">
-                                                            <i id="togglePassword" class="mdi mdi-eye-outline text-primary"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <span asp-validation-for="akn_password" class="text-danger"></span>
-                                            </div>
-                                            <hr />
-                                            <div class="col-12">
-                                                <button class="btn btn-primary w-100" type="submit">Masuk</button>
+                                        <div class="col-12">
+                                            <button class="btn btn-primary w-100" type="submit">Masuk</button>
+                                        </div>
 
+                                        @if (TempData["ErrorMessage"] != null)
+                                        {
+                                            <div class="alert alert-danger">
+                                                @TempData["ErrorMessage"]
                                             </div>
-
-                                            @if (TempData["ErrorMessage"] != null)
-                                            {
-                                                <div class="alert alert-danger">
-                                                    @TempData["ErrorMessage"]
-                                                </div>
-                                            }
-                                        </form>
+                                        }
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -144,7 +143,7 @@
                 togglePassword.classList.toggle('mdi-eye-off-outline', type === 'text');
             });
         });
-           </script>
+    </script>
 
     <script src="~/content/vendors/base/vendor.bundle.base.js"></script>
     <script src="~/content/js/template.js"></script>

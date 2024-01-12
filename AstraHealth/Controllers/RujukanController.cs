@@ -35,7 +35,7 @@ namespace AstraHealth.Controllers
         [HttpGet]
         public IActionResult Create(string id_anamnesa)
         {
-            AkunModel akunnModel = new AkunModel();
+            AkunModel akunModel = new AkunModel();
 
             string serializedModel = HttpContext.Session.GetString("Identity");
 
@@ -45,11 +45,19 @@ namespace AstraHealth.Controllers
             }
             else
             {
-                akunnModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
 
             RujukanModel rujukanModel = new RujukanModel();
+
+            RujukanModel rujukanModels = new RujukanModel();
+            rujukanModels = _rujukanRepository.getAnamnesaData(id_anamnesa);
+
             rujukanModel.rjk_id_anamnesa = id_anamnesa;
+            rujukanModel.anm_id_pasien = rujukanModels.anm_id_pasien;
+            rujukanModel.anm_nama_pasien = rujukanModels.anm_nama_pasien;
+            rujukanModel.anm_prodi_atau_departemen = rujukanModels.anm_prodi_atau_departemen;
+            rujukanModel.anm_diagnosa= rujukanModels.anm_diagnosa;
 
             return View(rujukanModel);
         }

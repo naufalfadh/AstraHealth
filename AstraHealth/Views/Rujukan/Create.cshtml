@@ -8,18 +8,17 @@
 }
 
 <style>
-    body {
-        padding-top: 100px; /* Atur spasi sesuai kebutuhan */
-    }
-
     .input-with-border {
         border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
         border-radius: 4px; /* Bordes sudut */
     }
 
+
     .card {
         padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
     .card-body {
@@ -29,95 +28,127 @@
     }
 </style>
 
+<br>
+<br>
+<br>
+<br>
+<section class="section">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2>Rujukan</h2>
+                                <hr />
+                                <form class="form-sample" method="post">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">ID Pasien</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" readonly />
+                                                    <span asp-validation-for="anm_id_pasien" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_nama_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" readonly />
+                                                    <span asp-validation-for="anm_nama_pasien" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-<body>
-    <div class="col-12 grid-margin">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Rujukan</h4>
-                <form class="form-sample" method="post">
-                    <p class="card-description">
-                        Personal info
-                    </p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rjk_id_anamnesa" class="col-sm-3 col-form-label">ID Anamnesa</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rjk_id_anamnesa" class="form-control input-with-border" placeholder="Masukkan ID Anamnesa" readonly />
-                                    <span asp-validation-for="rjk_id_anamnesa" class="text-danger"></span>
-                                </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Program Studi atau Departemen</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_prodi_atau_departemen" class="form-control input-with-border" placeholder="Masukkan ID Pasien" readonly />
+                                                    <span asp-validation-for="anm_prodi_atau_departemen" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_diagnosa" class="col-sm-3 col-form-label">Diagnosa</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_diagnosa" class="form-control input-with-border" placeholder="Masukkan ID Pasien" readonly />
+                                                    <span asp-validation-for="anm_diagnosa" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="rjk_rumah_sakit" class="col-sm-3 col-form-label">Rumah Sakit</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="rjk_rumah_sakit" class="form-control input-with-border" placeholder="Masukkan Nama Rumah Sakit" />
+                                                    <span asp-validation-for="rjk_rumah_sakit" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="rjk_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="rjk_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" />
+                                                    <span asp-validation-for="rjk_keterangan" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary mr-2 submit-button">Submit</button>
+                                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Kembali</a>
+
+                                </form>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rjk_rumah_sakit" class="col-sm-3 col-form-label">Rumah Sakit</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rjk_rumah_sakit" class="form-control input-with-border" placeholder="Masukkan Nama Rumah Sakit" />
-                                    <span asp-validation-for="rjk_rumah_sakit" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rjk_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rjk_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" />
-                                    <span asp-validation-for="rjk_keterangan" class="text-danger"></span>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title modal-lg d-flex justify-content-center align-items-center">Laporan Diagnosa Sakit</h2>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" id="parentDiv">
+                                        <!-- Tabel Modal -->
+                                        <table class="table datatable" id="myTable">
+                                            <thead style="background-color: #37003C; color: white;">
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rjk_tanggal" class="col-sm-3 col-form-label">Tanggal</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rjk_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
-                                    <span asp-validation-for="rjk_tanggal" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                   
-                    <button type="submit" class="btn btn-primary mr-2 submit-button">Submit</button>
-                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Cancel</a>
-                    
-                </form>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title modal-lg d-flex justify-content-center align-items-center">Laporan Diagnosa Sakit</h2>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="parentDiv">
-                    <!-- Tabel Modal -->
-                    <table class="table datatable" id="myTable">
-                        <thead style="background-color: #37003C; color: white;">
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Modal -->
-</body>
 <script>
     $(document).ready(function () {
         $(".submit-button").click(function (e) {

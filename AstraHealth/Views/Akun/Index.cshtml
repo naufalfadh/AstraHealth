@@ -20,7 +20,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">akun</h5>
+                                <h2 >Akun</h2>
                                 <hr />
                                 @if (TempData["SuccessMessage"] != null)
                                 {
@@ -34,7 +34,7 @@
                                 }
                                 <a class="btn btn-primary" asp-action="Create">Tambah Akun</a>
                                 <hr />
-                                <table class="table datatable" id="myTable">
+                                <table class="table datatable table-bordered" id="myTable">
                                     <thead>
                                         <tr>
                                             <th scope="col">No</th>
@@ -54,7 +54,14 @@
                                                 <td>@akun.akn_id</td>
                                                 <td>@akun.akn_nama</td>
                                                 <td>@akun.akn_role</td>
-                                                <td>@akun.akn_status</td>
+                                                @if (akun.akn_status == "tidak aktif")
+                                                {
+                                                    <td><label class="badge badge-danger">@akun.akn_status</label></td>
+                                                }
+                                                @if (akun.akn_status == "aktif")
+                                                {
+                                                    <td><label class="badge badge-success">@akun.akn_status</label></td>
+                                                }
                                                 <td>
                                                     <button class="btn btn-sm btn-danger delete-button" data-id="@akun.akn_id">
                                                         <i class="fas fa-trash"></i>
@@ -78,7 +85,11 @@
 
 <script>
     $(document).ready(function () {
-        $('#myTable').DataTable();
+        $('#myTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json"
+            }
+        });
     });
 
     $(document).ready(function () {

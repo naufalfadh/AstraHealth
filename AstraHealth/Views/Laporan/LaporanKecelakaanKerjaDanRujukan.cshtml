@@ -181,6 +181,16 @@
 
 
 <script>
+    //datatables
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json"
+            }
+        });
+    });
+    //end datatables
+
     $("#printPdf").click(function () {
         var element = document.getElementById('parentDiv');
 
@@ -211,10 +221,6 @@
         // Misalnya, Anda dapat menggunakan data tertentu atau urutan yang spesifik
         return "Laporan Diagnosa Sakit"; // Ganti dengan logika Anda
     }
-
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
 
     //set date
     // Fungsi untuk mengatur tanggal pertama bulan ini

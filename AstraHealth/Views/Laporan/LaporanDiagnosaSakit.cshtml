@@ -1,4 +1,4 @@
-﻿@model List<AstraHealth.Models.PasienModel>
+﻿@model List<AstraHealth.Models.LaporanModel>
 @{
     ViewData["Title"] = "Laporan Diagnosa Sakit";
     int no = 1;
@@ -52,12 +52,11 @@
                                 </div>
                                 <hr />
                                 <label for="dari" class="col-sm-0">Dari : </label>
-                                <input type="date" id="dari" class="form-control-sm col-sm-1" />
+                                <input type="date" id="dari" onchange="filterData()" class="form-control-sm col-sm-1" />
                                 <label for="sampai" class="col-sm-0">Sampai : </label>
-                                <input type="date" id="sampai" class="form-control-sm col-sm-1" />
+                                <input type="date" id="sampai" onchange="filterData()" class="form-control-sm col-sm-1" />
                                 <hr />
 
-                                <!-- Formulir Pemilihan Rentang Waktu -->
                                 <!-- Tabel Utama -->
                                 <table class="table datatable table-bordered" id="myTable">
                                     <thead>
@@ -83,12 +82,11 @@
                                                 <td>@pasien.anm_keluhan</td>
                                                 <td>@pasien.anm_tensi</td>
                                                 <td>@pasien.anm_diagnosa</td>
-                                                <td>@pasien.anm_tanggal</td>
+                                                <td>@pasien.tanggal</td>
                                             </tr>
                                             no++;
                                         }
                                     </tbody>
-
                                 </table>
                             </div>
                         </div>
@@ -137,7 +135,7 @@
                                                     <td scope="row">@pasien.anm_nama_pasien</td>
                                                     <td scope="row">@pasien.anm_prodi_atau_departemen</td>
                                                     <td scope="row">@pasien.anm_diagnosa</td>
-                                                    <td scope="row">@pasien.anm_tanggal</td>
+                                                    <td scope="row">@pasien.tanggal</td>
                                                 </tr>
                                                 num++;
                                             }
@@ -157,9 +155,17 @@
     </div>
 </section>
 
-
-
 <script>
+    //datatables
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json"
+            }
+        });
+    });
+    //end datatables
+
     $("#printPdf").click(function () {
         var element = document.getElementById('parentDiv');
 
@@ -190,10 +196,6 @@
         // Misalnya, Anda dapat menggunakan data tertentu atau urutan yang spesifik
         return "Laporan Diagnosa Sakit"; // Ganti dengan logika Anda
     }
-
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
 
     // Fungsi ini akan dijalankan ketika halaman selesai dimuat
     $(document).ready(function () {
@@ -229,4 +231,53 @@
     setFirstDayOfMonth('dari');
     setLastDayOfMonth('sampai');
     //end set date
+
+    //AJAX
+    function filterData() {
+        var dariValue = document.getElementById('dari').value;
+        var sampaiValue = document.getElementById('sampai').value;
+
+        // Menggunakan fetch untuk Ajax
+        fetch('/Laporan/UpdateDiagnosaSakitData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ dari: dariValue, sampai: sampaiValue }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Memperbarui tabel dengan data yang diterima
+                updateTable(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Fungsi untuk memperbarui tabel dengan data yang sesuai
+function updateTable(data) {
+    // Mendapatkan elemen tbody
+    var tbody = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+
+    // Hapus semua baris dari tbody
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+
+    // Tambahkan baris baru sesuai data yang diterima
+    data.forEach(function (item, index) {
+        var row = tbody.insertRow(index);
+        row.insertCell(0).textContent = index + 1;
+        row.insertCell(1).textContent = item.anm_id_pasien;
+        row.insertCell(2).textContent = item.anm_nama_pasien;
+        row.insertCell(3).textContent = item.anm_prodi_atau_departemen;
+        row.insertCell(4).textContent = item.anm_keluhan;
+        row.insertCell(5).textContent = item.anm_tensi;
+        row.insertCell(6).textContent = item.anm_diagnosa;
+        row.insertCell(7).textContent = item.tanggal;
+    });
+}
+
+    //END AJAX
 </script>
