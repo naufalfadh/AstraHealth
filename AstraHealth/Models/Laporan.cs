@@ -29,7 +29,6 @@ namespace AstraHealth.Models
                     // Mendapatkan tanggal terakhir bulan ini
                     DateTime tanggalTerakhir = tanggalPertama.AddMonths(1).AddDays(-1);
                     sampai = tanggalTerakhir.ToString("yyyy-MM-dd");
-
                 }
 
                 // Modifikasi query SQL untuk memfilter berdasarkan tanggal
@@ -218,7 +217,7 @@ namespace AstraHealth.Models
             return laporanList;
         }
 
-        public List<LaporanModel> getLaporan()
+        public List<LaporanModel> getLaporan(string dari, string sampai)
         {
             List<LaporanModel> laporanList = new List<LaporanModel>();
             try
@@ -257,25 +256,56 @@ namespace AstraHealth.Models
                 _connection.Close();
             }
 
+
             // Panggil method untuk menghitung jumlah diagnosa dan menyimpannya di dalam list yang sama
-            getDistinctDiagnosa(laporanList);
-            getDistinctPemakaianObat(laporanList);
-            getKecelakaanKerjaDanRujukan(laporanList);
-            getDistinctProdiDanDepartemen(laporanList);
+            List<LaporanModel> distinctDiagnosa = getDistinctDiagnosa(dari, sampai);
+            // Combine the results of both lists
+            laporanList.AddRange(distinctDiagnosa);
+
+            // Panggil method untuk menghitung jumlah diagnosa dan menyimpannya di dalam list yang sama
+            List<LaporanModel> distinctPemakaianObat = getDistinctPemakaianObat();
+            // Combine the results of both lists
+            laporanList.AddRange(distinctPemakaianObat);
+
+            // Panggil method untuk menghitung jumlah diagnosa dan menyimpannya di dalam list yang sama
+            List<LaporanModel> kecelakaanKerjaRujukan = getKecelakaanKerjaDanRujukan();
+            // Combine the results of both lists
+            laporanList.AddRange(kecelakaanKerjaRujukan);
+
+            // Panggil method untuk menghitung jumlah diagnosa dan menyimpannya di dalam list yang sama
+            List<LaporanModel> distinctProdiDanDepartemen = getDistinctProdiDanDepartemen();
+            // Combine the results of both lists
+            laporanList.AddRange(distinctProdiDanDepartemen);
 
             return laporanList;
         }
 
-        public void getDistinctDiagnosa(List<LaporanModel> laporanList)
+        public List<LaporanModel> getDistinctDiagnosa(string dari, string sampai)
         {
+            List<LaporanModel> laporanList = new List<LaporanModel>();
             try
             {
+                if (string.IsNullOrEmpty(dari) && string.IsNullOrEmpty(sampai))
+                {
+                    // Mendapatkan tanggal pertama bulan ini
+                    DateTime tanggalPertama = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                    dari = tanggalPertama.ToString("yyyy-MM-dd");
+
+                    // Mendapatkan tanggal terakhir bulan ini
+                    DateTime tanggalTerakhir = tanggalPertama.AddMonths(1).AddDays(-1);
+                    sampai = tanggalTerakhir.ToString("yyyy-MM-dd");
+                }
+
                 string query = "SELECT anm_diagnosa, COUNT(*) as jumlah_diagnosa " +
                                "FROM ahl_tranamnesa " +
+                               "WHERE anm_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir " +
                                "GROUP BY anm_diagnosa " +
                                "ORDER BY jumlah_diagnosa DESC";
 
                 SqlCommand command = new SqlCommand(query, _connection);
+                command.Parameters.AddWithValue("@TanggalPertama", dari); // Menggunakan .Value untuk mengakses tipe data DateTime
+                command.Parameters.AddWithValue("@TanggalTerakhir", sampai); // Menggunakan .Value untuk mengakses tipe data DateTime
+
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -298,10 +328,12 @@ namespace AstraHealth.Models
             {
                 _connection.Close();
             }
+            return laporanList;
         }
 
-        public void getDistinctPemakaianObat(List<LaporanModel> laporanList)
+        public List<LaporanModel> getDistinctPemakaianObat()
         {
+            List<LaporanModel> laporanList = new List<LaporanModel>();
             try
             {
                 string query = "SELECT pmo_nama_obat, SUM(pmo_jumlah) AS jumlah_pemakaian_obat " +
@@ -332,10 +364,12 @@ namespace AstraHealth.Models
             {
                 _connection.Close();
             }
+            return laporanList;
         }
 
-        public void getKecelakaanKerjaDanRujukan(List<LaporanModel> laporanList)
+        public List<LaporanModel> getKecelakaanKerjaDanRujukan()
         {
+            List<LaporanModel> laporanList = new List<LaporanModel>();
             try
             {
                 string query = "SELECT " +
@@ -365,10 +399,12 @@ namespace AstraHealth.Models
             {
                 _connection.Close();
             }
+            return laporanList;
         }
 
-        public void getDistinctProdiDanDepartemen(List<LaporanModel> laporanList)
+        public List<LaporanModel> getDistinctProdiDanDepartemen()
         {
+            List<LaporanModel> laporanList = new List<LaporanModel>();
             try
             {
                 string query = "SELECT anm_prodi_atau_departemen, COUNT(*) as jumlah_prodi_atau_departemen " +
@@ -399,6 +435,7 @@ namespace AstraHealth.Models
             {
                 _connection.Close();
             }
+            return laporanList;
         }
     }
 }
