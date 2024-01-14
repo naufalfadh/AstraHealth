@@ -59,79 +59,88 @@
         <img src="~/content/images/IMG_Logo.png" alt="logo" style="max-width: 200px;">
     </header>
     <section class="section">
-    <div class="container-scroller">
-        <div class="container-fluid page-body-wrapper full-page-wrapper">
-            <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
-                <div class="row flex-grow">
-                    <div class="col-lg-6 d-flex align-items-center justify-content-center">
-                        <div class="auth-form-transparent text-left p-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h2>LOGIN</h2>
-                                    <hr />
-                                    <form method="post" action="Home/Login">
-                                        <div class="col-12">
-                                            <label asp-for="akn_id" class="control-label">Nama Akun</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend bg-transparent">
-                                                    <span class="input-group-text bg-transparent border-right-0">
-                                                        <i class="mdi mdi-account-outline text-primary"></i>
-                                                    </span>
-                                                </div>
-                                                <input asp-for="akn_id" class="form-control form-control-lg border-left-0" required />
-                                            </div>
-                                            <span asp-validation-for="akn_id" class="text-danger"></span>
-                                        </div>
-                                        <br>
-                                        <div class="col-12">
-                                            <label asp-for="akn_password" class="control-label">Kata Sandi</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend bg-transparent">
-                                                    <span class="input-group-text bg-transparent border-right-0">
-                                                        <i class="mdi mdi-lock-outline text-primary"></i>
-                                                    </span>
-                                                </div>
-                                                <input asp-for="akn_password" class="form-control form-control-lg border-left-0" type="password" id="passwordInput" required />
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text bg-light border-left-0">
-                                                        <i id="togglePassword" class="mdi mdi-eye-outline text-primary"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <span asp-validation-for="akn_password" class="text-danger"></span>
-                                        </div>
+        <div class="container-scroller">
+            <div class="container-fluid page-body-wrapper full-page-wrapper">
+                <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
+                    <div class="row flex-grow">
+                        <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                            <div class="auth-form-transparent text-left p-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h2>LOGIN</h2>
                                         <hr />
-                                        <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Masuk</button>
-                                        </div>
-
-                                        @if (TempData["ErrorMessage"] != null)
-                                        {
-                                            <div class="alert alert-danger">
-                                                @TempData["ErrorMessage"]
+                                        <form method="post" action="Home/Login">
+                                            <div class="col-12">
+                                                <label asp-for="akn_id" class="control-label">
+                                                    Nama Akun
+                                                        <span style="color:red">*</span>
+                                                </label>
+                                                <span id="username" style="color:red;display:none;">harus diisi</span>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-account-outline text-primary"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input asp-for="akn_id" id="akn_id" class="form-control form-control-lg border-left-0" />
+                                                </div>
+                                                <span asp-validation-for="akn_id" class="text-danger"></span>
                                             </div>
-                                        }
-                                    </form>
+                                            <br>
+                                            <div class="col-12">
+                                                <label asp-for="akn_password" class="control-label">
+                                                    Kata Sandi
+                                                    <span style="color:red">*</span>
+                                                </label>
+                                                    <span id="password" style="color:red;display:none;">harus diisi</span>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend bg-transparent">
+                                                        <span class="input-group-text bg-transparent border-right-0">
+                                                            <i class="mdi mdi-lock-outline text-primary"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input asp-for="akn_password" id="akn_password" class="form-control form-control-lg border-left-0" type="password" />
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text bg-light border-left-0">
+                                                            <i id="togglePassword" class="mdi mdi-eye-outline text-primary"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <span asp-validation-for="akn_password" class="text-danger"></span>
+                                            </div>
+                                            <hr />
+                                            <div class="col-12">
+                                                <button class="btn btn-primary w-100" type="submit">Masuk</button>
+                                            </div>
+
+                                            @if (TempData["ErrorMessage"] != null)
+                                            {
+                                                <div class="alert alert-danger">
+                                                    @TempData["ErrorMessage"]
+                                                </div>
+                                            }
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <footer>
+                            <p class="text-black font-weight-medium text-right flex-grow align-self-end">
+                                Hak Cipta &copy; 2023 Semua hak dilindungi.
+                            </p>
+                        </footer>
                     </div>
-                    <footer>
-                        <p class="text-black font-weight-medium text-right flex-grow align-self-end">
-                            Hak Cipta &copy; 2023 Semua hak dilindungi.
-                        </p>
-                    </footer>
                 </div>
+                <!-- content-wrapper ends -->
             </div>
-            <!-- content-wrapper ends -->
+            <!-- page-body-wrapper ends -->
         </div>
-        <!-- page-body-wrapper ends -->
-    </div>
     </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const passwordInput = document.getElementById('passwordInput');
+            //password toogle
+            const passwordInput = document.getElementById('akn_password');
             const togglePassword = document.getElementById('togglePassword');
 
             togglePassword.addEventListener('click', function () {
@@ -142,6 +151,59 @@
                 togglePassword.classList.toggle('mdi-eye-outline', type === 'password');
                 togglePassword.classList.toggle('mdi-eye-off-outline', type === 'text');
             });
+            //end password toogle
+
+            //span error
+            document.querySelector('button[type="submit"]').addEventListener('click', function (event) {
+                // Reset previous error messages
+                document.getElementById('username').style.display = 'none';
+                document.getElementById('password').style.display = 'none';
+
+                // Check username
+                var username = document.getElementById('akn_id').value;
+
+                if (!username.trim()) {
+                    document.getElementById('username').style.display = 'inline';
+                    event.preventDefault(); // Prevent form submission
+                }
+
+                // Check password
+                var password = document.getElementById('akn_password').value;
+
+                if (!password.trim()) {
+                    document.getElementById('password').style.display = 'inline';
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+
+            document.getElementById("akn_id").addEventListener("blur", function (event) {
+                // Reset previous error messages
+                var usernameError = document.getElementById('username');
+                usernameError.style.display = 'none';
+
+                // Check username
+                var username = this.value.trim();
+
+                if (!username) {
+                    usernameError.textContent = 'harus diisi';
+                    usernameError.style.display = 'inline';
+                }
+            });
+
+            document.getElementById("akn_password").addEventListener("blur", function (event) {
+                // Reset previous error messages
+                var passwordError = document.getElementById('password');
+                passwordError.style.display = 'none';
+
+                // Check username
+                var password = this.value.trim();
+
+                if (!password) {
+                    passwordError.textContent = 'harus diisi';
+                    passwordError.style.display = 'inline';
+                }
+            });
+            //end span error
         });
     </script>
 
