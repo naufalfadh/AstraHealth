@@ -53,7 +53,6 @@ namespace AstraHealth.Models
                 Console.WriteLine(ex.Message);
             }
 
-            // Panggil metode terpisah untuk mengambil data pemakaian obat
             getAllPemakaianObat(pasienList);
 
             return pasienList;

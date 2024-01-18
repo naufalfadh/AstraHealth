@@ -17,8 +17,8 @@
         public string? kpm_nama_admin { get; set; }
     }
 
-    public class KeperluanAlatMedis
-    {
-        public List<KeperluanMedisModel> keperluanMedis { get; set; }
-    }
+        public class KeperluanAlatMedis
+        {
+            public List<KeperluanMedisModel> keperluanMedis { get; set; }
+        }
 }
