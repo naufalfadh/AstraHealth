@@ -247,7 +247,7 @@
                                         </div>
                                         <br>
                                         <div class="logo-container">
-                                            <img src="~/content/images/Tanda_tangan.jpg" alt="logo" />
+                                            <img src="~/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage" />
                                         </div>
                                         <p style="color: black;">Dina Yuliana Amd.Keb</p>
                                     </div>
@@ -267,7 +267,6 @@
 </section>
 
 <script>
-
     $("#printPdf").click(function () {
         var element = document.getElementById('parentDiv');
 
@@ -290,8 +289,7 @@
                             <p style="color: black;">NRP/NIM:     ${idPasien}</p>
                             <br>
                             <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
-                                <p style="color: black;">Mengalami gejala ${diagnosa}</p>
-                            <br>
+                            <p style="color: black;">Mengalami gejala ${diagnosa}</p>
                             <br>
                             <br>
                             <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
@@ -303,24 +301,22 @@
                             </div>
                             <br>
                             <div class="logo-container">
-                                <img src="~/content/images/Tanda_tangan.jpg" alt="logo" />
+                                <img src="~/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage"/>
                             </div>
                             <p style="color: black;">Dina Yuliana Amd.Keb</p>`;
 
         // Mengganti isi dari modal-body dengan teks yang telah disiapkan
         $('.modal-body').html(modalText);
 
-        //generate pdf
-        html2pdf()
-            .from(element)
-            .set({
-                margin: [5, 10], // Atur margin kiri dan atas (dalam satuan milimeter)
-                filename: 'surat keterangan sakit pasien.pdf',
-                html2canvas: { scale: 1 },
-                jsPDF: { format: 'a4' }
-            })
-            .save();
+        // Generate PDF
+        html2pdf().from(element).set({
+            margin: 5,
+            filename: 'Surat Izin.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: { format: 'a4' }
+        }).save();
     });
+
 
     $(document).ready(function () {
         var index = 0;
@@ -445,15 +441,4 @@
     });
 
 
-    $("#printPdf").click(function () {
-        var element = document.getElementById('parentDiv');
-
-        //generate pdf
-        html2pdf().from(element).set({
-            margin: [30, 10, 5, 10],
-            pagebreak: { avoid: 'tr' },
-            jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
-        }).save()
-
-    });
 </script>

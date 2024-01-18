@@ -32,8 +32,7 @@ namespace AstraHealth.Models
         public string? nama_prodi_atau_departemen { get; set; }
         public int? jumlah_prodi_atau_departemen { get; set; }
     }
-
-    public class PemakaianObatModel
+public class PemakaianObatModel
     {
         public string pmo_id { get; set; }
         public string pmo_id_anamnesa { get; set; }
@@ -42,6 +41,7 @@ namespace AstraHealth.Models
         public string pmo_satuan { get; set; }
         public DateTime? pmo_tanggal { get; set; }
     }
+    
 
     public class DiagnosaSakit
     {
