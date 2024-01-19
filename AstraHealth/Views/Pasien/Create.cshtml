@@ -72,7 +72,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
-                                                <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">NIM atau NPK</label>
+                                                <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">NIM atau NPK <span style="color:red">*</span></label>
+
                                                 <div class="col-sm-9">
                                                     <input asp-for="anm_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" />
                                                     <span asp-validation-for="anm_id_pasien" class="text-danger"></span>
@@ -81,7 +82,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group row">
-                                                <label asp-for="anm_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien</label>
+                                                <label asp-for="anm_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien <span style="color:red">*</span></label>
+
                                                 <div class="col-sm-9">
                                                     <input asp-for="anm_nama_pasien" class="form-control input-with-border" placeholder="Masukkan Nama Pasien" />
                                                     <span asp-validation-for="anm_nama_pasien" class="text-danger"></span>
@@ -92,9 +94,10 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
-                                                <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen</label>
+                                                <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen <span style="color:red">*</span></label>
+
                                                 <div class="col-sm-9">
-                                                    <select asp-for="anm_prodi_atau_departemen" class="form-control input-with-border">
+                                                    <select asp-for="anm_prodi_atau_departemen" class="form-control form-control-lg">
                                                         <option value="" selected disabled>Pilih Prodi / Departemen</option>
                                                         <option value="Pembuatan Peralatan dan Perkakas Produksi">Pembuatan Peralatan dan Perkakas Produksi</option>
                                                         <option value="Teknik Produksi dan Proses Manufaktur">Teknik Produksi dan Proses Manufaktur</option>
@@ -116,7 +119,8 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group row">
-                                                <label asp-for="anm_keluhan" class="col-sm-3 col-form-label">Keluhan</label>
+                                                <label asp-for="anm_keluhan" class="col-sm-3 col-form-label">Keluhan <span style="color:red">*</span></label>
+
                                                 <div class="col-sm-9">
                                                     <textarea asp-for="anm_keluhan" class="form-control input-with-border" placeholder="Masukkan Keluhan"></textarea>
                                                     <span asp-validation-for="anm_keluhan" class="text-danger"></span>
@@ -137,7 +141,8 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group row">
-                                                <label asp-for="anm_diagnosa" class="col-sm-3 col-form-label">Diagnosa</label>
+                                                <label asp-for="anm_diagnosa" class="col-sm-3 col-form-label">Diagnosa <span style="color:red">*</span></label>
+
                                                 <div class="col-sm-9">
                                                     <textarea asp-for="anm_diagnosa" class="form-control input-with-border" placeholder="Masukkan Diagnosa"></textarea>
                                                     <span asp-validation-for="anm_diagnosa" class="text-danger"></span>
@@ -205,7 +210,7 @@
                                         </table>
                                     </div>
                                     <button type="submit" name="submitButton" value="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
-                                    <button type="submit" name="submitButton" value="rujukan" class="btn btn-primary mr-2 rujukan-button">Rujukan</button>
+                                    <button type="submit" name="submitButton" value="rujukan" class="btn btn-warning rujukan-button">Rujukan</button>
                                     <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Kembali</a>
                                 </form>
                             </div>
@@ -328,7 +333,7 @@
             cols += '<td><input name="PemakaianObats[' + index + '].pmo_nama_obat" class="form-control" /></td>';
             cols += '<td><input name="PemakaianObats[' + index + '].pmo_jumlah" class="form-control" type="number" /></td>';
             cols += '<td>' +
-                '<select name="PemakaianObats[' + index + '].pmo_satuan" class="form-control input-with-border">' +
+                '<select name="PemakaianObats[' + index + '].pmo_satuan" class="form-control form-control-lg">' +
                 '<option value="" selected disabled>Pilih Satuan Obat</option>' +
                 '<option value="buah">Buah</option>' +
                 '<option value="kotak">Kotak</option>' +

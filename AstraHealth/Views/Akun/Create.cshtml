@@ -41,17 +41,24 @@
                                 <hr />
                                 <form asp-controller="Akun" asp-action="Create" class="forms-sample" method="post">
                                     <div class="form-group">
-                                        <label asp-for="akn_id">NPK</label>
-                                        <input asp-for="akn_id" type="text" class="form-control input-with-border" placeholder="NPK">
+                                        <label asp-for="akn_id">NPK<span style="color:red">*</span></label>
+										<span id="id" style="color:red;display:none;">harus diisi</span>
+                                        <div class="input-group">
+                                            <input asp-for="akn_id" id="akn_id" type="text" class="form-control input-with-border" placeholder="NPK">
+                                        </div>
                                         <span asp-validation-for="akn_id" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="akn_nama">Nama</label>
-                                        <input asp-for="akn_nama" type="text" class="form-control input-with-border" placeholder="Nama">
+                                        <label asp-for="akn_nama">Nama<span style="color:red">*</span></label>
+                                        <span id="nama" style="color:red;display:none;">harus diisi</span>
+                                        <div class="input-group">
+                                            <input asp-for="akn_nama" id="akn_nama" type="text" class="form-control input-with-border" placeholder="Nama">
+                                        </div>
                                         <span asp-validation-for="akn_nama" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="akn_password">Password</label>
+                                        <label asp-for="akn_password">Password<span style="color:red">*</span></label>
+                                        <span id="password" style="color:red;display:none;">harus diisi</span>
                                         <div class="input-group">
                                             <input asp-for="akn_password" id="passwordInput" type="password" class="form-control input-with-border" placeholder="Password">
                                             <div class="form-group-append">
@@ -63,12 +70,15 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="akn_role">Role</label>
-                                        <select asp-for="akn_role" class="form-control input-with-border">
-                                            <option value="" disabled selected>Pilih role</option>
-                                            <option value="admin">admin</option>
-                                            <option value="manajer">manajer</option>
-                                        </select>
+                                        <label asp-for="akn_role">Role<span style="color:red">*</span></label>
+                                        <span id="role" style="color:red;display:none;">harus diisi</span>
+                                        <div class="input-group">
+                                            <select asp-for="akn_role" id="akn_role" class="form-control form-control-lg">
+                                                <option value="" disabled selected>Pilih role</option>
+                                                <option value="admin">admin</option>
+                                                <option value="manajer">manajer</option>
+                                            </select>
+                                        </div>
                                         <span asp-validation-for="akn_role" class="text-danger"></span>
                                     </div>
                                     <div class="form-group">
@@ -98,6 +108,102 @@
             togglePassword.classList.toggle('mdi-eye-outline', type === 'password');
             togglePassword.classList.toggle('mdi-eye-off-outline', type === 'text');
         });
+
+        //span error
+        document.querySelector('button[type="submit"]').addEventListener('click', function (event) {
+            // Reset previous error messages
+            document.getElementById('id').style.display = 'none';
+            document.getElementById('nama').style.display = 'none';
+            document.getElementById('password').style.display = 'none';
+            document.getElementById('role').style.display = 'none';
+
+            // Check username
+            var akn_id = document.getElementById('akn_id').value;
+
+            if (!akn_id.trim()) {
+                document.getElementById('id').style.display = 'inline';
+                event.preventDefault(); // Prevent form submission
+            }
+
+            var akn_nama = document.getElementById('akn_nama').value;
+
+            if (!akn_nama.trim()) {
+                document.getElementById('nama').style.display = 'inline';
+                event.preventDefault(); // Prevent form submission
+            }
+
+            // Check password
+            var akn_password = document.getElementById('passwordInput').value;
+
+            if (!akn_password.trim()) {
+                document.getElementById('password').style.display = 'inline';
+                event.preventDefault(); // Prevent form submission
+            }
+
+            var akn_role = document.getElementById('akn_role').value;
+
+            if (!akn_role.trim()) {
+                document.getElementById('role').style.display = 'inline';
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+
+        document.getElementById("akn_id").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var idError = document.getElementById('id');
+            idError.style.display = 'none';
+
+            // Check username
+            var akn_id = this.value.trim();
+
+            if (!akn_id) {
+                idError.textContent = 'harus diisi';
+                idError.style.display = 'inline';
+            }
+        });
+
+        document.getElementById("akn_nama").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var namaError = document.getElementById('nama');
+            namaError.style.display = 'none';
+
+            // Check username
+            var akn_nama = this.value.trim();
+
+            if (!akn_nama) {
+                namaError.textContent = 'harus diisi';
+                namaError.style.display = 'inline';
+            }
+        });
+
+        document.getElementById("passwordInput").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var passwordError = document.getElementById('password');
+            passwordError.style.display = 'none';
+
+            // Check username
+            var akn_password = this.value.trim();
+
+            if (!akn_nama) {
+                passwordError.textContent = 'harus diisi';
+                passwordError.style.display = 'inline';
+            }
+        });
+
+        document.getElementById("akn_role").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var roleError = document.getElementById('role');
+            roleError.style.display = 'none';
+
+            // Check username
+            var akn_role= this.value.trim();
+
+            if (!akn_role) {
+                roleError.textContent = 'harus diisi';
+                roleError.style.display = 'inline';
+            }
+        });
+        //end span error
     });
 
     $(document).ready(function () {

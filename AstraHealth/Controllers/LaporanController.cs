@@ -47,7 +47,7 @@ namespace AstraHealth.Controllers
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
 
-            return View(_laporanRepository.laporanProdiDanDepartemen());
+            return View(_laporanRepository.laporanProdiDanDepartemen(null, null));
         }
 
         public IActionResult LaporanPemakaianObat()
@@ -65,7 +65,7 @@ namespace AstraHealth.Controllers
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
 
-            return View(_laporanRepository.laporanPemaiakaianObat());
+            return View(_laporanRepository.laporanPemakaianObat(null, null));
         }
 
         public IActionResult LaporanKecelakaanKerjaDanRujukan()
@@ -83,7 +83,7 @@ namespace AstraHealth.Controllers
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
 
-            return View(_laporanRepository.laporanKecelakaanKerjaDanRujukan());
+            return View(_laporanRepository.laporanKecelakaanKerjaDanRujukan(null, null));
         }
 
         [HttpPost]
@@ -106,6 +106,78 @@ namespace AstraHealth.Controllers
             string sampai = dateRange.Sampai.ToString("yyyy-MM-dd");
 
             var data = _laporanRepository.laporanDiagnosaSakit(dari, sampai);
+
+            return Json(data);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateProdiDepartemenData([FromBody] DateRangeModel dateRange)
+        {
+            AkunModel akunModel = new AkunModel();
+
+            string serializedModel = HttpContext.Session.GetString("Identity");
+
+            if (serializedModel == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+            }
+
+            string dari = dateRange.Dari.ToString("yyyy-MM-dd");
+            string sampai = dateRange.Sampai.ToString("yyyy-MM-dd");
+
+            var data = _laporanRepository.laporanProdiDanDepartemen(dari, sampai);
+
+            return Json(data);
+        }
+
+        [HttpPost]
+        public IActionResult UpdatePemakaianObatData([FromBody] DateRangeModel dateRange)
+        {
+            AkunModel akunModel = new AkunModel();
+
+            string serializedModel = HttpContext.Session.GetString("Identity");
+
+            if (serializedModel == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+            }
+
+            string dari = dateRange.Dari.ToString("yyyy-MM-dd");
+            string sampai = dateRange.Sampai.ToString("yyyy-MM-dd");
+
+            var data = _laporanRepository.laporanPemakaianObat(dari, sampai);
+
+            return Json(data);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateRujukanKecelakaanKerjaData([FromBody] DateRangeModel dateRange)
+        {
+            AkunModel akunModel = new AkunModel();
+
+            string serializedModel = HttpContext.Session.GetString("Identity");
+
+            if (serializedModel == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+            }
+
+            string dari = dateRange.Dari.ToString("yyyy-MM-dd");
+            string sampai = dateRange.Sampai.ToString("yyyy-MM-dd");
+
+            var data = _laporanRepository.laporanKecelakaanKerjaDanRujukan(dari, sampai);
 
             return Json(data);
         }

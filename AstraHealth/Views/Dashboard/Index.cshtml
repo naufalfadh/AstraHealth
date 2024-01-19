@@ -10,20 +10,21 @@
     ViewData["Title"] = "Dashboard AstraHealth";
 }
 <head>
-        <!-- ... tag-tag head lainnya ... -->
-       
+    <!-- ... tag-tag head lainnya ... -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
-  
+
     <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    td {
-        border: 3px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            border: 3px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
     </style>
 
 </head>
@@ -73,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
@@ -107,8 +108,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var pasien in Model.Where(p => p.anm_tanggal.Date == DateTime.Now.Date))
-                                            {
+                                    @foreach (var pasien in Model.Where(p => p.anm_tanggal.Date == DateTime.Now.Date))
+                                    {
                                                 <tr>
                                                     <td>@pasien.anm_id_pasien</td>
                                                     <td>@pasien.anm_nama_pasien</td>
@@ -116,7 +117,7 @@
                                                     <td>@pasien.anm_diagnosa</td>
                                                     <td>@pasien.anm_tanggal</td>
                                                 </tr>
-                                            }
+                                    }
                                         </tbody>
                                     </table>
                                 </div>
@@ -124,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-sm-8 flex-column d-flex stretch-card">
                         <div class="col-sm-12 grid-margin d-flex stretch-card">
@@ -139,9 +140,9 @@
                                         <label for="sampai" class="col-sm-2">Sampai : </label>
                                     </div>
                                     <div class="d-flex align-items-end">
-                                        <input type="date" id="prodiDepartemenDari" class="form-control-sm col-sm-2" />
+                                        <input type="date" id="prodiDepartemenDari" onchange="updateProdiDepartemenChart()" class="form-control-sm col-sm-2" />
                                         <div style="padding-right: 5px; padding-left: 5px"></div>
-                                        <input type="date" id="prodiDepartemenSampai" class="form-control-sm col-sm-2" />
+                                        <input type="date" id="prodiDepartemenSampai" onchange="updateProdiDepartemenChart()" class="form-control-sm col-sm-2" />
                                     </div>
                                     <hr />
                                     <div id="prodi atau departemen chart">
@@ -167,9 +168,9 @@
                                                     <label for="sampai" class="col-sm-4">Sampai : </label>
                                                 </div>
                                                 <div class="d-flex align-items-end">
-                                                    <input type="date" id="kecelakaanRujukanDari" class="form-control-sm col-sm-4" />
+                                                    <input type="date" id="kecelakaanRujukanDari" onchange="updateKecelakaanKerjaRujukanChart()" class="form-control-sm col-sm-4" />
                                                     <div style="padding-right: 5px; padding-left: 5px"></div>
-                                                    <input type="date" id="kecelakaanRujukanSampai" class="form-control-sm col-sm-4" />
+                                                    <input type="date" id="kecelakaanRujukanSampai" onchange="updateKecelakaanKerjaRujukanChart()" class="form-control-sm col-sm-4" />
                                                 </div>
                                                 <hr />
                                                 <div id="Kecelakaan Kerja dan Rujukan"></div>
@@ -215,9 +216,9 @@
                                     <label for="sampai" class="col-sm-2">Sampai : </label>
                                 </div>
                                 <div class="d-flex align-items-end">
-                                    <input type="date" id="obatDari" class="form-control-sm col-sm-3" />
+                                    <input type="date" id="obatDari" onchange="updatePemakaianObatChart()" class="form-control-sm col-sm-3" />
                                     <div style="padding-right: 5px; padding-left: 5px"></div>
-                                    <input type="date" id="obatSampai" class="form-control-sm col-sm-3" />
+                                    <input type="date" id="obatSampai" onchange="updatePemakaianObatChart()" class="form-control-sm col-sm-3" />
                                 </div>
                                 <hr />
                                 <div id="Pemakaian Obat"></div>
@@ -225,7 +226,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <!-- Modal -->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -355,7 +356,8 @@
         // Isi data dari model PasienModel
         var PasienDataItems = pasienData || []; // Ensure pasienData is initialized
 
-    //kecelakaan kerja chart
+        //kecelakaan kerja chart
+        var kecelakaanKerjaRujukanChart;
         var kecelakaanKerjaRujukanData = [];
 
         var kecelakaanKerjaRujukanData = PasienDataItems.reduce(function (acc, item) {
@@ -374,7 +376,7 @@
             return acc;
         }, []);
 
-        Highcharts.chart('Kecelakaan Kerja dan Rujukan', {
+        kecelakaanKerjaRujukanChart = Highcharts.chart('Kecelakaan Kerja dan Rujukan', {
             chart: {
                 type: 'pie'
             },
@@ -425,10 +427,55 @@
                 }
             ]
         });
-    //end kecelakaan kerja chart
 
-    //diagnosa sakit chart
-        // Define diagnosaSakitChart
+
+        //update kecelakaan kerja rujukan chart
+        function updateKecelakaanKerjaRujukanChart() {
+            var dari = document.getElementById('kecelakaanRujukanDari').value;
+            var sampai = document.getElementById('kecelakaanRujukanSampai').value;
+
+            fetch('/Dashboard/UpdateKecelakaanRujukanDiagram', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ dari: dari, sampai: sampai }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Received data:', data);
+                    updateKecelakaanKerjaRujukanChartData(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Function to update Diagnosa Sakit chart data
+        function updateKecelakaanKerjaRujukanChartData(data) {
+            var newData = data.reduce(function (acc, item) {
+                if (item.jumlah_kecelakaan_kerja != null && item.jumlah_rujukan != null) {
+                    acc.push({
+                        name: item.jumlah_kecelakaan_kerja > 0 ? 'Kecelakaan Kerja' : '',
+                        y: item.jumlah_kecelakaan_kerja,
+                        drilldown: 'Kecelakaan Kerja'
+                    });
+                    acc.push({
+                        name: item.jumlah_rujukan > 0 ? 'Rujukan Rumah Sakit' : '',
+                        y: item.jumlah_rujukan,
+                        drilldown: 'Rujukan Rumah Sakit'
+                    });
+                }
+                return acc;
+            }, []);
+
+            kecelakaanKerjaRujukanChart.series[0].setData(newData);
+            kecelakaanKerjaRujukanChart.redraw();
+        }
+        //end kecelakaan kerja chart
+
+
+        //diagnosa sakit chart
         var diagnosaSakitChart;
         var diagnosaSakitData = [];
 
@@ -495,7 +542,7 @@
             ]
         });
 
-    //update diagnosa chart
+        //update diagnosa chart
         function updateDiagnosaChart() {
             var dari = document.getElementById('diagnosaDari').value;
             var sampai = document.getElementById('diagnosaSampai').value;
@@ -533,9 +580,10 @@
             diagnosaSakitChart.series[0].setData(newData);
             diagnosaSakitChart.redraw();
         }
-    //end diagnosa sakit chart
+        //end diagnosa sakit chart
 
-    //pemakaian obat chart
+        //pemakaian obat chart
+        var pemakaianObatChart;
         var pemakaianObatData = [];
 
         // Mengisi data labels dan datasets dari diagnosaSakitData
@@ -549,7 +597,7 @@
             }
         });
 
-        Highcharts.chart('Pemakaian Obat', {
+        pemakaianObatChart = Highcharts.chart('Pemakaian Obat', {
             chart: {
                 type: 'pie'
             },
@@ -600,9 +648,49 @@
                 }
             ]
         });
-    //end pemakaian obat chart
 
-    //prodi departemen chart
+        //update pemakaian obat chart
+        function updatePemakaianObatChart() {
+            var dari = document.getElementById('obatDari').value;
+            var sampai = document.getElementById('obatSampai').value;
+
+            fetch('/Dashboard/UpdatePemakaianObatDiagram', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ dari: dari, sampai: sampai }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Received data:', data);
+                    updatePemakaianObatChartData(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Function to update Diagnosa Sakit chart data
+        function updatePemakaianObatChartData(data) {
+            var newData = [];
+            data.forEach(function (item) {
+                if (item.nama_obat != null && item.jumlah_pemakaian_obat != null) {
+                    newData.push({
+                        name: item.nama_obat,
+                        y: item.jumlah_pemakaian_obat,
+                        drilldown: item.nama_obat
+                    });
+                }
+            });
+
+            pemakaianObatChart.series[0].setData(newData);
+            pemakaianObatChart.redraw();
+        }
+        //end pemakaian obat chart
+
+        //prodi departemen chart
+        var prodiDepartemenChart;
         var prodiDepartemenData = [];
 
         // Mengisi data labels dan datasets dari prodiDepartemenItems
@@ -616,7 +704,7 @@
             }
         });
 
-        Highcharts.chart('prodi atau departemen chart', {
+        prodiDepartemenChart = Highcharts.chart('prodi atau departemen chart', {
             chart: {
                 type: 'column'
             },
@@ -663,7 +751,46 @@
                 }
             ]
         });
-    //end prodi departemen chart
+
+        //update diagnosa chart
+        function updateProdiDepartemenChart() {
+            var dari = document.getElementById('prodiDepartemenDari').value;
+            var sampai = document.getElementById('prodiDepartemenSampai').value;
+
+            fetch('/Dashboard/UpdateProdiDepartemenDiagram', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ dari: dari, sampai: sampai }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Received data:', data);
+                    updateProdiDepartemenChartData(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Function to update Diagnosa Sakit chart data
+        function updateProdiDepartemenChartData(data) {
+            var newData = [];
+            data.forEach(function (item) {
+                if (item.nama_prodi_atau_departemen != null && item.jumlah_prodi_atau_departemen != null) {
+                    newData.push({
+                        name: item.nama_prodi_atau_departemen,
+                        y: item.jumlah_prodi_atau_departemen,
+                        drilldown: item.nama_prodi_atau_departemen
+                    });
+                }
+            });
+
+            prodiDepartemenChart.series[0].setData(newData);
+            prodiDepartemenChart.redraw();
+        }
+        //end prodi departemen chart
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

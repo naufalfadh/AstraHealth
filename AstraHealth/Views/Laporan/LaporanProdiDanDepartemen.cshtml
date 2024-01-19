@@ -54,9 +54,9 @@
                                 </div>
                                 <hr />
                                 <label for="dari" class="col-sm-0">Dari : </label>
-                                <input type="date" id="dari" class="form-control-sm col-sm-1" />
+                                <input type="date" id="dari" onchange="filterData()" class="form-control-sm col-sm-1" />
                                 <label for="sampai" class="col-sm-0">Sampai : </label>
-                                <input type="date" id="sampai" class="form-control-sm col-sm-1" />
+                                <input type="date" id="sampai" onchange="filterData()" class="form-control-sm col-sm-1" />
                                 <hr />
                                 <table class="table datatable table-bordered" id="myTable">
                                     <thead>
@@ -82,7 +82,7 @@
                                                 <td>@pasien.anm_keluhan</td>
                                                 <td>@pasien.anm_tensi</td>
                                                 <td>@pasien.anm_diagnosa</td>
-                                                <td>@pasien.anm_tanggal</td>
+                                                <td>@pasien.tanggal</td>
                                             </tr>
                                             no++;
                                         }
@@ -107,16 +107,17 @@
                                     </div>
                                 </div>
                                 <div class="modal-body">
-                                    <table class="table datatable">
+                                    <div class="surat-info">
+                                        <div class="nomor-surat-wrapper">
+                                            <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Lampiran: [Lampiran]</p>
+                                        </div>
+                                        <div class="tanggal-surat-wrapper">
+                                            <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
+                                        </div>
+                                    </div>
+                                    <!-- Tabel Modal -->
+                                    <table class="table table-bordered" id="modalTable">
                                         <thead style="background-color: #37003C; color: white;">
-                                            <div class="surat-info">
-                                                <div class="nomor-surat-wrapper">
-                                                    <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Lampiran: [Lampiran]</p>
-                                                </div>
-                                                <div class="tanggal-surat-wrapper">
-                                                    <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
-                                                </div>
-                                            </div>
                                             <tr>
                                                 <th scope="col">No</th>
                                                 <th scope="col">NIM/NPK</th>
@@ -127,18 +128,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var pasien in Model)
-                                            {
-                                                <tr>
-                                                    <td scope="row">@num</td>
-                                                    <td scope="row">@pasien.anm_id_pasien</td>
-                                                    <td scope="row">@pasien.anm_nama_pasien</td>
-                                                    <td scope="row">@pasien.anm_prodi_atau_departemen</td>
-                                                    <td scope="row">@pasien.anm_diagnosa</td>
-                                                    <td scope="row">@pasien.anm_tanggal</td>
-                                                </tr>
-                                                num++;
-                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -169,6 +158,9 @@
     $("#printPdf").click(function () {
         var element = document.getElementById('parentDiv');
 
+        // Populate modal table with data from the main table
+        populateModalTable();
+
         // Mendapatkan nomor surat
         var nomorSurat = generateNomorSurat(); // Ganti dengan logika untuk mendapatkan nomor surat
 
@@ -189,6 +181,43 @@
             jsPDF: { format: 'a4' }
         }).save();
     });
+
+    //populate modal table
+    document.getElementById('myModal').addEventListener('show.bs.modal', function (event) {
+        // Populate modal table with data from the main table
+        populateModalTable();
+    });
+
+    // ... (your existing script)
+
+    function populateModalTable() {
+        // Clear existing rows in modal table
+        var modalTableBody = document.getElementById('modalTable').getElementsByTagName('tbody')[0];
+        modalTableBody.innerHTML = '';
+
+        // Get data from the main table
+        var mainTableBody = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+        var rows = mainTableBody.getElementsByTagName('tr');
+
+        // Iterate through each row of the main table and add to the modal table
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName('td');
+            var modalTableRow = modalTableBody.insertRow(i);
+
+            // Include the serial number in the first column
+            modalTableRow.insertCell(0).textContent = i + 1;
+
+            // Adjust the order of columns in the modal table
+            var columnOrder = [1, 2, 3, 6, 7]; // Specify the desired column order (indices from myTable)
+            for (var j = 0; j < columnOrder.length; j++) {
+                var cellIndex = columnOrder[j];
+                var cellValue = cells[cellIndex].textContent;
+                var modalTableCell = modalTableRow.insertCell(j + 1); // Start from the second column
+                modalTableCell.textContent = cellValue;
+            }
+        }
+    }
+    //end populate table
 
     // Contoh fungsi untuk menghasilkan nomor surat
     function generateNomorSurat() {
@@ -225,5 +254,54 @@
     // Memanggil fungsi untuk mengatur nilai input
     setFirstDayOfMonth('dari');
     setLastDayOfMonth('sampai');
-        //end set date
+    //end set date
+
+    //AJAX
+    function filterData() {
+        var dariValue = document.getElementById('dari').value;
+        var sampaiValue = document.getElementById('sampai').value;
+
+        // Menggunakan fetch untuk Ajax
+        fetch('/Laporan/UpdateProdiDepartemenData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ dari: dariValue, sampai: sampaiValue }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Memperbarui tabel dengan data yang diterima
+                updateTable(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Fungsi untuk memperbarui tabel dengan data yang sesuai
+    function updateTable(data) {
+        // Mendapatkan elemen tbody
+        var tbody = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+
+        // Hapus semua baris dari tbody
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        // Tambahkan baris baru sesuai data yang diterima
+        data.forEach(function (item, index) {
+            var row = tbody.insertRow(index);
+            row.insertCell(0).textContent = index + 1;
+            row.insertCell(1).textContent = item.anm_id_pasien;
+            row.insertCell(2).textContent = item.anm_nama_pasien;
+            row.insertCell(3).textContent = item.anm_prodi_atau_departemen;
+            row.insertCell(4).textContent = item.anm_keluhan;
+            row.insertCell(5).textContent = item.anm_tensi;
+            row.insertCell(6).textContent = item.anm_diagnosa;
+            row.insertCell(7).textContent = item.tanggal;
+        });
+    }
+
+            //END AJAX
 </script>

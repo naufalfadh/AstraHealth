@@ -76,5 +76,101 @@ namespace AstraHealth.Controllers
                 return BadRequest("An error occurred while processing the request.");
             }
         }
+
+        [HttpPost]
+        public IActionResult UpdateProdiDepartemenDiagram([FromBody] DateRangeModel dateRange)
+        {
+            try
+            {
+                AkunModel akunModel = new AkunModel();
+
+                string serializedModel = HttpContext.Session.GetString("Identity");
+
+                if (serializedModel == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+                }
+
+                string dari = dateRange.Dari.ToString("yyyy-MM-dd");
+                string sampai = dateRange.Sampai.ToString("yyyy-MM-dd");
+
+                var data = _laporanRepository.getDistinctProdiDanDepartemen(dari, sampai);
+
+                return Json(data);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                return BadRequest("An error occurred while processing the request.");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UpdatePemakaianObatDiagram([FromBody] DateRangeModel dateRange)
+        {
+            try
+            {
+                AkunModel akunModel = new AkunModel();
+
+                string serializedModel = HttpContext.Session.GetString("Identity");
+
+                if (serializedModel == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+                }
+
+                string dari = dateRange.Dari.ToString("yyyy-MM-dd");
+                string sampai = dateRange.Sampai.ToString("yyyy-MM-dd");
+
+                var data = _laporanRepository.getDistinctPemakaianObat(dari, sampai);
+
+                return Json(data);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                return BadRequest("An error occurred while processing the request.");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UpdateKecelakaanRujukanDiagram([FromBody] DateRangeModel dateRange)
+        {
+            try
+            {
+                AkunModel akunModel = new AkunModel();
+
+                string serializedModel = HttpContext.Session.GetString("Identity");
+
+                if (serializedModel == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+                }
+
+                string dari = dateRange.Dari.ToString("yyyy-MM-dd");
+                string sampai = dateRange.Sampai.ToString("yyyy-MM-dd");
+
+                var data = _laporanRepository.getKecelakaanKerjaDanRujukan(dari, sampai);
+
+                return Json(data);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                return BadRequest("An error occurred while processing the request.");
+            }
+        }
     }
 }

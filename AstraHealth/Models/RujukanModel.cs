@@ -27,5 +27,6 @@ namespace AstraHealth.Models
         public string? rjk_rumah_sakit { get; set; }
         public string? rjk_keterangan { get; set; }
         public DateTime? rjk_tanggal { get; set; }
+        public string? tanggal { get; set; }
     }
 }

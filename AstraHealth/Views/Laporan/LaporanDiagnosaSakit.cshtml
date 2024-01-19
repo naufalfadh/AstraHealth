@@ -127,7 +127,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -279,27 +278,27 @@
 
     // Fungsi untuk memperbarui tabel dengan data yang sesuai
     function updateTable(data) {
-    // Mendapatkan elemen tbody
-    var tbody = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+        // Mendapatkan elemen tbody
+        var tbody = document.getElementById('myTable').getElementsByTagName('tbody')[0];
 
-    // Hapus semua baris dari tbody
-    while (tbody.firstChild) {
-        tbody.removeChild(tbody.firstChild);
+        // Hapus semua baris dari tbody
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        // Tambahkan baris baru sesuai data yang diterima
+        data.forEach(function (item, index) {
+            var row = tbody.insertRow(index);
+            row.insertCell(0).textContent = index + 1;
+            row.insertCell(1).textContent = item.anm_id_pasien;
+            row.insertCell(2).textContent = item.anm_nama_pasien;
+            row.insertCell(3).textContent = item.anm_prodi_atau_departemen;
+            row.insertCell(4).textContent = item.anm_keluhan;
+            row.insertCell(5).textContent = item.anm_tensi;
+            row.insertCell(6).textContent = item.anm_diagnosa;
+            row.insertCell(7).textContent = item.tanggal;
+        });
     }
 
-    // Tambahkan baris baru sesuai data yang diterima
-    data.forEach(function (item, index) {
-        var row = tbody.insertRow(index);
-        row.insertCell(0).textContent = index + 1;
-        row.insertCell(1).textContent = item.anm_id_pasien;
-        row.insertCell(2).textContent = item.anm_nama_pasien;
-        row.insertCell(3).textContent = item.anm_prodi_atau_departemen;
-        row.insertCell(4).textContent = item.anm_keluhan;
-        row.insertCell(5).textContent = item.anm_tensi;
-        row.insertCell(6).textContent = item.anm_diagnosa;
-        row.insertCell(7).textContent = item.tanggal;
-    });
-    }
-
-    //END AJAX
+        //END AJAX
 </script>

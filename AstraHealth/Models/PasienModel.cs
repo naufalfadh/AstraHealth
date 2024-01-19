@@ -20,8 +20,7 @@ namespace AstraHealth.Models
         public string? anm_nama_admin { get; set; }
         public List<PemakaianObatModel> PemakaianObats { get; set; } = new List<PemakaianObatModel>();
     }
-
-    public class PemakaianObatModel
+public class PemakaianObatModel
     {
         public string pmo_id { get; set; }
         public string pmo_id_anamnesa { get; set; }
@@ -29,5 +28,6 @@ namespace AstraHealth.Models
         public int pmo_jumlah { get; set; }
         public string pmo_satuan { get; set; }
         public DateTime? pmo_tanggal { get; set; }
+        public string? tanggal { get; set; }
     }
 }
