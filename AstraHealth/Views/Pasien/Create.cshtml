@@ -39,18 +39,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        flex-grow: 1; /* Mengisi sisa ruang yang tersedia */
+        flex-grow: 1;
     }
 
-    .logo-container {
-        display: flex;
-        justify-content: center;
-        width: 96px;
-    }
-
-        .logo-container img {
-            max-width: 100%;
-        }
 </style>
 
 <br>
@@ -217,53 +208,70 @@
                         </div>
                     </div>
 
+
                     <!-- Modal -->
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div id="parentDiv">
+                                    <!-- Modal Header -->
                                     <div class="modal-header">
+                                        <!-- Logo Container -->
                                         <div class="logo-container">
-                                            <img src="~/content/images/IMG_Logo.png" alt="logo" />
+                                            <img src="~/content/images/IMG_Logo.png" alt="logo" style="width: 80px;" />
                                         </div>
+                                        <!-- Title Wrapper -->
                                         <div class="title-wrapper">
                                             <h3 class="modal-title modal-lg" style="color: black;">SURAT KETERANGAN</h3>
-                                            <h3 class="modal-title modal-lg" style="color: black;">PEMERIKSAAN KESEHATAAN PASIEN</h3>
+                                            <h3 class="modal-title modal-lg" style="color: black;">PEMERIKSAAN KESEHATAN PASIEN</h3>
                                         </div>
+                                        <!-- Another Logo Container -->
                                         <div class="logo-container">
-                                            <img src="~/content/images/IMG_Logo.png" alt="logo" />
+                                            <img src="~/content/images/IMG_Logo.png" alt="logo" style="width: 80px;" />
                                         </div>
                                     </div>
+
+                                    <!-- Modal Body -->
                                     <div class="modal-body">
+                                        <!-- Patient Information -->
                                         <p style="color: black;">Nama: </p>
                                         <p style="color: black;">Dept/Prodi/UPT: </p>
                                         <p style="color: black;">NRP/NIM: </p>
                                         <br>
+
+                                        <!-- Examination Results -->
                                         <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
                                         <p style="color: black;">Mengalami gejala</p>
                                         <br>
                                         <br>
-                                        <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
-                                        <p style="color: black;">Selama (Satu) Hari</p>
+                                        <p style="color: black;">Setelah dilakukan pemeriksaan, Pasien disarankan untuk pulang dan istirahat selama (Satu) Hari</p>
                                         <br>
                                         <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
+
+                                        <!-- Date of the Letter -->
                                         <div class="tanggal-surat-wrapper">
                                             <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: [Tanggal]</p>
                                         </div>
                                         <br>
+
+                                        <!-- Signature and Name -->
                                         <div class="logo-container">
-                                            <img src="~/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage" />
+                                            <img src="~/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage" style="width: 60px;" />
                                         </div>
                                         <p style="color: black;">Dina Yuliana Amd.Keb</p>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
                     <!-- End Modal -->
                 </div>
             </div>
@@ -272,54 +280,58 @@
 </section>
 
 <script>
-    $("#printPdf").click(function () {
-        var element = document.getElementById('parentDiv');
+    $(document).ready(function () {
+        $("#printPdf").click(function () {
+            // Get the modal content element
+            var modalContent = document.querySelector('.modal-content');
 
-        // Mendapatkan nilai dari field-field yang ada di form
-        var namaPasien = $("input[name='anm_nama_pasien']").val() || '';
-        var prodiDepartemen = $("select[name='anm_prodi_atau_departemen'] option:selected").text() || '';
-        var idPasien = $("input[name='anm_id_pasien']").val() || '';
-        var diagnosa = $("textarea[name='anm_diagnosa']").val() || '';
+            // Get values from form fields
+            var namaPasien = $("p:contains('Nama:')").next().text() || '';
+            var prodiDepartemen = $("p:contains('Dept/Prodi/UPT:')").next().text() || '';
+            var idPasien = $("p:contains('NRP/NIM:')").next().text() || '';
+            var diagnosa = $("p:contains('Mengalami gejala')").text() || '';
 
-        // Mendapatkan tanggal saat ini dan formatnya ke "dd/MMM/yyyy"
-        var today = new Date();
-        var options = { day: '2-digit', month: 'short', year: 'numeric' };
-        var tanggalSurat = today.toLocaleDateString('id-ID', options); // Format tanggal
+            // Get today's date and format it as "dd/MMM/yyyy"
+            var today = new Date();
+            var options = { day: '2-digit', month: 'short', year: 'numeric' };
+            var tanggalSurat = today.toLocaleDateString('id-ID', options);
 
-        document.getElementById('tanggalSurat').textContent = "Cikarang: " + tanggalSurat;
+            // Update the date in the modal content
+            $(".tanggal-surat-wrapper p").text("Cikarang: " + tanggalSurat);
 
-        // Generate teks untuk dimasukkan ke dalam modal-body
-        var modalText = `<p style="color: black;">Nama:      ${namaPasien}</p>
-                            <p style="color: black;">Dept/Prodi/UPT:     ${prodiDepartemen}</p>
-                            <p style="color: black;">NRP/NIM:     ${idPasien}</p>
-                            <br>
-                            <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
-                            <p style="color: black;">Mengalami gejala ${diagnosa}</p>
-                            <br>
-                            <br>
-                            <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
-                            <p style="color: black;">Selama (Satu) Hari</p>
-                            <br>
-                            <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
-                            <div class="tanggal-surat-wrapper">
-                                <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: ${tanggalSurat}</p>
-                            </div>
-                            <br>
-                            <div class="logo-container">
-                                <img src="~/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage"/>
-                            </div>
-                            <p style="color: black;">Dina Yuliana Amd.Keb</p>`;
+            // Generate text for the modal body
+            var modalText = `<p style="color: black;">Nama: ${namaPasien}</p>
+                                    <p style="color: black;">Dept/Prodi/UPT: ${prodiDepartemen}</p>
+                                    <p style="color: black;">NRP/NIM: ${idPasien}</p>
+                                    <br>
+                                    <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
+                                    <p style="color: black;">${diagnosa}</p>
+                                    <br>
+                                    <br>
+                                    <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
+                                    <p style="color: black;">Selama (Satu) Hari</p>
+                                    <br>
+                                    <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
+                                    <div class="tanggal-surat-wrapper">
+                                        <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: ${tanggalSurat}</p>
+                                    </div>
+                                    <br>
+                                    <div class="logo-container">
+                                        <img src="~/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage"/>
+                                    </div>
+                                    <p style="color: black;">Dina Yuliana Amd.Keb</p>`;
 
-        // Mengganti isi dari modal-body dengan teks yang telah disiapkan
-        $('.modal-body').html(modalText);
+            // Update the modal body with the generated text
+            $(".modal-body").html(modalText);
 
-        // Generate PDF
-        html2pdf().from(element).set({
-            margin: 5,
-            filename: 'Surat Izin.pdf',
-            html2canvas: { scale: 2 },
-            jsPDF: { format: 'a4' }
-        }).save();
+            // Generate PDF with proper scaling
+            html2pdf().from(modalContent).set({
+                margin: 10,
+                filename: 'Surat Izin.pdf',
+                html2canvas: { scale: 1 }, // Adjust the scale factor as needed
+                jsPDF: { format: 'a4' }
+            }).save();
+        });
     });
 
 
