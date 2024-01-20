@@ -184,7 +184,7 @@
             // Check username
             var akn_password = this.value.trim();
 
-            if (!akn_nama) {
+            if (!akn_password) {
                 passwordError.textContent = 'harus diisi';
                 passwordError.style.display = 'inline';
             }
@@ -214,7 +214,7 @@
         });
 
         function validateForm() {
-            var requiredFields = ["akn_id", "akn_nama", "akn_password", "akn_role"];
+            var requiredFields = ["akn_id", "akn_nama", "passwordInput", "akn_role"];
 
             for (var i = 0; i < requiredFields.length; i++) {
                 var field = requiredFields[i];

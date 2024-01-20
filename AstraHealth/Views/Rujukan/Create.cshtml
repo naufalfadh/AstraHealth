@@ -43,6 +43,8 @@
                                 <h2>Rujukan</h2>
                                 <hr />
                                 <form class="form-sample" method="post">
+                                    <input asp-for="rjk_id_anamnesa" class="form-control input-with-border" placeholder="Masukkan ID Anamnesa" style="display:none" />
+                                    <input asp-for="rjk_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
@@ -90,10 +92,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <label asp-for="rjk_rumah_sakit" class="col-sm-3 col-form-label">Rumah Sakit <span style="color:red">*</span></label>
-
                                                 <div class="col-sm-9">
-                                                    <input asp-for="rjk_rumah_sakit" class="form-control input-with-border" placeholder="Masukkan Nama Rumah Sakit" />
-                                                    <span asp-validation-for="rjk_rumah_sakit" class="text-danger"></span>
+                                                    <span id="rumah_sakit" style="color:red;display:none;">harus diisi</span>
+                                                    <input asp-for="rjk_rumah_sakit" id="rjk_rumah_sakit" class="form-control input-with-border" placeholder="Masukkan Nama Rumah Sakit" />
                                                 </div>
                                             </div>
                                         </div>
@@ -181,6 +182,14 @@
         });
 
         function validateForm() {
+            document.getElementById('rumah_sakit').style.display = 'none';
+
+            var rjk_rumah_sakit = document.getElementById('rjk_rumah_sakit').value;
+
+            if (!rjk_rumah_sakit.trim()) {
+                document.getElementById('rumah_sakit').style.display = 'inline';
+            }
+
             // Ganti dengan nama kolom yang sesuai
             var requiredFields = ["rjk_rumah_sakit"];
 
@@ -194,5 +203,21 @@
             }
             return true;
         }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById("rjk_rumah_sakit").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var rumahSakitError = document.getElementById('rumah_sakit');
+            rumahSakitError.style.display = 'none';
+
+            // Check username
+            var rjk_rumah_sakit = this.value.trim();
+
+            if (!rjk_rumah_sakit) {
+                rumahSakitError.textContent = 'harus diisi';
+                rumahSakitError.style.display = 'inline';
+            }
+        });
     });
 </script>
