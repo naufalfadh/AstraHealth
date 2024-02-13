@@ -72,6 +72,8 @@
                                                     <td>
                                                         <select asp-for="keperluanMedis[0].kpm_satuan" id="satuan_1" class="form-control form-control-lg">
                                                             <option value="" selected disabled>Pilih Satuan</option>
+                                                            <option value="kapsul">Kapsul</option>
+                                                            <option value="tablet">Tablet</option>
                                                             <option value="buah">Buah</option>
                                                             <option value="kotak">Kotak</option>
                                                             <option value="strip">Strip</option>
@@ -167,6 +169,8 @@
             cols += '<td>' +
                 '<select name="keperluanMedis[' + index + '].kpm_satuan" class="form-control input-with-border">' +
                 '<option value="" selected disabled>Pilih Satuan Obat</option>' +
+                '<option value="kapsul">Kapsul</option>' +
+                '<option value="Tablet">Tablet</option>' +
                 '<option value="buah">Buah</option>' +
                 '<option value="kotak">Kotak</option>' +
                 '<option value="strip">Strip</option>' +
@@ -237,6 +241,10 @@
                     if (!satuan) {
                         document.getElementById('satuan').style.display = 'inline';
                     }
+                }
+                if (jumlah <= 0) {
+                    Swal.fire("Gagal!", errors.join("<br>"), "warning");
+                    return false;
                 }
 
 

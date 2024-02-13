@@ -48,8 +48,7 @@
                                 <div class="d-sm-flex justify-content-center justify-content-sm-between">
                                     <h2>Laporan Program Studi dan Departemen</h2>
                                     <button class="btn btn-primary" style="background-color: #0059AB;" data-bs-toggle="modal" data-bs-target="#myModal">
-                                        Cetak PDF
-                                        <i class="fas fa-file-pdf"></i>
+                                        Ekspor
                                     </button>
                                 </div>
                                 <hr />
@@ -66,7 +65,6 @@
                                             <th scope="col">Nama Pasien</th>
                                             <th scope="col">Prodi/Departemen</th>
                                             <th scope="col">Keluhan</th>
-                                            <th scope="col">Tensi</th>
                                             <th scope="col">Diagnosa</th>
                                             <th scope="col">Tanggal</th>
                                         </tr>
@@ -80,9 +78,9 @@
                                                 <td>@pasien.anm_nama_pasien</td>
                                                 <td>@pasien.anm_prodi_atau_departemen</td>
                                                 <td>@pasien.anm_keluhan</td>
-                                                <td>@pasien.anm_tensi</td>
                                                 <td>@pasien.anm_diagnosa</td>
-                                                <td>@pasien.tanggal</td>
+                                                <td>@DateTime.Parse(pasien.tanggal).ToString("dd/MM/yyyy HH:mm")</td>
+
                                             </tr>
                                             no++;
                                         }
@@ -117,7 +115,7 @@
                                     </div>
                                     <!-- Tabel Modal -->
                                     <table class="table table-bordered" id="modalTable">
-                                        <thead style="background-color: #37003C; color: white;">
+                                        <thead style="background-color: #0000CD; color: white;">
                                             <tr>
                                                 <th scope="col">No</th>
                                                 <th scope="col">NIM/NPK</th>
@@ -134,7 +132,14 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                                <button type="button" class="btn btn-danger" id="printPdf">
+                                    <i class="mdi mdi-file-pdf"></i>
+                                    PDF
+                                </button>
+                                <button type="button" class="btn btn-success" id="printExcel">
+                                    <i class="mdi mdi-file-excel"></i>
+                                    EXCEL
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -161,6 +166,52 @@
         // Populate modal table with data from the main table
         populateModalTable();
 
+        //generate pdf
+        html2pdf().from(element).set({
+            margin: 5,
+            filename: 'laporan sakit prodi dan departemen.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: { format: 'a4' }
+        }).save();
+    });
+
+    $("#printExcel").click(function () {
+        // Ambil tabel dengan ID modalTable
+        var table = document.getElementById("modalTable");
+
+        // Dapatkan semua baris dari tabel
+        var rows = table.querySelectorAll("tbody tr");
+
+        // Buat array untuk menyimpan data
+        var data = [];
+
+        // Loop melalui setiap baris dan dapatkan data sel
+        rows.forEach(function (row) {
+            var rowData = [];
+            row.querySelectorAll("td").forEach(function (cell) {
+                rowData.push(cell.textContent.trim());
+            });
+            data.push(rowData);
+        });
+
+        // Buat objek workbook
+        var ws = XLSX.utils.aoa_to_sheet([["No", "NIM/NPK", "Nama Pasien", "Prodi/Departemen", "Diagnosa", "Tanggal"]].concat(data));
+
+        ws["!cols"] = [{ width: 10 }, { width: 20 }, { width: 20 }, { width: 20 }, { width: 20 }, { width: 20 }];
+
+        // Buat objek workbook
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+        // Simpan workbook ke file Excel
+        XLSX.writeFile(wb, "data_prodi_dan_departemen.xlsx");
+    });
+
+    //populate modal table
+    document.getElementById('myModal').addEventListener('show.bs.modal', function (event) {
+        // Populate modal table with data from the main table
+        populateModalTable();
+
         // Mendapatkan nomor surat
         var nomorSurat = generateNomorSurat(); // Ganti dengan logika untuk mendapatkan nomor surat
 
@@ -172,20 +223,6 @@
         // Menyisipkan nomor surat dan tanggal ke dalam elemen HTML
         document.getElementById('nomorSurat').textContent = "Lampiran: " + nomorSurat;
         document.getElementById('tanggalSurat').textContent = "Tanggal: " + tanggalSurat;
-
-        //generate pdf
-        html2pdf().from(element).set({
-            margin: 5,
-            filename: 'laporan sakit prodi dan departemen.pdf',
-            html2canvas: { scale: 2 },
-            jsPDF: { format: 'a4' }
-        }).save();
-    });
-
-    //populate modal table
-    document.getElementById('myModal').addEventListener('show.bs.modal', function (event) {
-        // Populate modal table with data from the main table
-        populateModalTable();
     });
 
     // ... (your existing script)
@@ -208,7 +245,7 @@
             modalTableRow.insertCell(0).textContent = i + 1;
 
             // Adjust the order of columns in the modal table
-            var columnOrder = [1, 2, 3, 6, 7]; // Specify the desired column order (indices from myTable)
+            var columnOrder = [1, 2, 3, 5, 6]; // Specify the desired column order (indices from myTable)
             for (var j = 0; j < columnOrder.length; j++) {
                 var cellIndex = columnOrder[j];
                 var cellValue = cells[cellIndex].textContent;
@@ -297,11 +334,13 @@
             row.insertCell(2).textContent = item.anm_nama_pasien;
             row.insertCell(3).textContent = item.anm_prodi_atau_departemen;
             row.insertCell(4).textContent = item.anm_keluhan;
-            row.insertCell(5).textContent = item.anm_tensi;
-            row.insertCell(6).textContent = item.anm_diagnosa;
-            row.insertCell(7).textContent = item.tanggal;
+            row.insertCell(5).textContent = item.anm_diagnosa;
+            
+            // Parse and format the date using moment.js
+            var formattedDate = moment(item.tanggal, "DD/MM/YYYY HH:mm").format("DD/MM/YYYY HH:mm");
+            row.insertCell(6).textContent = formattedDate;
         });
     }
 
-            //END AJAX
+    //END AJAX
 </script>

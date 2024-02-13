@@ -39,17 +39,24 @@ namespace AstraHealth.Controllers
             if (string.IsNullOrEmpty(akn_id) || string.IsNullOrEmpty(akn_password))
             {
                 // Jika username atau password tidak valid, kembali ke halaman login atau tampilkan pesan kesalahan
-                TempData["ErrorMessage"] = "Username dan password harus diisi.";
+                TempData["ErrorMessage"] = "NPK dan kata sandi harus diisi.";
                 return RedirectToAction("Index", "Home"); // Ganti "Account" dengan nama controller akun Anda
             }
+
+            akn_password = _akunRepository.HashPassword(akn_password);
 
             // Dapatkan data anggota berdasarkan username dan password
             AkunModel akunModel = _akunRepository.getDataByUsernamePassword(akn_id, akn_password);
 
-            if (akunModel == null || akunModel.akn_status == "tidak aktif")
+            if (akunModel == null)
             {
                 // Jika data anggota tidak ditemukan, berarti kredensial salah
-                TempData["ErrorMessage"] = "Username atau password salah.";
+                TempData["ErrorMessage"] = "NPK atau kata sandi salah.";
+                return RedirectToAction("Index", "Home"); // Ganti "Account" dengan nama controller akun Anda
+            }
+            else if (akunModel.akn_status == "tidak aktif")
+            {
+                TempData["ErrorMessage"] = "Akun tidak aktif, hubungi Manajer UKK untuk mengaktifkan akun kembali.";
                 return RedirectToAction("Index", "Home"); // Ganti "Account" dengan nama controller akun Anda
             }
 

@@ -6,52 +6,75 @@
 @{
     var httpContext = ViewContext.HttpContext;
 }
-<style>
-    body {
-        padding-top: 100px; /* Atur spasi sesuai kebutuhan */
-    }
 
+<style>
     .input-with-border {
-        border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
-        border-radius: 4px; /* Bordes sudut */
+        border: 1px solid #ddd;
+        border-radius: 4px;
     }
 
     .card {
-        padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
-        padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
     .card-body {
-        background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
-        padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
-        border-radius: 8px; /* Bordes sudut */
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        background-color: #f0f0f0;
         padding: 20px;
-        text-align: center;
+        border-radius: 8px;
     }
-
-    .title-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex-grow: 1; /* Mengisi sisa ruang yang tersedia */
-    }
-
-    .logo-container {
-        display: flex;
-        justify-content: center;
-        width: 96px;
-    }
-
-        .logo-container img {
-            max-width: 100%;
-        }
 </style>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="parentDiv">
+                <div class="modal-header">
+                    <div class="logo-container" style="display: flex;justify-content: center;width: 96px;">
+                        <img src="~/content/images/IMG_Logo.png" alt="logo" style="display: flex;justify-content: center;width: 96px;" />
+                    </div>
+                    <div class="title-wrapper" style="text-align: center">
+                        <h3 class="modal-title modal-lg" style="color: black;">SURAT KETERANGAN</h3>
+                        <h3 class="modal-title modal-lg" style="color: black;">PEMERIKSAAN KESEHATAAN PASIEN</h3>
+                    </div>
+                    <div class="logo-container" style="display: flex;justify-content: center;width: 96px;">
+                        <img src="~/content/images/IMG_Logo.png" alt="logo" style="display: flex;justify-content: center;width: 96px;" />
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p style="color: black;">Nama: </p>
+                    <p style="color: black;">Dept/Prodi/UPT: </p>
+                    <p style="color: black;">NRP/NIM: </p>
+                    <br>
+                    <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
+                    <p style="color: black;">Mengalami gejala</p>
+                    <br>
+                    <br>
+                    <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
+                    <p style="color: black;">Selama (Satu) Hari</p>
+                    <br>
+                    <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
+                    <div class="tanggal-surat-wrapper">
+                        <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: [Tanggal]</p>
+                    </div>
+                    <br>
+                    <div class="logo-container" style="display: flex;justify-content: center;width: 96px;">
+                        <img src="/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage" style="display: flex;justify-content: center;width: 96px;" />
+                    </div>
+                    <p style="color: black;">Dina Yuliana Amd.Keb</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
 
 <br>
 <br>
@@ -62,31 +85,40 @@
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="row">
-                    <div class="col-12 grid-margin ">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
                                 <h2>Anamnesa Pasien</h2>
                                 <hr />
+                                <h3 class="card-title">Data Pasien</h3>
+                                @if (TempData["ErrorMessage"] != null)
+                                {
+                                    <div class="row">
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <i class="bi bi-check-circle me-1"></i>
+                                            <strong>@TempData["ErrorMessage"]</strong>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                }
                                 <form class="form-sample" method="post">
                                     <input asp-for="anm_id" class="form-control input-with-border" value="null" hidden />
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">NIM atau NPK <span style="color:red">*</span></label>
-
                                                 <div class="col-sm-9">
-                                                    <input asp-for="anm_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" />
-                                                    <span asp-validation-for="anm_id_pasien" class="text-danger"></span>
+                                                    <span id="id_pasien" style="color:red;display:none;">harus diisi</span>
+                                                    <input asp-for="anm_id_pasien" id="anm_id_pasien" type="number" class="form-control input-with-border" placeholder="Masukkan ID Pasien" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <label asp-for="anm_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien <span style="color:red">*</span></label>
-
                                                 <div class="col-sm-9">
-                                                    <input asp-for="anm_nama_pasien" class="form-control input-with-border" placeholder="Masukkan Nama Pasien" />
-                                                    <span asp-validation-for="anm_nama_pasien" class="text-danger"></span>
+                                                    <span id="nama_pasien" style="color:red;display:none;">harus diisi</span>
+                                                    <input asp-for="anm_nama_pasien" id="anm_nama_pasien" class="form-control input-with-border" placeholder="Masukkan Nama Pasien" />
                                                 </div>
                                             </div>
                                         </div>
@@ -95,113 +127,96 @@
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Prodi atau Departemen <span style="color:red">*</span></label>
-
                                                 <div class="col-sm-9">
-                                                    <select asp-for="anm_prodi_atau_departemen" class="form-control form-control-lg">
+                                                    <span id="prodi_atau_departemen" style="color:red;display:none;">harus diisi</span>
+                                                    <select asp-for="anm_prodi_atau_departemen" id="anm_prodi_atau_departemen" class="form-control form-control-lg">
                                                         <option value="" selected disabled>Pilih Prodi / Departemen</option>
                                                         <option value="Pembuatan Peralatan dan Perkakas Produksi">Pembuatan Peralatan dan Perkakas Produksi</option>
                                                         <option value="Teknik Produksi dan Proses Manufaktur">Teknik Produksi dan Proses Manufaktur</option>
-                                                        <option value="Teknologi Konstruksi Bangunan Gedung">Teknologi Konstruksi Bangunan Gedung</option>
+                                                        <option value="Manajemen Informatika">Manajemen Informatika</option>
                                                         <option value="Mesin Otomotif">Mesin Otomotif</option>
                                                         <option value="Mekatronika">Mekatronika</option>
-                                                        <option value="Manajemen Informatika">Manajemen Informatika</option>
+                                                        <option value="Teknologi Konstruksi Bangunan Gedung">Teknologi Konstruksi Bangunan Gedung</option>
                                                         <option value="Teknologi Rekayasa Pemeliharaan Alat Berat">Teknologi Rekayasa Pemeliharaan Alat Berat</option>
                                                         <option value="Teknologi Rekayasa Logistik">Teknologi Rekayasa Logistik</option>
                                                         <option value="DAAA">DAAA</option>
                                                         <option value="DKA">DKA</option>
                                                         <option value="DAKAP">DAKAP</option>
                                                         <option value="GA">GA</option>
+                                                        <option value="Sigap(vendor)">Sigap(vendor)</option>
+                                                        <option value="Virtus(vendor)">Virtus(vendor)</option>
+                                                        <option value="lainnya">Lainnya</option>
                                                     </select>
-                                                    <span asp-validation-for="anm_prodi_atau_departemen" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
-
+                                    </div>
+                                    <hr />
+                                    <h3 class="card-title">Data Kesehatan Pasien</h3>
+                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <label asp-for="anm_keluhan" class="col-sm-3 col-form-label">Keluhan <span style="color:red">*</span></label>
-
                                                 <div class="col-sm-9">
-                                                    <textarea asp-for="anm_keluhan" class="form-control input-with-border" placeholder="Masukkan Keluhan"></textarea>
-                                                    <span asp-validation-for="anm_keluhan" class="text-danger"></span>
+                                                    <span id="keluhan" style="color:red;display:none;">harus diisi</span>
+                                                    <textarea asp-for="anm_keluhan" id="anm_keluhan" class="form-control input-with-border" placeholder="Masukkan Keluhan"></textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <label asp-for="anm_tensi" class="col-sm-3 col-form-label">Tensi</label>
-                                                <div class="col-sm-9">
-                                                    <input asp-for="anm_tensi" class="form-control input-with-border" placeholder="Masukkan Tensi" value="" />
-                                                    <span asp-validation-for="anm_tensi" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <label asp-for="anm_diagnosa" class="col-sm-3 col-form-label">Diagnosa <span style="color:red">*</span></label>
-
                                                 <div class="col-sm-9">
-                                                    <textarea asp-for="anm_diagnosa" class="form-control input-with-border" placeholder="Masukkan Diagnosa"></textarea>
-                                                    <span asp-validation-for="anm_diagnosa" class="text-danger"></span>
+                                                    <span id="diagnosa" style="color:red;display:none;">harus diisi</span>
+                                                    <textarea asp-for="anm_diagnosa" id="anm_diagnosa" class="form-control input-with-border" placeholder="Masukkan Diagnosa"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
+												<label asp-for="anm_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+												<div class="col-sm-9">
+													<textarea asp-for="anm_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" value=""></textarea>
+												</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
                                                 <div class="col-sm-9">
-                                                    <div class="form-check">
+                                                    <div class="form-check" style="margin-left: 5%">
                                                         <input id="anm_kecelakaan_kerja_checkbox" name="anm_kecelakaan_kerja_checkbox" type="checkbox" class="form-check-input" />
                                                         <label class="form-check-label" for="anm_kecelakaan_kerja_checkbox">Kecelakaan Kerja</label>
                                                     </div>
-                                                    <span asp-validation-for="anm_kecelakaan_kerja" class="text-danger"></span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <label asp-for="anm_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
-                                                <div class="col-sm-9">
-                                                    <textarea asp-for="anm_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" value=""></textarea>
-                                                    <span asp-validation-for="anm_keterangan" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <div class="col-sm-9">
-                                                    <input asp-for="anm_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
-                                                    <span asp-validation-for="anm_tanggal" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <div class="col-sm-9">
-                                                    <input asp-for="anm_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden />
-                                                    <span asp-validation-for="anm_id_admin" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    <input asp-for="anm_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" hidden />
+                                    <input asp-for="anm_id_admin" class="form-control input-with-border" placeholder="Masukkan ID Admin" value="@httpContext.Session.GetString("Id")" hidden />
+                                    <hr />
+                                    <h3 class="card-title">Obat</h3>
                                     <div class="form-group">
-                                        <label class="form-control">Obat</label>
                                         <button type="button" id="btnTambahBaris" form="pasienForm" class="btn btn-primary">Tambah</button>
                                         <table id="tblPemakaianObat" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Nama Obat</th>
-                                                    <th>Jumlah</th>
-                                                    <th>Satuan</th>
+                                                    <th>
+                                                        Nama Obat
+                                                        <span id="1" style="color:red;display:none;"> *</span>
+                                                        <span id="nama_obat" style="color:red;display:none;">harus diisi</span>
+                                                    </th>
+                                                    <th>
+                                                        Jumlah
+                                                        <span id="2" style="color:red;display:none;"> *</span>
+                                                        <span id="jumlah" style="color:red;display:none;">harus diisi</span>
+                                                    </th>
+                                                    <th>
+                                                        Satuan
+                                                        <span id="3" style="color:red;display:none;"> *</span>
+                                                        <span id="satuan" style="color:red;display:none;">harus diisi</span>
+                                                    </th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
@@ -210,61 +225,11 @@
                                         </table>
                                     </div>
                                     <button type="submit" name="submitButton" value="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
-                                    <button type="submit" name="submitButton" value="rujukan" class="btn btn-warning rujukan-button">Rujukan</button>
                                     <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Kembali</a>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div id="parentDiv">
-                                    <div class="modal-header">
-                                        <div class="logo-container">
-                                            <img src="~/content/images/IMG_Logo.png" alt="logo" />
-                                        </div>
-                                        <div class="title-wrapper">
-                                            <h3 class="modal-title modal-lg" style="color: black;">SURAT KETERANGAN</h3>
-                                            <h3 class="modal-title modal-lg" style="color: black;">PEMERIKSAAN KESEHATAAN PASIEN</h3>
-                                        </div>
-                                        <div class="logo-container">
-                                            <img src="~/content/images/IMG_Logo.png" alt="logo" />
-                                        </div>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p style="color: black;">Nama: </p>
-                                        <p style="color: black;">Dept/Prodi/UPT: </p>
-                                        <p style="color: black;">NRP/NIM: </p>
-                                        <br>
-                                        <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
-                                        <p style="color: black;">Mengalami gejala</p>
-                                        <br>
-                                        <br>
-                                        <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
-                                        <p style="color: black;">Selama (Satu) Hari</p>
-                                        <br>
-                                        <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
-                                        <div class="tanggal-surat-wrapper">
-                                            <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: [Tanggal]</p>
-                                        </div>
-                                        <br>
-                                        <div class="logo-container">
-                                            <img src="~/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage" />
-                                        </div>
-                                        <p style="color: black;">Dina Yuliana Amd.Keb</p>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Modal -->
                 </div>
             </div>
         </div>
@@ -272,132 +237,92 @@
 </section>
 
 <script>
-    $("#printPdf").click(function () {
-        var element = document.getElementById('parentDiv');
-
-        // Mendapatkan nilai dari field-field yang ada di form
-        var namaPasien = $("input[name='anm_nama_pasien']").val() || '';
-        var prodiDepartemen = $("select[name='anm_prodi_atau_departemen'] option:selected").text() || '';
-        var idPasien = $("input[name='anm_id_pasien']").val() || '';
-        var diagnosa = $("textarea[name='anm_diagnosa']").val() || '';
-
-        // Mendapatkan tanggal saat ini dan formatnya ke "dd/MMM/yyyy"
-        var today = new Date();
-        var options = { day: '2-digit', month: 'short', year: 'numeric' };
-        var tanggalSurat = today.toLocaleDateString('id-ID', options); // Format tanggal
-
-        document.getElementById('tanggalSurat').textContent = "Cikarang: " + tanggalSurat;
-
-        // Generate teks untuk dimasukkan ke dalam modal-body
-        var modalText = `<p style="color: black;">Nama:      ${namaPasien}</p>
-                            <p style="color: black;">Dept/Prodi/UPT:     ${prodiDepartemen}</p>
-                            <p style="color: black;">NRP/NIM:     ${idPasien}</p>
-                            <br>
-                            <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
-                            <p style="color: black;">Mengalami gejala ${diagnosa}</p>
-                            <br>
-                            <br>
-                            <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
-                            <p style="color: black;">Selama (Satu) Hari</p>
-                            <br>
-                            <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
-                            <div class="tanggal-surat-wrapper">
-                                <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: ${tanggalSurat}</p>
-                            </div>
-                            <br>
-                            <div class="logo-container">
-                                <img src="~/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage"/>
-                            </div>
-                            <p style="color: black;">Dina Yuliana Amd.Keb</p>`;
-
-        // Mengganti isi dari modal-body dengan teks yang telah disiapkan
-        $('.modal-body').html(modalText);
-
-        // Generate PDF
-        html2pdf().from(element).set({
-            margin: 5,
-            filename: 'Surat Izin.pdf',
-            html2canvas: { scale: 2 },
-            jsPDF: { format: 'a4' }
-        }).save();
-    });
-
-
     $(document).ready(function () {
-        var index = 0;
-
-        $("#btnTambahBaris").click(function () {
-            var newRow = $("<tr>");
-            var cols = "";
-
-            cols += '<td><input name="PemakaianObats[' + index + '].pmo_nama_obat" class="form-control" /></td>';
-            cols += '<td><input name="PemakaianObats[' + index + '].pmo_jumlah" class="form-control" type="number" /></td>';
-            cols += '<td>' +
-                '<select name="PemakaianObats[' + index + '].pmo_satuan" class="form-control form-control-lg">' +
-                '<option value="" selected disabled>Pilih Satuan Obat</option>' +
-                '<option value="buah">Buah</option>' +
-                '<option value="kotak">Kotak</option>' +
-                '<option value="strip">Strip</option>' +
-                '<option value="botol">Botol</option>' +
-                '<option value="vial">Vial</option>' +
-                '<option value="ampul">Ampul</option>' +
-                '<option value="tube">Tube</option>' +
-                '<option value="paket">Paket</option>' +
-                '<option value="dus">Dus</option>' +
-                '<option value="sachet">Sachet</option>' +
-                '<option value="plat">Plat</option>' +
-                '</select>' +
-                '</td>';
-
-            cols += '<td>';
-            cols += '<input name="PemakaianObats[' + index + '].pmo_id" class="form-control input-with-border" value="null" hidden />';
-            cols += '<input name="PemakaianObats[' + index + '].pmo_id_anamnesa" class="form-control input-with-border" value="null" hidden />';
-            cols += '<button type="button" class="btnHapusBaris btn btn-danger">Hapus</button>';
-            cols += '</td>';
-
-            newRow.append(cols);
-            $("#tblPemakaianObat tbody").append(newRow);
-
-            index++;
+        //surat izin
+        $("#printPdf").click(function () {
+            downloadSuratIzin();
         });
 
-        $("#tblPemakaianObat").on("click", ".btnHapusBaris", function () {
-            $(this).closest("tr").remove();
-        });
+        function setSuratIzinText() {
+            // Mendapatkan nilai dari field-field yang ada di form
+            var namaPasien = $("#anm_nama_pasien").val() || '';
+            var prodiDepartemen = $("#anm_prodi_atau_departemen").val() || '';
+            var idPasien = $("#anm_id_pasien").val() || '';
+            var diagnosa = $("#anm_diagnosa").val() || '';
 
+            // Mendapatkan tanggal saat ini dan formatnya ke "dd/MMM/yyyy"
+            var today = new Date();
+            var options = { day: '2-digit', month: 'short', year: 'numeric' };
+            var tanggalSurat = today.toLocaleDateString('id-ID', options); // Format tanggal
+
+            document.getElementById('tanggalSurat').textContent = "Cikarang: " + tanggalSurat;
+
+            // Generate teks untuk dimasukkan ke dalam modal-body
+            var modalText = `<p style="color: black;">Nama:      ${namaPasien}</p>
+                                <p style="color: black;">Dept/Prodi/UPT:     ${prodiDepartemen}</p>
+                                <p style="color: black;">NRP/NIM:     ${idPasien}</p>
+                                <br>
+                                <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
+                                <p style="color: black;">Mengalami gejala ${diagnosa}</p>
+                                <br>
+                                <br>
+                                <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
+                                <p style="color: black;">Selama (Satu) Hari</p>
+                                <br>
+                                <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
+                                <div class="tanggal-surat-wrapper">
+                                    <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: ${tanggalSurat}</p>
+                                </div>
+                                <br>
+                                <div class="logo-container">
+                                    <img src="/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage" style="display: flex;justify-content: center;width: 96px;"/>
+                                </div>
+                                <p style="color: black;">Dina Yuliana Amd.Keb</p>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>`;
+
+            // Mengganti isi dari modal-body dengan teks yang telah disiapkan
+            $('.modal-body').html(modalText);
+        }
+        //end surat izin
+
+        //submit form & validate
         $(".submit-button").click(function (e) {
             e.preventDefault(); // Mencegah pengiriman formulir secara default
-            var buttonValue = $(this).val();
-            $("input[name='submitButton']").val(buttonValue);
 
             if (validateForm()) {
                 Swal.fire({
-                    title: "Surat Izin?",
-                    text: "Buat Surat Izin?",
+                    title: "Buat Surat izin?",
+                    text: "perlu buat surat izin atau input rujukan?",
                     icon: "question",
-                    confirmButtonText: "Iya",
+                    confirmButtonText: "Surat Izin",
                     showDenyButton: true,
                     denyButtonText: "Tidak",
+                    showCancelButton: true, // Mengganti showCancleButton dengan showCancelButton
+                    cancelButtonText: "Rujukan", // Mengganti denyCancleText dengan cancelButtonText
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Jika "Iya" diklik, tampilkan modal
+                        setSuratIzinText();
                         $('#myModal').modal('show');
-                    } else {
-                        // Jika "Tidak" diklik, kirim formulir
+                    } else if (result.isDenied) {
                         $('form').append('<input type="hidden" name="submitButton" value="submit" />');
+                        $('form').submit();
+                    } else {
+                        // Set nilai pada input submitButton untuk menunjukkan rujukan
+                        $('form').append('<input type="hidden" name="submitButton" value="rujukan" />');
+                        // Izinkan submit setelah keputusan dari alert Swal diambil
                         $('form').submit();
                     }
                 });
-            }
-        });
-
-        $(".rujukan-button").click(function (e) {
-            e.preventDefault(); // Mencegah pengiriman formulir secara default
-            $('input[name="submitButton"]').val("rujukan");
-
-            if (validateForm()) {
-                $('form').append('<input type="hidden" name="submitButton" value="rujukan" />');
-                $('form').submit();
             }
         });
 
@@ -408,9 +333,51 @@
         });
 
         function validateForm() {
+            document.getElementById('id_pasien').style.display = 'none';
+            document.getElementById('nama_pasien').style.display = 'none';
+            document.getElementById('prodi_atau_departemen').style.display = 'none';
+            document.getElementById('keluhan').style.display = 'none';
+            document.getElementById('diagnosa').style.display = 'none';
+
+            // Check username
+            var anm_id_pasien = document.getElementById('anm_id_pasien').value;
+            var anm_nama_pasien = document.getElementById('anm_nama_pasien').value;
+            var anm_prodi_atau_departemen = document.getElementById('anm_prodi_atau_departemen').value;
+            var anm_keluhan = document.getElementById('anm_keluhan').value;
+            var anm_diagnosa = document.getElementById('anm_diagnosa').value;
+
+            if (!anm_id_pasien.trim()) {
+                document.getElementById('id_pasien').style.display = 'inline';
+            }
+            if (!anm_nama_pasien.trim()) {
+                document.getElementById('nama_pasien').textContent = 'harus diisi';
+                document.getElementById('nama_pasien').style.display = 'inline';
+            }
+            if (!anm_prodi_atau_departemen.trim()) {
+                document.getElementById('prodi_atau_departemen').style.display = 'inline';
+            }
+            if (!anm_keluhan.trim()) {
+                document.getElementById('keluhan').style.display = 'inline';
+            }
+            if (!anm_diagnosa.trim()) {
+                document.getElementById('diagnosa').style.display = 'inline';
+            }
+            if (!/^\d+$/.test(anm_id_pasien)) {
+                // Jika terdapat angka dalam akn_nama
+                document.getElementById('id_pasien').textContent = 'NIM/NPK tidak boleh berupa huruf';
+                document.getElementById('id_pasien').style.display = 'inline';
+                return false;
+            }
+            if (/\d/.test(anm_nama_pasien)) {
+                // Jika terdapat angka dalam akn_nama
+                document.getElementById('nama_pasien').textContent = 'nama tidak boleh berupa angka';
+                document.getElementById('nama_pasien').style.display = 'inline';
+                return false;
+            }
+
             // Ganti dengan nama kolom yang sesuai
             var requiredFields = ["anm_id_pasien", "anm_nama_pasien", "anm_prodi_atau_departemen", "anm_keluhan", "anm_diagnosa", "anm_prodi_atau_departemen"];
-    
+
             // Array untuk menyimpan pesan kesalahan obat
             var obatErrors = [];
 
@@ -425,25 +392,306 @@
 
             // Validasi obat
             var obatRows = $("#tblPemakaianObat tbody tr");
-            obatRows.each(function(index, row) {
-                var namaObat = $(row).find("input[name$='pmo_nama_obat']").val();
+            obatRows.each(function (index, row) {
+                var namaObat = $(row).find("select[name$='pmo_id_obat']").val();
                 var jumlah = $(row).find("input[name$='pmo_jumlah']").val();
-                var satuan = $(row).find("select[name$='pmo_satuan']").val();
+                var satuan = $(row).find("input[name$='pmo_satuan']").val();
 
-                if (!namaObat || !jumlah || !satuan) {
+                document.getElementById('nama_obat').style.display = 'none';
+                document.getElementById('jumlah').style.display = 'none';
+                document.getElementById('satuan').style.display = 'none';
+
+                if (!namaObat || !jumlah || !satuan || jumlah < 0) {
                     obatErrors.push("Isi data obat dengan lengkap pada baris " + (index + 1));
+
+                    if (!namaObat) {
+                        document.getElementById('nama_obat').style.display = 'inline';
+                    }
+                    if (!jumlah) {
+                        document.getElementById('jumlah').style.display = 'inline';
+                    }
+                    if (jumlah < 0) {
+                        document.getElementById('jumlah').textContent = 'jumlah tidak valid';
+                        document.getElementById('jumlah').style.display = 'inline';
+                    }
+                    if (!satuan) {
+                        document.getElementById('satuan').style.display = 'inline';
+                    }
                 }
             });
 
             // Menampilkan pesan kesalahan obat jika ada
             if (obatErrors.length > 0) {
-                Swal.fire("Gagal!", obatErrors.join("<br>"), "warning");
                 return false;
             }
 
             return true;
         }
+        //end submit form validate
+
+        //pemakaian obat
+        // Fungsi untuk memperbarui jumlah baris
+        function updateRowCount() {
+            var rowCount = $("#tblPemakaianObat tbody tr").length;
+            return rowCount;
+        }
+
+        var index = 0;
+
+        $("#tblPemakaianObat").on("blur", "input, select", function () {
+            document.getElementById('nama_obat').style.display = 'none';
+            document.getElementById('jumlah').style.display = 'none';
+            document.getElementById('satuan').style.display = 'none';
+
+            var namaObatError = document.getElementById('nama_obat');
+            var jumlahError = document.getElementById('jumlah');
+            var satuanError = document.getElementById('satuan');
+
+            var obatRows = $("#tblPemakaianObat tbody tr");
+            var hasError = false;
+
+            obatRows.each(function (i, row) {
+                var namaObat = $(row).find("select[name$='pmo_id_obat']").val();
+                var jumlah = $(row).find("input[name$='pmo_jumlah']").val();
+                var satuan = $(row).find("input[name$='pmo_satuan']").val();
+
+                if (!namaObat) {
+                    namaObatError.textContent = 'harus diisi';
+                    namaObatError.style.display = 'inline';
+                    hasError = true;
+                } else {
+                    namaObatError.style.display = 'none';
+                }
+
+                if (!jumlah) {
+                    jumlahError.textContent = 'harus diisi';
+                    jumlahError.style.display = 'inline';
+                    hasError = true;
+                } else if (jumlah < 0) {
+                    jumlahError.textContent = 'jumlah tidak valid';
+                    jumlahError.style.display = 'inline';
+                    hasError = true;
+                } else {
+                    jumlahError.style.display = 'none';
+                }
+            });
+
+            return !hasError;
+        });
+
+        var satuanData = {}; // Objek untuk menyimpan data satuan obat
+
+        @foreach (var obat in Model.Obats)
+        {
+            <text>
+                    satuanData['@Html.Raw(obat.obt_id)'] = '@Html.Raw(obat.obt_satuan)';
+            </text>
+        }
+
+         $("#tblPemakaianObat").on("change", "select", function () {
+             var selectedObatId = $(this).val(); // Mendapatkan nilai obat yang dipilih dari dropdown
+            var satuanField = $(this).closest("tr").find("input[name$='pmo_satuan']"); // Mendapatkan elemen input satuan di baris yang sama
+
+            // Set nilai satuanField dengan satuan obat yang sesuai
+            satuanField.val(satuanData[selectedObatId]);
+         });
+
+        $("#btnTambahBaris").click(function () {
+            var newRow = $("<tr>");
+            var cols = "";
+
+            cols += '<td><select name="PemakaianObats[' + index + '].pmo_id_obat" class="form-control form-control-lg" />' +
+                '<option value="" selected disabled>Pilih Obat</option>';
+            @foreach (var obat in Model.Obats)
+            {
+                // Escape Razor syntax properly within JavaScript string
+                @:cols += '<option value="@Html.Raw(obat.obt_id)">@Html.Raw(obat.obt_nama_obat)</option>';
+            }
+                cols += '</select></td>'; // Perbaiki di sini, tambahkan penutup tag </select>
+
+            cols += '<td><input name="PemakaianObats[' + index + '].pmo_jumlah" class="form-control" type="number" /></td>';
+            cols += '<td><input name="PemakaianObats[' + index + '].pmo_satuan" class="form-control" type="text" readonly /></td>';
+
+            cols += '<td>';
+            cols += '<input name="PemakaianObats[' + index + '].pmo_id_anamnesa" class="form-control input-with-border" value="null" hidden />';
+            cols += '<button type="button" class="btnHapusBaris btn btn-danger">Hapus</button>';
+            cols += '</td>';
+
+            newRow.append(cols);
+            $("#tblPemakaianObat tbody").append(newRow);
+
+            index++;
+            var baris = updateRowCount(); // Panggil fungsi untuk memperbarui jumlah baris
+
+            if (baris > 0) {
+                var Error1 = document.getElementById('1');
+                Error1.style.display = 'inline';
+                var Error2 = document.getElementById('2');
+                Error2.style.display = 'inline';
+                var Error3 = document.getElementById('3');
+                Error3.style.display = 'inline';
+            }
+        });
+
+        $("#tblPemakaianObat").on("click", ".btnHapusBaris", function () {
+            $(this).closest("tr").remove();
+            var baris = updateRowCount(); // Panggil fungsi untuk memperbarui jumlah baris
+            if(baris < 1) {
+                var Error1 = document.getElementById('1');
+                Error1.style.display = 'none';
+                var Error2 = document.getElementById('2');
+                Error2.style.display = 'none';
+                var Error3 = document.getElementById('3');
+                Error3.style.display = 'none';
+
+                var namaObatError = document.getElementById('nama_obat');
+                namaObatError.style.display = 'none';
+                var jumlahError = document.getElementById('jumlah');
+                jumlahError.style.display = 'none';
+                var satuanError = document.getElementById('satuan');
+                satuan.style.display = 'none';
+            }
+        });
+
+        // Jumlah awal baris
+        updateRowCount(); // Panggil fungsi untuk mendapatkan jumlah awal baris
+        //end pemakaian obat
     });
 
+    function downloadSuratIzin() {
+        var element = document.getElementById('parentDiv');
+        var namaPasien = document.getElementById('anm_nama_pasien').value;
 
+        // Generate PDF
+        html2pdf().from(element).set({
+            margin: 5,
+            filename: `Surat_Izin_${namaPasien}.pdf`,
+            html2canvas: { scale: 2 },
+            jsPDF: { format: 'a4' }
+        }).save();
+    }
+
+    document.getElementById("anm_id_pasien").addEventListener("blur", function (event) {
+        var idPasienError = document.getElementById('id_pasien');
+        idPasienError.style.display = 'none';
+
+        var anm_id_pasien = this.value.trim();
+
+        if (!anm_id_pasien) {
+            idPasienError.textContent = 'harus diisi';
+            idPasienError.style.display = 'inline';
+        } else {
+            var tokenObj = "";
+            var paramtoken = {
+                grant_type: 'password',
+                username: "sample123",
+                password: "sample123"
+            };
+            var token = '';
+
+            // Pertama, lakukan permintaan POST untuk mendapatkan token
+            $.ajax({
+                url: "https://api.polytechnic.astra.ac.id:2906/api_dev/AccessToken/Get",
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                data: paramtoken,
+                success: function (data) {
+                    tokenObj = data;
+                    token = data.access_token;
+                    token_type = data.token_type;
+
+                    // Setelah mendapatkan token, lakukan permintaan GET dengan parameter 'nim'
+                    $.ajax({
+                        url: "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getMahasiswa",
+                        headers: {
+                            Authorization: token_type + ' ' + token
+                        },
+                        type: "GET",
+                        contentType: "application/json",
+                        data: { nim: anm_id_pasien }, // Sertakan parameter 'nim' di sini
+                        success: function (data) {
+                            console.log(data);
+                        },
+                        error: function (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: 'Data tidak ditemukan!'
+                            })
+                        }
+                    });
+
+                    // Setelah mendapatkan token, lakukan permintaan GET dengan parameter 'nim'
+                    $.ajax({
+                        url: "https://api.polytechnic.astra.ac.id:2906/api_dev/efcc359990d14328fda74beb65088ef9660ca17e/SIA/getKaryawan",
+                        headers: {
+                            Authorization: token_type + ' ' + token
+                        },
+                        type: "GET",
+                        contentType: "application/json",
+                        data: { npk: anm_id_pasien }, // Sertakan parameter 'nim' di sini
+                        success: function (data) {
+                            console.log(data);
+                        },
+                        error: function (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: 'Data tidak ditemukan!'
+                            })
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    document.getElementById("anm_nama_pasien").addEventListener("blur", function (event) {
+        var namaPasienError = document.getElementById('nama_pasien');
+        namaPasienError.style.display = 'none';
+
+        var anm_nama_pasien = this.value.trim();
+
+        if (!anm_nama_pasien) {
+            namaPasienError.textContent = 'harus diisi';
+            namaPasienError.style.display = 'inline';
+        } else if (/\d/.test(anm_nama_pasien)) {
+            // Jika terdapat angka dalam akn_nama
+            namaPasienError.textContent = 'nama tidak boleh berupa angka';
+            namaPasienError.style.display = 'inline';
+        }
+    });
+    document.getElementById("anm_prodi_atau_departemen").addEventListener("blur", function (event) {
+        var prodiAtauDepartemenError = document.getElementById('prodi_atau_departemen');
+        prodiAtauDepartemenError.style.display = 'none';
+
+        var anm_prodi_atau_departemen = this.value.trim();
+
+        if (!anm_prodi_atau_departemen) {
+            prodiAtauDepartemenError.textContent = 'harus diisi';
+            prodiAtauDepartemenError.style.display = 'inline';
+        }
+    });
+    document.getElementById("anm_keluhan").addEventListener("blur", function (event) {
+        var keluhanError = document.getElementById('keluhan');
+        keluhanError.style.display = 'none';
+
+        var anm_keluhan = this.value.trim();
+
+        if (!anm_keluhan) {
+            keluhanError.textContent = 'harus diisi';
+            keluhanError.style.display = 'inline';
+        }
+    });
+    document.getElementById("anm_diagnosa").addEventListener("blur", function (event) {
+        var diagnosaError = document.getElementById('diagnosa');
+        diagnosaError.style.display = 'none';
+
+        var anm_diagnosa = this.value.trim();
+
+        if (!anm_diagnosa) {
+            diagnosaError.textContent = 'harus diisi';
+            diagnosaError.style.display = 'inline';
+        }
+    });
 </script>

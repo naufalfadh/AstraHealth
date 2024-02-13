@@ -105,7 +105,7 @@ namespace AstraHealth.Controllers
                 newKeperluanMedisModel.kpm_catatan = keperluanMedisModel.kpm_catatan;
 
                 _medisRepository.updateData(newKeperluanMedisModel);
-                TempData["SuccessMessage"] = "Keperluan KeperluanMedis berhasil diupdate.";
+                TempData["SuccessMessage"] = "Catatan berhasil ditambahkan.";
                 return RedirectToAction("Index");
             }
             return View(keperluanMedisModel);
@@ -132,14 +132,14 @@ namespace AstraHealth.Controllers
             }
 
 
-            var response = new { success = false, message = "Gagal menerima data." };
+            var response = new { success = false, message = "Gagal menerima pengajuan." };
             try
             {
                 if (id != null)
                 {
                     string id_manajer = HttpContext.Session.GetString("Id");
                     _medisRepository.acceptData(id, id_manajer);
-                    response = new { success = true, message = "Berhasil menerima data." };
+                    response = new { success = true, message = "Berhasil menerima pengajuan." };
                 }
                 else
                 {
@@ -174,14 +174,14 @@ namespace AstraHealth.Controllers
             }
 
 
-            var response = new { success = false, message = "Gagal menolak data." };
+            var response = new { success = false, message = "Gagal menolak pengajuan." };
             try
             {
                 if (id != null)
                 {
                     string id_manajer = HttpContext.Session.GetString("Id");
                     _medisRepository.rejectData(id, id_manajer);
-                    response = new { success = true, message = "Berhasil menolak data." };
+                    response = new { success = true, message = "Berhasil menolak pengajuan." };
                 }
                 else
                 {
@@ -216,7 +216,7 @@ namespace AstraHealth.Controllers
             }
 
 
-            var response = new { success = false, message = "Gagal menerima data." };
+            var response = new { success = false, message = "Gagal menkonfirmasi barang." };
             try
             {
                 if (id != null)

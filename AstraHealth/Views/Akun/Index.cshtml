@@ -32,7 +32,10 @@
                                         </div>
                                     </div>
                                 }
-                                <a class="btn btn-primary" asp-action="Create">Tambah Akun</a>
+                                <a class="btn btn-primary btn-icon-text" asp-action="Create">
+                                    <i class="mdi mdi-plus-circle-outline"></i>
+                                    Tambah Akun
+                                    </a>
                                 <hr />
                                 <table class="table datatable table-bordered" id="myTable">
                                     <thead>
@@ -63,12 +66,24 @@
                                                     <td><label class="badge badge-success">@akun.akn_status</label></td>
                                                 }
                                                 <td>
-                                                    <button class="btn btn-sm btn-danger delete-button" data-id="@akun.akn_id">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                    <a asp-controller="akun" asp-action="Edit" asp-route-id="@akun.akn_id" class="btn btn-sm btn-primary">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
+                                                    @if (akun.akn_status == "aktif")
+                                                    {
+                                                        <div class="btn-group">
+                                                            <a asp-controller="akun" asp-action="Edit" asp-route-id="@akun.akn_id" class="btn btn-sm btn-primary">
+                                                                <i class="mdi mdi-tooltip-edit"></i>
+                                                            </a>
+                                                            <button class="btn btn-sm btn-danger delete-button" data-id="@akun.akn_id">
+                                                                <i class="mdi mdi-account-remove"></i>
+                                                            </button>
+                                                        </div>
+                                                    }
+
+                                                    @if (akun.akn_status == "tidak aktif")
+                                                    {
+                                                        <button class="btn btn-sm btn-primary activate-button" data-id="@akun.akn_id">
+                                                            <i class="mdi mdi-account-plus"></i>
+                                                        </button>
+                                                    }
                                                 </td>
                                             </tr>
                                         }
@@ -97,8 +112,8 @@
             var akunId = $(this).data("id");
 
             Swal.fire({
-                title: "Hapus akun?",
-                text: "Apakah anda yakin ingin menghapus akun ini?",
+                title: "Non-Aktifkan Akun?",
+                text: "Akun akan dinon-aktifkan dan tidak dapat digunakan untuk login. Akun dapat diaktifkan kembali jika diperlukan.",
                 icon: "warning",
                 confirmButtonText: "Iya",
                 showDenyButton: true,
@@ -108,6 +123,42 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         url: "/akun/Delete/" + akunId, // Perbaiki URL dengan menambahkan tanda "/"
+                        type: "POST",
+                        success: function (data) {
+                            if (data.success) {
+                                Swal.fire("Sukses!", data.message, "success").then(() => {
+                                    // Refresh halaman setelah pengguna menekan tombol "OK"
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire("Gagal!", data.message, "error");
+                            }
+                        },
+                        error: function () {
+                            swal("Error", "Terjadi kesalahan saat menghapus akun.", "error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $(".activate-button").click(function () {
+            var akunId = $(this).data("id");
+
+            Swal.fire({
+                title: "Konfirmasi Aktivasi Akun",
+                text: "Apakah Anda yakin ingin mengaktifkan kembali akun? Setelah diaktifkan, akun dapat digunakan untuk login kembali.",
+                icon: "question",
+                confirmButtonText: "Iya",
+                showDenyButton: true,
+                denyButtonText: "Tidak",
+                dangerMode: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/akun/Activate/" + akunId, // Perbaiki URL dengan menambahkan tanda "/"
                         type: "POST",
                         success: function (data) {
                             if (data.success) {

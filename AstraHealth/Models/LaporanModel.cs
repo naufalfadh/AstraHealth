@@ -11,7 +11,6 @@ namespace AstraHealth.Models
         public string anm_nama_pasien { get; set; }
         public string anm_prodi_atau_departemen { get; set; }
         public string anm_keluhan { get; set; }
-        public string? anm_tensi { get; set; }
         public string anm_diagnosa { get; set; }
         public int anm_kecelakaan_kerja { get; set; }
         public string? anm_keterangan { get; set; }

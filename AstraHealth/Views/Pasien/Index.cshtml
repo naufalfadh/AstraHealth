@@ -28,7 +28,10 @@
                                         </div>
                                     </div>
                                 }
-                                <a class="btn btn-primary" asp-action="Create">Anamnesa Pasien</a>
+                                <a class="btn btn-primary btn-icon-text" asp-action="Create">
+                                    <i class="mdi mdi-hospital"></i>
+                                    Anamnesa Pasien
+                                </a>
                                 <hr />
                                 <div class="table-responsive pt-3">
                                     <table class="table datatable table-bordered" id="myTable">
@@ -38,16 +41,11 @@
                                                 <th scope="col">NIM/NPK</th>
                                                 <th scope="col">Nama</th>
                                                 <th scope="col">Prodi/Departemen</th>
-                                                <th scope="col">Keluhan</th>
-                                                <th scope="col">Tensi</th>
                                                 <th scope="col">Diagnosa</th>
                                                 <th scope="col">Kecelakaan Kerja</th>
-                                                <th scope="col">Keterangan</th>
                                                 <th scope="col">Tanggal</th>
                                                 <th scope="col">Staff UKK</th>
-                                                <th scope="col">Obat</th>
-                                                <th scope="col">Jumlah</th>
-                                                <th scope="col">Satuan</th>
+                                                <th scope="col">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -58,8 +56,6 @@
                                                     <td>@pasien.anm_id_pasien</td>
                                                     <td>@pasien.anm_nama_pasien</td>
                                                     <td>@pasien.anm_prodi_atau_departemen</td>
-                                                    <td>@pasien.anm_keluhan</td>
-                                                    <td>@pasien.anm_tensi</td>
                                                     <td>@pasien.anm_diagnosa</td>
 
                                                     @if (pasien.anm_kecelakaan_kerja == 1)
@@ -71,26 +67,51 @@
                                                         <td>Tidak</td>
                                                     }
 
-                                                    <td>@pasien.anm_keterangan</td>
-                                                    <td>@pasien.anm_tanggal</td>
+                                                    <td>@pasien.anm_tanggal.ToString("dd/MM/yyyy HH:mm")</td>
                                                     <td>@pasien.anm_nama_admin</td>
                                                     <td>
-                                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
-                                                        {
-                                                            <div>@pasien.PemakaianObats[i].pmo_nama_obat</div>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
-                                                        {
-                                                            <div>@pasien.PemakaianObats[i].pmo_jumlah</div>
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
-                                                        {
-                                                            <div>@pasien.PemakaianObats[i].pmo_satuan</div>
-                                                        }
+                                                        <button class="btn btn-sm btn-info btn-info-modal" data-toggle="modal" data-target="#infoModal_@pasien.anm_id">
+                                                            <i class="mdi mdi-information"></i>
+                                                        </button>
+
+                                                        <div class="modal fade" id="infoModal_@pasien.anm_id" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Informasi Register</h5>
+                                                                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <strong>NIM/NPK         :</strong> @pasien.anm_id_pasien<br />
+                                                                        <strong>Nama            :</strong> @pasien.anm_nama_pasien<br />
+                                                                        <strong>Prodi/Departemen:</strong> @pasien.anm_prodi_atau_departemen<br />
+                                                                        <strong>Keluhan         :</strong> @pasien.anm_keluhan<br />
+                                                                        <strong>Diagnosa        :</strong> @pasien.anm_diagnosa<br />
+                                                                        @if (!string.IsNullOrWhiteSpace(pasien.anm_keterangan))
+                                                                        {
+                                                                            <strong>Keterangan      :</strong> @pasien.anm_keterangan
+
+                                                                            <br />
+                                                                        }
+                                                                        <strong>Tanggal Anamnesa:</strong> @pasien.anm_tanggal<br />
+                                                                        @if (pasien.PemakaianObats.Any())
+                                                                        {
+                                                                            <strong>Obat            :</strong>
+                                                                            @for (int i = 0; i < pasien.PemakaianObats.Count; i++)
+                                                                            {
+                                                                                @if (pasien.PemakaianObats[i].pmo_id_anamnesa == pasien.anm_id)
+                                                                                {
+                                                                                    <p>@pasien.PemakaianObats[i].pmo_nama_obat @pasien.PemakaianObats[i].pmo_jumlah @pasien.PemakaianObats[i].pmo_satuan</p>
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 no++;

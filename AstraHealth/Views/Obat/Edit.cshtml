@@ -1,0 +1,180 @@
+﻿@model AstraHealth.Models.ObatModel
+@{
+    ViewData["Title"] = "Edit Obat";
+}
+
+<style>
+    .card {
+        padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .card-body {
+        background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
+        padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        border-radius: 8px; /* Bordes sudut */
+    }
+</style>
+
+<br>
+<br>
+<br>
+<br>
+<section class="section">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2>Edit Obat</h2>
+                                <hr />
+                                <form asp-controller="Obat" asp-action="Edit" class="forms-sample" method="post">
+                                    <input asp-for="obt_id" id="obt_id" type="text" class="form-control input-with-border" placeholder="Id" style="display: none">
+                                    <div class="form-group">
+                                        <label asp-for="obt_nama_obat">Nama Obat <span style="color:red">*</span></label>
+                                        <span id="nama_obat" style="color:red;display:none;">harus diisi</span>
+                                        <div class="input-group">
+                                            <input asp-for="obt_nama_obat" id="obt_nama_obat" type="text" class="form-control input-with-border" placeholder="Nama">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="obt_stok">Stok <span style="color:red">*</span></label>
+                                        <span id="stok" style="color:red;display:none;">harus diisi</span>
+                                        <div class="input-group">
+                                            <input asp-for="obt_stok" id="obt_stok" type="number" class="form-control input-with-border" placeholder="Password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="obt_satuan">Satuan <span style="color:red">*</span></label>
+                                        <span id="satuan" style="color:red;display:none;">harus diisi</span>
+                                        <div class="input-group">
+                                            <select asp-for="obt_satuan" id="obt_satuan" class="form-control form-control-lg">
+                                                <option value="" disabled selected>Pilih satuan</option>
+                                                <option value="kapsul">Kapsul</option>
+                                                <option value="tablet">Tablet</option>
+                                                <option value="buah">Buah</option>
+                                                <option value="kotak">Kotak</option>
+                                                <option value="strip">Strip</option>
+                                                <option value="botol">Botol</option>
+                                                <option value="vial">Vial</option>
+                                                <option value="ampul">Ampul</option>
+                                                <option value="tube">Tube</option>
+                                                <option value="paket">Paket</option>
+                                                <option value="dus">Dus</option>
+                                                <option value="sachet">Sachet</option>
+                                                <option value="plat">Plat</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="obt_tanggal_kadaluarsa">Tanggal Kadaluarsa <span style="color:red">*</span></label>
+                                        <span id="tanggal_kadaluarsa" style="color:red;display:none;">harus diisi</span>
+                                        <div class="input-group">
+                                            <input asp-for="obt_tanggal_kadaluarsa" id="obt_tanggal_kadaluarsa" type="date" class="form-control input-with-border" placeholder="Tanggal Kadaluarsa">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="obt_status" type="text" class="form-control input-with-border" placeholder="Status" value="aktif" hidden>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
+                                    <a asp-controller="Obat" asp-action="Index" class="btn btn-light">Kembali</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        //span error
+        document.querySelector('button[type="submit"]').addEventListener('click', function (event) {
+            // Reset previous error messages
+            document.getElementById('nama_obat').style.display = 'none';
+            document.getElementById('stok').style.display = 'none';
+            document.getElementById('satuan').style.display = 'none';
+
+            var obt_nama_obat = document.getElementById('obt_nama_obat').value;
+
+            if (!obt_nama_obat.trim()) {
+                document.getElementById('nama_obat').style.display = 'inline';
+                event.preventDefault(); // Prevent form submission
+            }
+
+            // Check password
+            var obt_stok = document.getElementById('obt_stok').value;
+
+            if (!obt_stok.trim()) {
+                document.getElementById('stok').style.display = 'inline';
+                event.preventDefault(); // Prevent form submission
+            }
+
+            if (obt_stok < 0) {
+                document.getElementById('stok').textContent = 'stok tidak valid';
+                document.getElementById('stok').style.display = 'inline';
+                event.preventDefault(); // Prevent form submission
+            }
+
+            var obt_satuan = document.getElementById('obt_satuan').value;
+
+            if (!obt_satuan.trim()) {
+                document.getElementById('satuan').style.display = 'inline';
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+
+        document.getElementById("obt_nama_obat").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var namaObatError = document.getElementById('nama_obat');
+            namaObatError.style.display = 'none';
+
+            // Check username
+            var obt_nama_obat = this.value.trim();
+
+            if (!obt_nama_obat) {
+                namaObatError.textContent = 'harus diisi';
+                namaObatError.style.display = 'inline';
+            }
+        });
+
+        document.getElementById("obt_stok").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var stokError = document.getElementById('stok');
+            stokError.style.display = 'none';
+
+            // Check username
+            var obt_stok = this.value.trim();
+
+            if (!obt_stok) {
+                stokError.textContent = 'harus diisi';
+                stokError.style.display = 'inline';
+            } else if (obt_stok < 0) {
+                stokError.textContent = 'stok tidak valid';
+                stokError.style.display = 'inline';
+            }
+        });
+
+        document.getElementById("obt_satuan").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var satuanError = document.getElementById('role');
+            satuanError.style.display = 'none';
+
+            // Check username
+            var obt_satuan = this.value.trim();
+
+            if (!obt_satuan) {
+                satuanError.textContent = 'harus diisi';
+                satuanError.style.display = 'inline';
+            }
+        });
+        //end span error
+    });
+
+</script>

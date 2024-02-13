@@ -33,7 +33,6 @@ namespace AstraHealth.Models
                         anm_nama_pasien = reader["anm_nama_pasien"].ToString(),
                         anm_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
                         anm_keluhan = reader["anm_keluhan"].ToString(),
-                        anm_tensi = reader["anm_tensi"].ToString(),
                         anm_diagnosa = reader["anm_diagnosa"].ToString(),
                         anm_kecelakaan_kerja = Convert.ToInt32(reader["anm_kecelakaan_kerja"].ToString()),
                         anm_keterangan = reader["anm_keterangan"].ToString(),
@@ -62,20 +61,22 @@ namespace AstraHealth.Models
         {
             try
             {
-                string query = "SELECT * FROM ahl_trpemakaianObat";
+                string query = "SELECT p.*, o.obt_nama_obat, o.obt_satuan " +
+                               "FROM ahl_trpemakaianObat p " +
+                               "JOIN ahl_msobat o ON p.pmo_id_obat = o.obt_id";
 
                 SqlCommand command = new SqlCommand(query, _connection);
                 _connection.Open();
                 SqlDataReader reader = command.ExecuteReader();
+
                 while (reader.Read())
                 {
                     PemakaianObatModel obat = new PemakaianObatModel
                     {
-                        pmo_id = reader["pmo_id"].ToString(),
                         pmo_id_anamnesa = reader["pmo_id_anamnesa"].ToString(),
-                        pmo_nama_obat = reader["pmo_nama_obat"].ToString(),
+                        pmo_nama_obat = reader["obt_nama_obat"].ToString(),
                         pmo_jumlah = Convert.ToInt32(reader["pmo_jumlah"]),
-                        pmo_satuan = reader["pmo_satuan"].ToString(),
+                        pmo_satuan = reader["obt_satuan"].ToString(),
                     };
 
                     // Temukan anamnesa yang sesuai dan tambahkan pemakaian obat ke daftar PemakaianObats
@@ -85,6 +86,7 @@ namespace AstraHealth.Models
                         pasien.PemakaianObats.Add(obat);
                     }
                 }
+
                 reader.Close();
                 _connection.Close();
             }
@@ -92,26 +94,27 @@ namespace AstraHealth.Models
             {
                 Console.WriteLine(ex.Message);
             }
+
             return pasienList;
         }
+
 
         public void insertData(PasienModel pasienModel)
         {
             try
             {
-                string query = "insert into ahl_tranamnesa values(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11)";
+                string query = "insert into ahl_tranamnesa values(@p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)";
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@p1", pasienModel.anm_id);
                 command.Parameters.AddWithValue("@p2", pasienModel.anm_id_pasien);
                 command.Parameters.AddWithValue("@p3", pasienModel.anm_nama_pasien);
                 command.Parameters.AddWithValue("@p4", pasienModel.anm_prodi_atau_departemen);
                 command.Parameters.AddWithValue("@p5", pasienModel.anm_keluhan);
-                command.Parameters.AddWithValue("@p6", (object)pasienModel.anm_tensi ?? DBNull.Value);
-                command.Parameters.AddWithValue("@p7", pasienModel.anm_diagnosa);
-                command.Parameters.AddWithValue("@p8", pasienModel.anm_kecelakaan_kerja);
-                command.Parameters.AddWithValue("@p9", (object)pasienModel.anm_keterangan ?? DBNull.Value);
-                command.Parameters.AddWithValue("@p10", pasienModel.anm_tanggal);
-                command.Parameters.AddWithValue("@p11", pasienModel.anm_id_admin);
+                command.Parameters.AddWithValue("@p6", pasienModel.anm_diagnosa);
+                command.Parameters.AddWithValue("@p7", pasienModel.anm_kecelakaan_kerja);
+                command.Parameters.AddWithValue("@p8", (object)pasienModel.anm_keterangan ?? DBNull.Value);
+                command.Parameters.AddWithValue("@p9", pasienModel.anm_tanggal);
+                command.Parameters.AddWithValue("@p10", pasienModel.anm_id_admin);
                 _connection.Open();
                 command.ExecuteNonQuery();
                 _connection.Close();
@@ -129,22 +132,49 @@ namespace AstraHealth.Models
             {
                 foreach (var pemakaianObat in pasienModel.PemakaianObats)
                 {
-                    string query = "insert into ahl_trpemakaianObat values(@p1, @p2, @p3, @p4, @p5)";
-                    SqlCommand command = new SqlCommand(query, _connection);
-                    command.Parameters.AddWithValue("@p1", pemakaianObat.pmo_id);
-                    command.Parameters.AddWithValue("@p2", pemakaianObat.pmo_id_anamnesa);
-                    command.Parameters.AddWithValue("@p3", pemakaianObat.pmo_nama_obat);
-                    command.Parameters.AddWithValue("@p4", pemakaianObat.pmo_jumlah);
-                    command.Parameters.AddWithValue("@p5", pemakaianObat.pmo_satuan);
+                    string query = "INSERT INTO ahl_trpemakaianObat VALUES(@p1, @p2, @p3)";
+                    using (SqlCommand command = new SqlCommand(query, _connection))
+                    {
+                        command.Parameters.AddWithValue("@p1", pemakaianObat.pmo_id_anamnesa);
+                        command.Parameters.AddWithValue("@p2", pemakaianObat.pmo_jumlah);
+                        command.Parameters.AddWithValue("@p3", pemakaianObat.pmo_id_obat);
 
-                    _connection.Open();
-                    command.ExecuteNonQuery();
-                    _connection.Close();
+                        _connection.Open();
+                        command.ExecuteNonQuery();
+                        _connection.Close();
+                    }
+
+                    decreaseStokObat(pemakaianObat.pmo_id_obat, pemakaianObat.pmo_jumlah);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void decreaseStokObat(int id, int jumlah)
+        {
+            try
+            {
+                string query = "UPDATE ahl_msobat SET obt_stok = obt_stok - @p2 WHERE obt_id = @p1";
+
+                using (SqlCommand command = new SqlCommand(query, _connection))
+                {
+                    command.Parameters.AddWithValue("@p1", id);
+                    command.Parameters.AddWithValue("@p2", jumlah);
+
+                    _connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                _connection.Close();
             }
         }
 
@@ -176,34 +206,6 @@ namespace AstraHealth.Models
             }
         }
 
-        public int getPemakaianObatId()
-        {
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(_connectionString))
-                {
-                    connection.Open();
-                    string query = "SELECT COUNT(*) + 1 AS NewId FROM ahl_trpemakaianObat";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        object result = command.ExecuteScalar();
-
-                        if (result != null)
-                        {
-                            return Convert.ToInt32(result);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return 0; // Atau nilai default lainnya sesuai kebutuhan
-        }
-
         /*public void updateData(PasienModel pasienModel)
         {
             try
@@ -214,7 +216,6 @@ namespace AstraHealth.Models
                 "rgs_nama_pasien = @p4, " +
                 "rgs_prodi_atau_departemen = @p5, " +
                 "rgs_keluhan = @p6, " +
-                "rgs_tensi = @p7 " +
                 "rgs_diagnosa = @p8, " +
                 "rgs_obat = @p9, " +
                 "rgs_jumlah_obat = @p10, " +
@@ -230,7 +231,6 @@ namespace AstraHealth.Models
                 command.Parameters.AddWithValue("@p3", pasienModel.rgs_nama_pasien);
                 command.Parameters.AddWithValue("@p4", pasienModel.rgs_prodi_atau_departemen);
                 command.Parameters.AddWithValue("@p5", pasienModel.rgs_keluhan);
-                command.Parameters.AddWithValue("@p6", pasienModel.rgs_tensi);
                 command.Parameters.AddWithValue("@p7", pasienModel.rgs_diagnosa);
                 command.Parameters.AddWithValue("@p8", pasienModel.rgs_obat);
                 command.Parameters.AddWithValue("@p9", pasienModel.rgs_jumlah_obat);
@@ -264,5 +264,63 @@ namespace AstraHealth.Models
                 Console.WriteLine(ex.Message);
             }
         }*/
+
+        public List<ObatModel> getObatData()
+        {
+            List<ObatModel> obatList = new List<ObatModel>();
+            try
+            {
+                string query = "select * from ahl_msobat WHERE obt_status = 'aktif' AND obt_stok > 0";
+                SqlCommand command = new SqlCommand(query, _connection);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    ObatModel obat = new ObatModel
+                    {
+                        obt_id = Convert.ToInt32(reader["obt_id"]),
+                        obt_nama_obat = reader["obt_nama_obat"].ToString(),
+                        obt_stok = Convert.ToInt32(reader["obt_stok"]),
+                        obt_satuan = reader["obt_satuan"].ToString(),
+                        obt_status = reader["obt_status"].ToString(),
+                    };
+                    obatList.Add(obat);
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return obatList;
+        }
+
+        public ObatModel getObatDataById(int id)
+        {
+            ObatModel obatModel = new ObatModel();
+            try
+            {
+                string query = "select * from ahl_msobat where obt_id = @p1";
+                SqlCommand command = new SqlCommand(query, _connection);
+                command.Parameters.AddWithValue("@p1", id);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                reader.Read();
+                obatModel.obt_id = Convert.ToInt32(reader["obt_id"]);
+                obatModel.obt_nama_obat = reader["obt_nama_obat"].ToString();
+                obatModel.obt_stok = Convert.ToInt32(reader["obt_stok"]);
+                obatModel.obt_satuan = reader["obt_satuan"].ToString();
+                obatModel.obt_tanggal_kadaluarsa = Convert.ToDateTime(reader["obt_tanggal_kadaluarsa"]);
+                obatModel.obt_status = reader["obt_status"].ToString();
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return obatModel;
+        }
     }
 }

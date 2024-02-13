@@ -48,7 +48,6 @@ namespace AstraHealth.Models
                         anm_nama_pasien = reader["anm_nama_pasien"].ToString(),
                         anm_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
                         anm_keluhan = reader["anm_keluhan"].ToString(),
-                        anm_tensi = reader["anm_tensi"].ToString(),
                         anm_diagnosa = reader["anm_diagnosa"].ToString(),
                         tanggal = reader.GetDateTime(reader.GetOrdinal("anm_tanggal")).ToString("dd/MM/yyyy HH:mm:ss")
                     };
@@ -87,7 +86,7 @@ namespace AstraHealth.Models
                 }
 
                 // Modifikasi query SQL untuk memfilter berdasarkan tanggal
-                string query = "SELECT anm_id_pasien, anm_nama_pasien, anm_prodi_atau_departemen, anm_keluhan, anm_tensi, anm_diagnosa, anm_tanggal FROM ahl_tranamnesa WHERE anm_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir ORDER BY anm_prodi_atau_departemen ASC";
+                string query = "SELECT anm_id_pasien, anm_nama_pasien, anm_prodi_atau_departemen, anm_keluhan, anm_diagnosa, anm_tanggal FROM ahl_tranamnesa WHERE anm_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir ORDER BY anm_prodi_atau_departemen ASC";
 
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@TanggalPertama", dari); // Menggunakan .Value untuk mengakses tipe data DateTime
@@ -102,7 +101,6 @@ namespace AstraHealth.Models
                         anm_nama_pasien = reader["anm_nama_pasien"].ToString(),
                         anm_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
                         anm_keluhan = reader["anm_keluhan"].ToString(),
-                        anm_tensi = reader["anm_tensi"].ToString(),
                         anm_diagnosa = reader["anm_diagnosa"].ToString(),
                         tanggal = reader.GetDateTime(reader.GetOrdinal("anm_tanggal")).ToString("dd/MM/yyyy HH:mm:ss")
                     };
@@ -138,10 +136,12 @@ namespace AstraHealth.Models
                     sampai = tanggalTerakhir.ToString("yyyy-MM-dd");
                 }
 
-                // Modifikasi query SQL untuk memfilter berdasarkan tanggal
-                string query = "SELECT po.pmo_id, po.pmo_id_anamnesa, po.pmo_nama_obat, po.pmo_jumlah, po.pmo_satuan, anm.anm_tanggal " +
+                // Modifikasi query SQL untuk memfilter berdasarkan tanggal dan melakukan join dengan ahl_msobat
+                string query = "SELECT po.pmo_id_anamnesa, mo.obt_nama_obat AS pmo_nama_obat, po.pmo_jumlah, mo.obt_satuan AS pmo_satuan, anm.anm_tanggal " +
                                "FROM ahl_trpemakaianObat po " +
-                               "JOIN ahl_tranamnesa anm ON po.pmo_id_anamnesa = anm.anm_id WHERE anm_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir ORDER BY pmo_nama_obat ASC";
+                               "JOIN ahl_tranamnesa anm ON po.pmo_id_anamnesa = anm.anm_id " +
+                               "JOIN ahl_msobat mo ON po.pmo_id_obat = mo.obt_id " +
+                               "WHERE anm_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir ORDER BY pmo_nama_obat ASC";
 
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@TanggalPertama", dari); // Menggunakan .Value untuk mengakses tipe data DateTime
@@ -152,7 +152,6 @@ namespace AstraHealth.Models
                 {
                     PemakaianObatModel obat = new PemakaianObatModel
                     {
-                        pmo_id = reader["pmo_id"].ToString(),
                         pmo_id_anamnesa = reader["pmo_id_anamnesa"].ToString(),
                         pmo_nama_obat = reader["pmo_nama_obat"].ToString(),
                         pmo_jumlah = Convert.ToInt32(reader["pmo_jumlah"]),
@@ -193,17 +192,17 @@ namespace AstraHealth.Models
                     sampai = tanggalTerakhir.ToString("yyyy-MM-dd");
                 }
 
-                // Modifikasi query SQL untuk memfilter berdasarkan tanggal
-                // Query pertama untuk mengambil data rujukan dan join dengan anamnesa
+                // Query untuk mengambil data rujukan dan join dengan anamnesa
                 string queryRujukan = "SELECT r.rjk_id, r.rjk_id_anamnesa, a.anm_id_pasien, a.anm_nama_pasien, " +
                                       "a.anm_prodi_atau_departemen, a.anm_diagnosa, a.anm_kecelakaan_kerja, " +
                                       "r.rjk_rumah_sakit, r.rjk_keterangan, r.rjk_tanggal " +
                                       "FROM ahl_trrujukan r " +
-                                      "JOIN ahl_tranamnesa a ON r.rjk_id_anamnesa = a.anm_id WHERE rjk_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir";
+                                      "JOIN ahl_tranamnesa a ON r.rjk_id_anamnesa = a.anm_id " +
+                                      "WHERE r.rjk_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir";
 
                 SqlCommand commandRujukan = new SqlCommand(queryRujukan, _connection);
-                commandRujukan.Parameters.AddWithValue("@TanggalPertama", dari); // Menggunakan .Value untuk mengakses tipe data DateTime
-                commandRujukan.Parameters.AddWithValue("@TanggalTerakhir", sampai); // Menggunakan .Value untuk mengakses tipe data DateTime
+                commandRujukan.Parameters.AddWithValue("@TanggalPertama", dari);
+                commandRujukan.Parameters.AddWithValue("@TanggalTerakhir", sampai);
                 _connection.Open();
                 SqlDataReader readerRujukan = commandRujukan.ExecuteReader();
                 while (readerRujukan.Read())
@@ -226,14 +225,16 @@ namespace AstraHealth.Models
                 }
                 readerRujukan.Close();
 
-                // Query kedua untuk mengambil data anamnesa dengan kecelakaan kerja = 1 yang belum tergabung dalam hasil query pertama
+                // Query untuk mengambil data anamnesa dengan kecelakaan kerja = 1 yang belum termasuk dalam hasil query pertama
                 string queryAnamnesaKecelakaanKerja = "SELECT * FROM ahl_tranamnesa a " +
                                                       "WHERE a.anm_kecelakaan_kerja = 1 AND NOT EXISTS " +
-                                                      "(SELECT 1 FROM ahl_trrujukan r WHERE r.rjk_id_anamnesa = a.anm_id AND anm_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir)";
+                                                      "(SELECT 1 FROM ahl_trrujukan r " +
+                                                      "WHERE r.rjk_id_anamnesa = a.anm_id AND r.rjk_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir) " +
+                                                      "AND a.anm_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir";
 
                 SqlCommand commandAnamnesaKecelakaanKerja = new SqlCommand(queryAnamnesaKecelakaanKerja, _connection);
-                commandAnamnesaKecelakaanKerja.Parameters.AddWithValue("@TanggalPertama", dari); // Menggunakan .Value untuk mengakses tipe data DateTime
-                commandAnamnesaKecelakaanKerja.Parameters.AddWithValue("@TanggalTerakhir", sampai); // Menggunakan .Value untuk mengakses tipe data DateTime
+                commandAnamnesaKecelakaanKerja.Parameters.AddWithValue("@TanggalPertama", dari);
+                commandAnamnesaKecelakaanKerja.Parameters.AddWithValue("@TanggalTerakhir", sampai);
                 SqlDataReader readerAnamnesaKecelakaanKerja = commandAnamnesaKecelakaanKerja.ExecuteReader();
                 while (readerAnamnesaKecelakaanKerja.Read())
                 {
@@ -244,8 +245,8 @@ namespace AstraHealth.Models
                         rjk_prodi_atau_departemen = readerAnamnesaKecelakaanKerja["anm_prodi_atau_departemen"].ToString(),
                         rjk_diagnosa = readerAnamnesaKecelakaanKerja["anm_diagnosa"].ToString(),
                         rjk_kecelakaan_kerja = Convert.ToInt32(readerAnamnesaKecelakaanKerja["anm_kecelakaan_kerja"]),
-                        rjk_keterangan = readerRujukan["anm_diagnosa"].ToString(),
-                        tanggal = readerRujukan.GetDateTime(readerRujukan.GetOrdinal("anm_tanggal")).ToString("dd/MM/yyyy HH:mm:ss")
+                        rjk_keterangan = readerAnamnesaKecelakaanKerja["anm_keterangan"].ToString(),
+                        tanggal = readerAnamnesaKecelakaanKerja.GetDateTime(readerAnamnesaKecelakaanKerja.GetOrdinal("anm_tanggal")).ToString("dd/MM/yyyy HH:mm:ss")
                     };
 
                     laporanList.Add(laporan);
@@ -393,12 +394,15 @@ namespace AstraHealth.Models
                     DateTime tanggalTerakhir = tanggalPertama.AddMonths(1).AddDays(-1);
                     sampai = tanggalTerakhir.ToString("yyyy-MM-dd");
                 }
-                string query = "SELECT po.pmo_nama_obat, SUM(po.pmo_jumlah) AS jumlah_pemakaian_obat " +
-                       "FROM ahl_trpemakaianObat po " +
-                       "JOIN ahl_tranamnesa anm ON po.pmo_id_anamnesa = anm.anm_id " +
-                       "WHERE anm.anm_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir " +
-                       "GROUP BY po.pmo_nama_obat " +
-                       "ORDER BY jumlah_pemakaian_obat DESC";
+
+                // Modifikasi query SQL untuk memfilter berdasarkan tanggal dan melakukan join dengan ahl_msobat
+                string query = "SELECT mo.obt_nama_obat AS nama_obat, SUM(po.pmo_jumlah) AS jumlah_pemakaian_obat " +
+                               "FROM ahl_trpemakaianObat po " +
+                               "JOIN ahl_tranamnesa anm ON po.pmo_id_anamnesa = anm.anm_id " +
+                               "JOIN ahl_msobat mo ON po.pmo_id_obat = mo.obt_id " +
+                               "WHERE anm.anm_tanggal BETWEEN @TanggalPertama AND @TanggalTerakhir " +
+                               "GROUP BY mo.obt_nama_obat " +
+                               "ORDER BY jumlah_pemakaian_obat DESC";
 
                 SqlCommand command = new SqlCommand(query, _connection);
                 command.Parameters.AddWithValue("@TanggalPertama", dari); // Menggunakan .Value untuk mengakses tipe data DateTime
@@ -409,7 +413,7 @@ namespace AstraHealth.Models
                 {
                     LaporanModel laporan = new LaporanModel
                     {
-                        nama_obat = reader["pmo_nama_obat"].ToString(),
+                        nama_obat = reader["nama_obat"].ToString(),
                         jumlah_pemakaian_obat = Convert.ToInt32(reader["jumlah_pemakaian_obat"]),
                     };
 
