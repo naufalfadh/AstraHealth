@@ -30,4 +30,28 @@ public class PemakaianObatModel
         public DateTime? pmo_tanggal { get; set; }
         public string? tanggal { get; set; }
     }
+
+    public class DiagnosaSakit
+    {
+        public string diagnosa { get; set; }
+        public int jumlah { get; set; }
+    }
+
+    public class PemakaianObat
+    {
+        public string nama_obat { get; set; }
+        public int jumlah { get; set; }
+    }
+
+    public class ProdiDanDepartemen
+    {
+        public string prodi_dan_departemen { get; set; }
+        public int jumlah { get; set; }
+    }
+
+    public class KecelakaanKerjaDanRujukan
+    {
+        public int kecelakaan_kerja { get; set; }
+        public int rujukan { get; set; }
+    }
 }
