@@ -73,7 +73,9 @@
                                                         <button class="btn btn-sm btn-info btn-info-modal" data-toggle="modal" data-target="#infoModal_@pasien.anm_id">
                                                             <i class="mdi mdi-information"></i>
                                                         </button>
-
+                                                        <button class="btn btn-sm btn-danger delete-button" data-id="@pasien.anm_id">
+                                                            <i class="mdi mdi-delete"></i>
+                                                        </button>
                                                         <div class="modal fade" id="infoModal_@pasien.anm_id" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-dialog-centered">
                                                                 <div class="modal-content">
@@ -134,6 +136,42 @@
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json"
             }
+        });
+    });
+
+    $(document).ready(function () {
+        $(".delete-button").click(function () {
+            var obatId = $(this).data("id");
+
+            Swal.fire({
+                title: "Hapus regristrasi?",
+                text: "Apakah anda yakin ingin menghapus regristrasi ini?",
+                icon: "warning",
+                confirmButtonText: "Iya",
+                showDenyButton: true,
+                denyButtonText: "Tidak",
+                dangerMode: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/pasien/Delete/" + obatId, // Perbaiki URL dengan menambahkan tanda "/"
+                        type: "POST",
+                        success: function (data) {
+                            if (data.success) {
+                                Swal.fire("Sukses!", data.message, "success").then(() => {
+                                    // Refresh halaman setelah pengguna menekan tombol "OK"
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire("Gagal!", data.message, "error");
+                            }
+                        },
+                        error: function () {
+                            swal("Error", "Terjadi kesalahan saat menghapus regristrasi.", "error");
+                        }
+                    });
+                }
+            });
         });
     });
         //end datatables

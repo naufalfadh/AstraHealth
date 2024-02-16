@@ -322,5 +322,72 @@ namespace AstraHealth.Models
             }
             return obatModel;
         }
+
+        public void deleteData(int id)
+        {
+            try
+            {
+                string queryDeleteAnamnesa = "DELETE FROM ahl_tranamnesa WHERE anm_id = @p1";
+                string queryDeletePemakaianObat = "DELETE FROM ahl_trpemakaianObat WHERE pmo_id_anamnesa = @p1";
+
+                string queryRestoreObatStock = @"
+                        UPDATE ahl_msobat 
+                        SET obt_stok = obt_stok + (
+                            SELECT ISNULL(SUM(pmo_jumlah), 0) 
+                            FROM ahl_trpemakaianObat 
+                            WHERE pmo_id_anamnesa = @p1
+                        )
+                        WHERE obt_id IN (
+                            SELECT pmo_id_obat 
+                            FROM ahl_trpemakaianObat 
+                            WHERE pmo_id_anamnesa = @p1
+                        )";
+
+                using (SqlCommand commandDeleteAnamnesa = new SqlCommand(queryDeleteAnamnesa, _connection))
+                using (SqlCommand commandDeletePemakaianObat = new SqlCommand(queryDeletePemakaianObat, _connection))
+                using (SqlCommand commandRestoreObatStock = new SqlCommand(queryRestoreObatStock, _connection))
+                {
+                    commandDeleteAnamnesa.Parameters.AddWithValue("@p1", id);
+                    commandDeletePemakaianObat.Parameters.AddWithValue("@p1", id);
+                    commandRestoreObatStock.Parameters.AddWithValue("@p1", id);
+
+                    _connection.Open();
+
+                    // Mulai transaksi
+                    SqlTransaction transaction = _connection.BeginTransaction();
+                    commandDeleteAnamnesa.Transaction = transaction;
+                    commandDeletePemakaianObat.Transaction = transaction;
+                    commandRestoreObatStock.Transaction = transaction;
+
+                    try
+                    {
+                        // Restore stok obat terlebih dahulu
+                        commandRestoreObatStock.ExecuteNonQuery();
+
+                        // Kemudian hapus data pemakaian obat dan anamnesa
+                        commandDeletePemakaianObat.ExecuteNonQuery();
+                        commandDeleteAnamnesa.ExecuteNonQuery();
+
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw ex;
+                    }
+                    finally
+                    {
+                        _connection.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+
+
     }
 }

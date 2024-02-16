@@ -94,5 +94,47 @@ namespace AstraHealth.Controllers
             return View(pasienModel);
         }
 
+
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            AkunModel akunModel = new AkunModel();
+
+            string serializedModel = HttpContext.Session.GetString("Identity");
+
+            if (serializedModel == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+            }
+            if (akunModel.akn_role == "manajer")
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+
+            var response = new { success = false, message = "Gagal menghapus data." };
+            try
+            {
+                if (id != null)
+                {
+                    _pasienRepository.deleteData(id);
+                    response = new { success = true, message = "Data berhasil dihapus." };
+                }
+                else
+                {
+                    response = new { success = false, message = "Data tidak ditemukan" };
+                }
+            }
+            catch (Exception ex)
+            {
+                response = new { success = false, message = ex.Message };
+            }
+            return Json(response);
+        }
     }
 }
