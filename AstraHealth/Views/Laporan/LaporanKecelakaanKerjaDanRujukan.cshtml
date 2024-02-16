@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Laporan Kecelakaan Kerja dan Rujukan";
     int no = 1;
-    int num = 1;
 }
 
 <head>
@@ -46,15 +45,14 @@
                                 <div class="d-sm-flex justify-content-center justify-content-sm-between">
 									<h2>Laporan Kecelakaan Kerja dan Rujukan</h2>
 									<button class="btn btn-primary" style="background-color: #0059AB;" data-bs-toggle="modal" data-bs-target="#myModal">
-										Cetak PDF
-										<i class="fas fa-file-pdf"></i>
+										Ekspor
 									</button>
                                 </div>
                                 <hr />
                                 <label for="dari" class="col-sm-0">Dari : </label>
-                                <input type="date" id="dari" class="form-control-sm col-sm-1" />
+                                <input type="date" id="dari" onchange="filterData()" class="form-control-sm col-sm-1" />
                                 <label for="sampai" class="col-sm-0">Sampai : </label>
-                                <input type="date" id="sampai" class="form-control-sm col-sm-1" />
+                                <input type="date" id="sampai" onchange="filterData()" class="form-control-sm col-sm-1" />
                                 <hr />
                                 <!-- Tabel Utama -->
                                 <table class="table datatable table-bordered" id="myTable">
@@ -89,9 +87,25 @@
                                                     <td>Tidak</td>
                                                 }
 
-                                                <td>@rujukanPasien.rjk_rumah_sakit</td>
-                                                <td>@rujukanPasien.rjk_keterangan</td>
-                                                <td>@rujukanPasien.rjk_tanggal</td>
+                                                @if (rujukanPasien.rjk_rumah_sakit == null)
+                                                {
+                                                    <td>-</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@rujukanPasien.rjk_rumah_sakit</td>
+                                                }
+
+                                                @if (rujukanPasien.rjk_keterangan == "")
+                                                {
+                                                    <td>-</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@rujukanPasien.rjk_keterangan</td>
+                                                }
+
+                                                <td>@DateTime.Parse(rujukanPasien.tanggal).ToString("dd/MM/yyyy HH:mm")</td>
                                             </tr>
                                             no++;
                                         }
@@ -106,7 +120,7 @@
 
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-dialog modal-lg" role="document" style="max-width: 80%;">
                         <div class="modal-content">
                             <div id="parentDiv">
                                 <div class="modal-header">
@@ -116,22 +130,21 @@
                                     </div>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="surat-info">
+                                        <div class="nomor-surat-wrapper">
+                                            <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Lampiran: [Lampiran]</p>
+                                        </div>
+                                        <div class="tanggal-surat-wrapper">
+                                            <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
+                                        </div>
+                                    </div>
                                     <!-- Tabel Modal -->
-                                    <table class="table datatable" id="myTable">
-                                        <thead style="background-color: #37003C; color: white;">
-                                            <div class="surat-info">
-                                                <div class="nomor-surat-wrapper">
-                                                    <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Lampiran: [Lampiran]</p>
-                                                </div>
-                                                <div class="tanggal-surat-wrapper">
-                                                    <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
-                                                </div>
-                                            </div>
+                                    <table class="table table-bordered" id="modalTable">
+                                        <thead style="background-color: #0000CD; color: white;">
                                             <tr>
                                                 <th scope="col">No</th>
                                                 <th scope="col">NIM/NPK</th>
                                                 <th scope="col">Nama Pasien</th>
-                                                <th scope="col">Prodi/Departemen</th>
                                                 <th scope="col">Diagnosa</th>
                                                 <th scope="col">Kecelakaan Kerja</th>
                                                 <th scope="col">Rumah Sakit</th>
@@ -140,35 +153,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var rujukanPasien in Model)
-                                            {
-                                                <tr>
-                                                    <td scope="row">@num</td>
-                                                    <td scope="row">@rujukanPasien.rjk_id_pasien</td>
-                                                    <td scope="row">@rujukanPasien.rjk_nama_pasien</td>
-                                                    <td scope="row">@rujukanPasien.rjk_prodi_atau_departemen</td>
-                                                    <td scope="row">@rujukanPasien.rjk_diagnosa</td>
-                                                    @if (rujukanPasien.rjk_kecelakaan_kerja == 1)
-                                                    {
-                                                        <td scope="row">Iya</td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td scope="row">Tidak</td>
-                                                    }
-                                                    <td scope="row">@rujukanPasien.rjk_rumah_sakit</td>
-                                                    <td scope="row">@rujukanPasien.rjk_keterangan</td>
-                                                    <td scope="row">@rujukanPasien.rjk_tanggal</td>
-                                                </tr>
-                                                num++;
-                                            }
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                                <button type="button" class="btn btn-danger" id="printPdf">
+                                    <i class="mdi mdi-file-pdf"></i>
+                                    PDF
+                                </button>
+                                <button type="button" class="btn btn-success" id="printExcel">
+                                    <i class="mdi mdi-file-excel"></i>
+                                    EXCEL
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -178,11 +176,67 @@
     </div>
 </section>
 
-
-
 <script>
+    //datatables
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json"
+            }
+        });
+    });
+    //end datatables
+
     $("#printPdf").click(function () {
         var element = document.getElementById('parentDiv');
+
+        // Populate modal table with data from the main table
+        populateModalTable();
+
+        //generate pdf
+        html2pdf().from(element).set({
+            margin: 5,
+            filename: 'laporan kecelakaan kerja dan rujukan.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: { format: 'a4' }
+        }).save();
+    });
+
+    $("#printExcel").click(function () {
+        // Ambil tabel dengan ID modalTable
+        var table = document.getElementById("modalTable");
+
+        // Dapatkan semua baris dari tabel
+        var rows = table.querySelectorAll("tbody tr");
+
+        // Buat array untuk menyimpan data
+        var data = [];
+
+        // Loop melalui setiap baris dan dapatkan data sel
+        rows.forEach(function (row) {
+            var rowData = [];
+            row.querySelectorAll("td").forEach(function (cell) {
+                rowData.push(cell.textContent.trim());
+            });
+            data.push(rowData);
+        });
+
+        // Buat objek workbook
+        var ws = XLSX.utils.aoa_to_sheet([["No", "NIM/NPK", "Nama Pasien", "Diagnosa", "Kecelakaan Kerja", "Rumah Sakit", "Keterangan", "Tanggal"]].concat(data));
+
+        ws["!cols"] = [{ width: 10 }, { width: 20 }, { width: 20 }, { width: 20 }, { width: 20 }, { width: 20 }, { width: 20 }, { width: 20 }];
+
+        // Buat objek workbook
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+        // Simpan workbook ke file Excel
+        XLSX.writeFile(wb, "data_kecelakaan_kerja_dan_rujukan_pasien.xlsx");
+    });
+
+    document.getElementById('myModal').addEventListener('show.bs.modal', function (event) {
+        // Populate modal table with data from the main table
+        populateModalTable();
 
         // Mendapatkan nomor surat
         var nomorSurat = generateNomorSurat(); // Ganti dengan logika untuk mendapatkan nomor surat
@@ -195,15 +249,35 @@
         // Menyisipkan nomor surat dan tanggal ke dalam elemen HTML
         document.getElementById('nomorSurat').textContent = "Lampiran: " + nomorSurat;
         document.getElementById('tanggalSurat').textContent = "Tanggal: " + tanggalSurat;
-
-        //generate pdf
-        html2pdf().from(element).set({
-            margin: 5,
-            filename: 'laporan kecelakaan kerja dan rujukan.pdf',
-            html2canvas: { scale: 2 },
-            jsPDF: { format: 'a4' }
-        }).save();
     });
+
+    function populateModalTable() {
+        // Bersihkan baris yang ada di dalam tabel modal
+        var modalTableBody = document.getElementById('modalTable').getElementsByTagName('tbody')[0];
+        modalTableBody.innerHTML = '';
+
+        // Dapatkan data dari tabel utama
+        var mainTableBody = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+        var rows = mainTableBody.getElementsByTagName('tr');
+
+        // Iterasi melalui setiap baris dari tabel utama dan tambahkan ke dalam tabel modal
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName('td');
+            var modalTableRow = modalTableBody.insertRow(i);
+
+            // Sertakan nomor seri di kolom pertama
+            modalTableRow.insertCell(0).textContent = i + 1;
+
+            // Sesuaikan urutan kolom di dalam tabel modal
+            var columnOrder = [1, 2, 4, 5, 6, 7, 8]; // Tentukan urutan kolom yang diinginkan (indeks dari myTable)
+            for (var j = 0; j < columnOrder.length; j++) {
+                var cellIndex = columnOrder[j];
+                var cellValue = cells[cellIndex].textContent;
+                var modalTableCell = modalTableRow.insertCell(j + 1); // Mulai dari kolom kedua
+                modalTableCell.textContent = cellValue;
+            }
+        }
+    }
 
     // Contoh fungsi untuk menghasilkan nomor surat
     function generateNomorSurat() {
@@ -211,10 +285,6 @@
         // Misalnya, Anda dapat menggunakan data tertentu atau urutan yang spesifik
         return "Laporan Diagnosa Sakit"; // Ganti dengan logika Anda
     }
-
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
 
     //set date
     // Fungsi untuk mengatur tanggal pertama bulan ini
@@ -244,5 +314,74 @@
     // Memanggil fungsi untuk mengatur nilai input
     setFirstDayOfMonth('dari');
     setLastDayOfMonth('sampai');
-        //end set date
+    //end set date
+
+    //AJAX
+    function filterData() {
+        var dariValue = document.getElementById('dari').value;
+        var sampaiValue = document.getElementById('sampai').value;
+
+        // Menggunakan fetch untuk Ajax
+        fetch('/Laporan/UpdateRujukanKecelakaanKerjaData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ dari: dariValue, sampai: sampaiValue }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Memperbarui tabel dengan data yang diterima
+                updateTable(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Fungsi untuk memperbarui tabel dengan data yang sesuai
+    function updateTable(data) {
+        // Mendapatkan elemen tbody
+        var tbody = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+
+        // Hapus semua baris dari tbody
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        // Tambahkan baris baru sesuai data yang diterima
+        data.forEach(function (item, index) {
+            var row = tbody.insertRow(index);
+            row.insertCell(0).textContent = index + 1;
+            row.insertCell(1).textContent = item.rjk_id_pasien;
+            row.insertCell(2).textContent = item.rjk_nama_pasien;
+            row.insertCell(3).textContent = item.rjk_prodi_atau_departemen;
+            row.insertCell(4).textContent = item.rjk_diagnosa;
+
+            if (item.rjk_kecelakaan_kerja == 1) {
+                row.insertCell(5).textContent = 'Iya';
+            } else {
+                row.insertCell(5).textContent = 'Tidak';
+            }
+
+            // Handle rjk_rumah_sakit
+            if (item.rjk_rumah_sakit == null) {
+                row.insertCell(6).textContent = '-';
+            } else {
+                row.insertCell(6).textContent = item.rjk_rumah_sakit;
+            }
+
+            // Handle rjk_keterangan
+            if (item.rjk_keterangan == "") {
+                row.insertCell(7).textContent = '-';
+            } else {
+                row.insertCell(7).textContent = item.rjk_keterangan;
+            }
+
+            // Parse and format the date using moment.js
+            var formattedDate = moment(item.tanggal, "DD/MM/YYYY HH:mm").format("DD/MM/YYYY HH:mm");
+            row.insertCell(8).textContent = formattedDate;
+        });
+    }
+    //END AJAX
 </script>

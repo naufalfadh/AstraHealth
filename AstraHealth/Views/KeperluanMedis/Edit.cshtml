@@ -10,6 +10,8 @@
     .card {
         padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
     .card-body {
@@ -19,97 +21,131 @@
     }
 </style>
 
-
-<div class="content">
-    <div class="contrainer-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                       
-                    </div>
-                    <div class="card-body">
-                        <div class="pagetitle">
-                            <nav>
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item">Keperluan Alat Medis</li>
-                                    <li class="breadcrumb-item active">Edit Keperluan Alat Medis</li>
-                                </ol>
-                            </nav>
+<br>
+<br>
+<br>
+<br>
+<section class="section">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2>Tambah Catatan</h2>
+                                <hr />
+                                <form method="post" asp-controller="KeperluanMedis" asp-action="Edit">
+                                    <div class="form-group">
+                                        <input asp-for="kpm_id" class="form-control" hidden />
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="kpm_nama_barang" class="control-label">Nama Barang</label>
+                                        <input asp-for="kpm_nama_barang" class="form-control" readonly />
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="kpm_jumlah" class="control-label">Jumlah</label>
+                                        <input asp-for="kpm_jumlah" class="form-control" readonly />
+                                    </div>
+                                    <label asp-for="kpm_satuan" class="control-label">Satuan</label>
+                                    <div class="form-group">
+                                        <select asp-for="kpm_satuan" class="form-control form-control-lg" readonly>
+                                            <option value="buah">Buah</option>
+                                            <option value="kotak">Kotak</option>
+                                            <option value="strip">Strip</option>
+                                            <option value="botol">Botol</option>
+                                            <option value="vial">Vial</option>
+                                            <option value="ampul">Ampul</option>
+                                            <option value="tube">Tube</option>
+                                            <option value="paket">Paket</option>
+                                            <option value="dus">Dus</option>
+                                            <option value="sachet">Sachet</option>
+                                            <option value="plat">Plat</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="kpm_catatan" class="control-label">
+                                            Catatan
+                                            <span style="color:red">*</span>
+                                        </label>
+                                        <span id="catatan" style="color:red;display:none;">harus diisi</span>
+                                        <div class="form-group">
+                                            <textarea asp-for="kpm_catatan" id="kpm_catatan" class="form-control" type="text"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="kpm_tanggal_pengajuan" class="form-control" hidden>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="kpm_tanggal_aksi" class="form-control" hidden>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="kpm_status" class="form-control" hidden>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="kpm_id_admin" class="form-control" hidden>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="kpm_id_manajer" class="form-control" hidden>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary submit-button">Simpan</button>
+                                        <a asp-controller="KeperluanMedis" asp-action="Index" class="btn btn-light">Kembali</a>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <form method="post" asp-controller="KeperluanMedis" asp-action="Edit">
-                            <div class="form-group">
-                                <input asp-for="kpm_id" class="form-control" hidden />
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="kpm_nama_barang" class="control-label">Nama Barang</label>
-                                <input asp-for="kpm_nama_barang" class="form-control" readonly />
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="kpm_jumlah" class="control-label">Jumlah</label>
-                                <input asp-for="kpm_jumlah" class="form-control" readonly />
-                            </div>
-                            <div class="form-group">
-                                <select asp-for="kpm_satuan" class="form-control input-with-border">
-                                    <option value="buah">Buah</option>
-                                    <option value="kotak">Kotak</option>
-                                    <option value="strip">Strip</option>
-                                    <option value="botol">Botol</option>
-                                    <option value="vial">Vial</option>
-                                    <option value="ampul">Ampul</option>
-                                    <option value="tube">Tube</option>
-                                    <option value="paket">Paket</option>
-                                    <option value="dus">Dus</option>
-                                    <option value="sachet">Sachet</option>
-                                    <option value="plat">Plat</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="kpm_catatan" class="control-label">Catatan</label>
-                                <textarea asp-for="kpm_catatan" class="form-control" type="text"></textarea>
-                                <span asp-validation-for="kpm_catatan" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input asp-for="kpm_tanggal_pengajuan" class="form-control" hidden>
-                            </div>
-                            <div class="form-group">
-                                <input asp-for="kpm_tanggal_aksi" class="form-control" hidden>
-                            </div>
-                            <div class="form-group">
-                                <input asp-for="kpm_status" class="form-control" hidden>
-                            </div>
-                            <div class="form-group">
-                                <input asp-for="kpm_id_admin" class="form-control" hidden>
-                            </div>
-                            <div class="form-group">
-                                <input asp-for="kpm_id_manajer" class="form-control" hidden>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary submit-button">Simpan</button>
-                                <a asp-controller="Obat" asp-action="Index" class="btn btn-light">Cancel</a>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+
 <script>
     $(document).ready(function () {
-        $(".submit-button").click(function (e) {
+        $("form").submit(function (e) {
             if (!validateForm()) {
-                e.preventDefault();
+                e.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                // Allow form submission if validation passes
+                // You can add additional logic or actions here if needed
             }
         });
 
         function validateForm() {
+            document.getElementById('catatan').style.display = 'none';
+
+            var kpm_catatan = document.getElementById('kpm_catatan').value;
+
+            if (!kpm_catatan.trim()) {
+                document.getElementById('catatan').style.display = 'inline';
+            }
+
             var field = "kpm_catatan";
             var value = $("#" + field).val();
             if (!value) {
                 Swal.fire("Gagal!", "Isi catatan terlebih dahulu!", "warning");
-                return false;
+                return false; // Return false to indicate validation failure
             }
+
+            // Add more validation logic if needed
+
+            return true; // Return true to indicate validation success
+        }
+    });
+
+    document.getElementById("kpm_catatan").addEventListener("blur", function (event) {
+        // Reset previous error messages
+        var catatanError = document.getElementById('catatan');
+        catatanError.style.display = 'none';
+
+        // Check username
+        var kpm_catatan = this.value.trim();
+
+        if (!kpm_catatan) {
+            catatanError.textContent = 'harus diisi';
+            catatanError.style.display = 'inline';
         }
     });
 </script>

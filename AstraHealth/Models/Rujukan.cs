@@ -78,6 +78,39 @@ namespace AstraHealth.Models
             return rujukanModel;
         }
 
+        public RujukanModel getAnamnesaData(string id)
+        {
+            RujukanModel rujukanList = new RujukanModel();
+            try
+            {
+                string query = "SELECT * from ahl_tranamnesa where anm_id = @p1";
+
+                SqlCommand command = new SqlCommand(query, _connection);
+                command.Parameters.AddWithValue("@p1", id);
+                _connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    RujukanModel pasien = new RujukanModel
+                    {
+                        anm_id_pasien = reader["anm_id_pasien"].ToString(),
+                        anm_nama_pasien = reader["anm_nama_pasien"].ToString(),
+                        anm_prodi_atau_departemen = reader["anm_prodi_atau_departemen"].ToString(),
+                        anm_diagnosa = reader["anm_diagnosa"].ToString(),
+                    };
+
+                    rujukanList = pasien;
+                }
+                reader.Close();
+                _connection.Close();
+            }
+            catch (Exception ex)
+            {
+                    Console.WriteLine(ex.Message);
+            }
+
+            return rujukanList;
+        }
 
         public void insertData(RujukanModel rujukanModel)
         {

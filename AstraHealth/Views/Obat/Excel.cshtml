@@ -1,0 +1,109 @@
+﻿@model AstraHealth.Models.ObatModel
+
+@{
+    ViewData["Title"] = "Unggah File Excel";
+}
+
+<style>
+    .input-with-border {
+        border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
+        border-radius: 4px; /* Bordes sudut */
+    }
+
+    .card {
+        padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .card-body {
+        background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
+        padding: 20px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        border-radius: 8px; /* Bordes sudut */
+    }
+</style>
+
+<br>
+<br>
+<br>
+<br>
+<section class="section">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2>Unggal File Excel</h2>
+                                <hr />
+                                <form asp-controller="Obat" asp-action="Excel" class="forms-sample" method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="akn_id">File Excel<span style="color:red">*</span></label>
+                                        <span id="id" style="color:red;display:none;">harus diisi</span>
+                                        <div class="input-group">
+                                            <input name="file" id="file" type="file" class="form-control input-with-border" placeholder="Pilih file">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
+                                    <a asp-controller="Obat" asp-action="Index" class="btn btn-light">Kembali</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.querySelector('form');
+
+        form.addEventListener('submit', function (event) {
+            var fileInput = document.getElementById('file');
+            var errorSpan = document.getElementById('id');
+
+            if (!fileInput.files.length) {
+                // Jika tidak ada file yang dipilih, tampilkan pesan kesalahan dan hentikan submit
+                errorSpan.style.display = 'inline';
+                event.preventDefault();
+            } else {
+                // Jika file telah dipilih, sembunyikan pesan kesalahan
+                errorSpan.style.display = 'none';
+
+                // Cek ekstensi file
+                var fileName = fileInput.value;
+                var fileExt = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2);
+                if (fileExt.toLowerCase() !== 'xlsx') {
+                    errorSpan.textContent = 'File harus berformat Excel (xlsx)';
+                    errorSpan.style.display = 'inline';
+                    event.preventDefault();
+                }
+            }
+        });
+
+        document.getElementById("file").addEventListener("change", function (event) {
+            // Reset previous error messages
+            var spanError = document.getElementById('id');
+            spanError.style.display = 'none';
+
+            // Check file
+            var file = this.value.trim();
+
+            if (!file) {
+                spanError.textContent = 'harus diisi';
+                spanError.style.display = 'inline';
+            } else {
+                // Cek ekstensi file
+                var fileName = fileInput.value;
+                var fileExt = fileName.slice((fileName.lastIndexOf(".") - 1 >>> 0) + 2);
+                if (fileExt.toLowerCase() !== 'xlsx') {
+                    spanError.textContent = 'File harus berformat Excel (xlsx)';
+                    spanError.style.display = 'inline';
+                }
+            }
+        });
+    });
+</script>

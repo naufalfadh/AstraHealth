@@ -8,10 +8,6 @@
 }
 
 <style>
-    body {
-        padding-top: 100px; /* Atur spasi sesuai kebutuhan */
-    }
-
     .input-with-border {
         border: 1px solid #ddd; /* Warna dan ketebalan garis tepi */
         border-radius: 4px; /* Bordes sudut */
@@ -20,6 +16,8 @@
     .card {
         padding-left: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
         padding-right: 50px; /* Sesuaikan dengan jumlah padding yang diinginkan */
+        padding-top: 50px;
+        padding-bottom: 50px;
     }
 
     .card-body {
@@ -29,126 +27,213 @@
     }
 </style>
 
+<br>
+<br>
+<br>
+<br>
+<section class="section">
+    <div class="container-fluid page-body-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2>Rujukan</h2>
+                                <hr />
+                                <form class="form-sample" method="post">
+                                    <input asp-for="rjk_id_anamnesa" class="form-control input-with-border" placeholder="Masukkan ID Anamnesa" style="display:none" />
+                                    <input asp-for="rjk_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" style="display: none" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_id_pasien" class="col-sm-3 col-form-label">ID Pasien</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_id_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" readonly />
+                                                    <span asp-validation-for="anm_id_pasien" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_nama_pasien" class="col-sm-3 col-form-label">Nama Pasien</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_nama_pasien" class="form-control input-with-border" placeholder="Masukkan ID Pasien" readonly />
+                                                    <span asp-validation-for="anm_nama_pasien" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-<body>
-    <div class="col-12 grid-margin">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Rujukan</h4>
-                <form class="form-sample" method="post">
-                    <p class="card-description">
-                        Personal info
-                    </p>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rjk_id_anamnesa" class="col-sm-3 col-form-label">ID Anamnesa</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rjk_id_anamnesa" class="form-control input-with-border" placeholder="Masukkan ID Anamnesa" readonly />
-                                    <span asp-validation-for="rjk_id_anamnesa" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rjk_rumah_sakit" class="col-sm-3 col-form-label">Rumah Sakit</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rjk_rumah_sakit" class="form-control input-with-border" placeholder="Masukkan Nama Rumah Sakit" />
-                                    <span asp-validation-for="rjk_rumah_sakit" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rjk_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rjk_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" />
-                                    <span asp-validation-for="rjk_keterangan" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_prodi_atau_departemen" class="col-sm-3 col-form-label">Program Studi atau Departemen</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_prodi_atau_departemen" class="form-control input-with-border" placeholder="Masukkan ID Pasien" readonly />
+                                                    <span asp-validation-for="anm_prodi_atau_departemen" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label asp-for="rjk_tanggal" class="col-sm-3 col-form-label">Tanggal</label>
-                                <div class="col-sm-9">
-                                    <input asp-for="rjk_tanggal" class="form-control input-with-border" placeholder="Masukkan Tanggal" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
-                                    <span asp-validation-for="rjk_tanggal" class="text-danger"></span>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="anm_diagnosa" class="col-sm-3 col-form-label">Diagnosa</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="anm_diagnosa" class="form-control input-with-border" placeholder="Masukkan ID Pasien" readonly />
+                                                    <span asp-validation-for="anm_diagnosa" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="rjk_rumah_sakit" class="col-sm-3 col-form-label">Rumah Sakit <span style="color:red">*</span></label>
+                                                <div class="col-sm-9">
+                                                    <span id="rumah_sakit" style="color:red;display:none;">harus diisi</span>
+                                                    <input asp-for="rjk_rumah_sakit" id="rjk_rumah_sakit" class="form-control input-with-border" placeholder="Masukkan Nama Rumah Sakit" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="rjk_keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+                                                <div class="col-sm-9">
+                                                    <input asp-for="rjk_keterangan" class="form-control input-with-border" placeholder="Masukkan Keterangan" />
+                                                    <span asp-validation-for="rjk_keterangan" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mr-2 submit-button">Simpan</button>
+                                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Kembali</a>
+
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div id="parentDiv">
+                                        <div class="modal-header">
+                                            <div class="logo-container" style="display: flex;justify-content: center;width: 96px;">
+                                                <img src="~/content/images/IMG_Logo.png" alt="logo" style="display: flex;justify-content: center;width: 96px;" />
+                                            </div>
+                                            <div class="title-wrapper" style="text-align: center">
+                                                <h3 class="modal-title modal-lg" style="color: black;">SURAT KETERANGAN</h3>
+                                                <h3 class="modal-title modal-lg" style="color: black;">PEMERIKSAAN KESEHATAAN PASIEN</h3>
+                                            </div>
+                                            <div class="logo-container" style="display: flex;justify-content: center;width: 96px;">
+                                                <img src="~/content/images/IMG_Logo.png" alt="logo" style="display: flex;justify-content: center;width: 96px;" />
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p style="color: black;">Nama: </p>
+                                            <p style="color: black;">Dept/Prodi/UPT: </p>
+                                            <p style="color: black;">NRP/NIM: </p>
+                                            <br>
+                                            <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
+                                            <p style="color: black;">Mengalami gejala</p>
+                                            <br>
+                                            <br>
+                                            <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
+                                            <p style="color: black;">Selama (Satu) Hari</p>
+                                            <br>
+                                            <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
+                                            <div class="tanggal-surat-wrapper">
+                                                <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: [Tanggal]</p>
+                                            </div>
+                                            <br>
+                                            <div class="logo-container" style="display: flex;justify-content: center;width: 96px;">
+                                                <img src="~/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage" style="display: flex;justify-content: center;width: 96px;" />
+                                            </div>
+                                            <p style="color: black;">Dina Yuliana Amd.Keb</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- End Modal -->
                     </div>
-                   
-                    <button type="submit" class="btn btn-primary mr-2 submit-button">Submit</button>
-                    <a asp-controller="Pasien" asp-action="Index" class="btn btn-light">Cancel</a>
-                    
-                </form>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title modal-lg d-flex justify-content-center align-items-center">Laporan Diagnosa Sakit</h2>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="parentDiv">
-                    <!-- Tabel Modal -->
-                    <table class="table datatable" id="myTable">
-                        <thead style="background-color: #37003C; color: white;">
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Modal -->
-</body>
 <script>
     $(document).ready(function () {
         $(".submit-button").click(function (e) {
-            e.preventDefault(); // Mencegah pengiriman formulir secara default
-
             if (validateForm()) {
-                Swal.fire({
-                    title: "Surat Izin?",
-                    text: "Buat Surat Izin?",
-                    icon: "question",
-                    confirmButtonText: "Iya",
-                    showDenyButton: true,
-                    denyButtonText: "Tidak",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Jika "Iya" diklik, tampilkan modal
-                        $('#myModal').modal('show');
-                    } else {
-                        // Jika "Tidak" diklik, kirim formulir
-                        $('form').submit();
-                    }
-                });
+                $('form').submit();
             }
         });
 
-        $("#myModal").on("hidden.bs.modal", function () {
-            // Jika modal ditutup, lanjutkan menyimpan data
-            $('form').submit();
-        });
+        function setSuratIzinText() {
+            // Mendapatkan nilai dari field-field yang ada di form
+            var namaPasien = $("input[name='anm_nama_pasien']").val() || '';
+            var prodiDepartemen = $("input[name='anm_prodi_atau_departemen']").val() || '';
+            var idPasien = $("input[name='anm_id_pasien']").val() || '';
+            var diagnosa = $("input[name='anm_diagnosa']").val() || '';
+
+            // Mendapatkan tanggal saat ini dan formatnya ke "dd/MMM/yyyy"
+            var today = new Date();
+            var options = { day: '2-digit', month: 'short', year: 'numeric' };
+            var tanggalSurat = today.toLocaleDateString('id-ID', options); // Format tanggal
+
+            document.getElementById('tanggalSurat').textContent = "Cikarang: " + tanggalSurat;
+
+            // Generate teks untuk dimasukkan ke dalam modal-body
+            var modalText = `<p style="color: black;">Nama:      ${namaPasien}</p>
+                            <p style="color: black;">Dept/Prodi/UPT:     ${prodiDepartemen}</p>
+                            <p style="color: black;">NRP/NIM:     ${idPasien}</p>
+                            <br>
+                            <p style="color: black;"><b>Hasil Pemersiksaan :</b></p>
+                            <p style="color: black;">Mengalami gejala ${diagnosa}</p>
+                            <br>
+                            <br>
+                            <p style="color: black;">Setelah dilakukan pemeriksaan Pasien disarankan untuk pulang dan istirahat</p>
+                            <p style="color: black;">Selama (Satu) Hari</p>
+                            <br>
+                            <p style="color: black;">Demikian hasil pemeriksaan ini dibuat untuk dapat digunakan sebagaimana mestinya</p>
+                            <div class="tanggal-surat-wrapper">
+                                <p id="tanggalSurat" style="text-align: left; margin-right: 80px; color: black;">Cikarang: ${tanggalSurat}</p>
+                            </div>
+                            <br>
+                            <div class="logo-container">
+                                <img src="/content/images/Tanda_tangan.jpg" alt="logo" id="tandaTanganImage" style="display: flex;justify-content: center;width: 96px;"/>
+                            </div>
+                            <p style="color: black;">Dina Yuliana Amd.Keb</p>`;
+
+            // Mengganti isi dari modal-body dengan teks yang telah disiapkan
+            $('.modal-body').html(modalText);
+        }
+
 
         function validateForm() {
+            document.getElementById('rumah_sakit').style.display = 'none';
+
+            // Check username
+            var rjk_rumah_sakit = document.getElementById('rjk_rumah_sakit').value;
+
+            if (!rjk_rumah_sakit.trim()) {
+                document.getElementById('rumah_sakit').textContent = 'Harus diisi';
+                document.getElementById('rumah_sakit').style.display = 'inline';
+                event.preventDefault(); // Prevent form submission
+            } else if (/\d/.test(rjk_rumah_sakit)) {
+                // Jika terdapat angka dalam akn_nama
+                document.getElementById('rumah_sakit').textContent = 'Nama tidak boleh berupa angka';
+                document.getElementById('rymah_sakit').style.display = 'inline';
+            }
+
             // Ganti dengan nama kolom yang sesuai
             var requiredFields = ["rjk_rumah_sakit"];
 
@@ -163,4 +248,31 @@
             return true;
         }
     });
+
+    document.getElementById("rjk_rumah_sakit").addEventListener("blur", function (event) {
+        // Reset previous error messages
+        var rumahSakitError = document.getElementById('rumah_sakit');
+        rumahSakitError.style.display = 'none';
+
+        // Check username
+        var rjk_rumah_sakit = this.value.trim();
+
+        if (!rhk_rumah_sakit) {
+            rumahSakitError.textContent = 'harus diisi';
+            rumahSakitError.style.display = 'inline';
+        }
+    });
+
+    function downloadSuratIzin() {
+        var element = document.getElementById('parentDiv');
+        var namaPasien = $("input[name='anm_nama_pasien']").val() || '';
+
+        // Generate PDF
+        html2pdf().from(element).set({
+            margin: 5,
+            filename: `Surat_Izin_${namaPasien}.pdf`,
+            html2canvas: { scale: 2 },
+            jsPDF: { format: 'a4' }
+        }).save();
+    }
 </script>

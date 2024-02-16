@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Laporan Pemakaian Obat";
     int no = 1;
-    int num = 1;
 }
 
 <head>
@@ -48,15 +47,14 @@
                                 <div class="d-sm-flex justify-content-center justify-content-sm-between">
 									<h2>Laporan Pemakaian Obat</h2>
 									<button class="btn btn-primary" style="background-color: #0059AB;" data-bs-toggle="modal" data-bs-target="#myModal">
-										Cetak PDF
-										<i class="fas fa-file-pdf"></i>
+										Ekspor
 									</button>
                                 </div>
                                 <hr />
                                 <label for="dari" class="col-sm-0">Dari : </label>
-                                <input type="date" id="dari" class="form-control-sm col-sm-1" />
+                                <input type="date" id="dari" onchange="filterData()" class="form-control-sm col-sm-1" />
                                 <label for="sampai" class="col-sm-0">Sampai : </label>
-                                <input type="date" id="sampai" class="form-control-sm col-sm-1" />
+                                <input type="date" id="sampai" onchange="filterData()" class="form-control-sm col-sm-1" />
                                 <hr />
                                 <table class="table datatable table-bordered" id="myTable">
                                     <thead>
@@ -76,7 +74,8 @@
                                                 <td>@obat.pmo_nama_obat</td>
                                                 <td>@obat.pmo_jumlah</td>
                                                 <td>@obat.pmo_satuan</td>
-                                                <td>@obat.pmo_tanggal</td>
+                                                <td>@DateTime.Parse(obat.tanggal).ToString("dd/MM/yyyy HH:mm")</td>
+
                                             </tr>
                                             no++;
                                         }
@@ -87,8 +86,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
@@ -101,16 +98,17 @@
                                     </div>
                                 </div>
                                 <div class="modal-body">
-                                    <table class="table datatable">
-                                        <thead style="background-color: #37003C; color: white;">
-                                            <div class="surat-info">
-                                                <div class="nomor-surat-wrapper">
-                                                    <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Lampiran: [Lampiran]</p>
-                                                </div>
-                                                <div class="tanggal-surat-wrapper">
-                                                    <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
-                                                </div>
-                                            </div>
+                                    <div class="surat-info">
+                                        <div class="nomor-surat-wrapper">
+                                            <p id="nomorSurat" style="text-align: left; margin-right: 80px; color: black;">Lampiran: [Lampiran]</p>
+                                        </div>
+                                        <div class="tanggal-surat-wrapper">
+                                            <p id="tanggalSurat" style="text-align: right; margin-left: 80px; color: black;">Tanggal: [Tanggal]</p>
+                                        </div>
+                                    </div>
+                                    <!-- Tabel Modal -->
+                                    <table class="table table-bordered" id="modalTable">
+                                        <thead style="background-color: #0000CD; color: white;">
                                             <tr>
                                                 <th scope="col">No</th>
                                                 <th scope="col">Nama Obat</th>
@@ -120,36 +118,91 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var obat in Model)
-                                            {
-                                                <tr>
-                                                    <td scope="row">@num</td>
-                                                    <td scope="row">@obat.pmo_nama_obat</td>
-                                                    <td scope="row">@obat.pmo_jumlah</td>
-                                                    <td scope="row">@obat.pmo_satuan</td>
-                                                    <td scope="row">@obat.pmo_tanggal</td>
-                                                </tr>
-                                                num++;
-                                            }
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <button type="button" class="btn btn-secondary" id="printPdf">Cetak</button>
+                                <button type="button" class="btn btn-danger" id="printPdf">
+                                    <i class="mdi mdi-file-pdf"></i>
+                                    PDF
+                                </button>
+                                <button type="button" class="btn btn-success" id="printExcel">
+                                    <i class="mdi mdi-file-excel"></i>
+                                    EXCEL
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- End Modal -->
             </div>
         </div>
     </div>
 </section>
 
 <script>
+    //datatables
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Indonesian.json"
+            }
+        });
+    });
+    //end datatables
+
     $("#printPdf").click(function () {
         var element = document.getElementById('parentDiv');
+
+        // Populate modal table with data from the main table
+        populateModalTable();
+
+        //generate pdf
+        html2pdf().from(element).set({
+            margin: 5,
+            filename: 'laporan pemakaian obat.pdf',
+            html2canvas: { scale: 2 },
+            jsPDF: { format: 'a4' }
+        }).save();
+    });
+
+    $("#printExcel").click(function () {
+        // Ambil tabel dengan ID modalTable
+        var table = document.getElementById("modalTable");
+
+        // Dapatkan semua baris dari tabel
+        var rows = table.querySelectorAll("tbody tr");
+
+        // Buat array untuk menyimpan data
+        var data = [];
+
+        // Loop melalui setiap baris dan dapatkan data sel
+        rows.forEach(function (row) {
+            var rowData = [];
+            row.querySelectorAll("td").forEach(function (cell) {
+                rowData.push(cell.textContent.trim());
+            });
+            data.push(rowData);
+        });
+
+        // Buat objek workbook
+        var ws = XLSX.utils.aoa_to_sheet([["No", "Nama Obat", "Jumlah", "Satuan", "Tanggal"]].concat(data));
+
+        ws["!cols"] = [{ width: 10 }, { width: 20 }, { width: 10 }, { width: 10 }, { width: 20 }];
+
+        // Buat objek workbook
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+        // Simpan workbook ke file Excel
+        XLSX.writeFile(wb, "data_pemakaian_obat.xlsx");
+    });
+
+    document.getElementById('myModal').addEventListener('show.bs.modal', function (event) {
+        // Populate modal table with data from the main table
+        populateModalTable();
 
         // Mendapatkan nomor surat
         var nomorSurat = generateNomorSurat(); // Ganti dengan logika untuk mendapatkan nomor surat
@@ -162,15 +215,37 @@
         // Menyisipkan nomor surat dan tanggal ke dalam elemen HTML
         document.getElementById('nomorSurat').textContent = "Lampiran: " + nomorSurat;
         document.getElementById('tanggalSurat').textContent = "Tanggal: " + tanggalSurat;
-
-        //generate pdf
-        html2pdf().from(element).set({
-            margin: 5,
-            filename: 'laporan pemakaian obat.pdf',
-            html2canvas: { scale: 2 },
-            jsPDF: { format: 'a4' }
-        }).save();
     });
+
+    // ... (your existing script)
+
+    function populateModalTable() {
+        // Bersihkan baris yang ada di dalam tabel modal
+        var modalTableBody = document.getElementById('modalTable').getElementsByTagName('tbody')[0];
+        modalTableBody.innerHTML = '';
+
+        // Dapatkan data dari tabel utama
+        var mainTableBody = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+        var rows = mainTableBody.getElementsByTagName('tr');
+
+        // Iterasi melalui setiap baris dari tabel utama dan tambahkan ke dalam tabel modal
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName('td');
+            var modalTableRow = modalTableBody.insertRow(i);
+
+            // Sertakan nomor seri di kolom pertama
+            modalTableRow.insertCell(0).textContent = i + 1;
+
+            // Sesuaikan urutan kolom di dalam tabel modal
+            var columnOrder = [1, 2, 3, 4]; // Tentukan urutan kolom yang diinginkan (indeks dari myTable)
+            for (var j = 0; j < columnOrder.length; j++) {
+                var cellIndex = columnOrder[j];
+                var cellValue = cells[cellIndex].textContent;
+                var modalTableCell = modalTableRow.insertCell(j + 1); // Mulai dari kolom kedua
+                modalTableCell.textContent = cellValue;
+            }
+        }
+    }
 
     // Contoh fungsi untuk menghasilkan nomor surat
     function generateNomorSurat() {
@@ -178,10 +253,6 @@
         // Misalnya, Anda dapat menggunakan data tertentu atau urutan yang spesifik
         return "Laporan Pemakaian Obat"; // Ganti dengan logika Anda
     }
-
-    $(document).ready(function () {
-        $('#myTable').DataTable();
-    });
 
     //set date
     // Fungsi untuk mengatur tanggal pertama bulan ini
@@ -211,5 +282,53 @@
     // Memanggil fungsi untuk mengatur nilai input
     setFirstDayOfMonth('dari');
     setLastDayOfMonth('sampai');
-        //end set date
+    //end set date
+
+    //AJAX
+    function filterData() {
+        var dariValue = document.getElementById('dari').value;
+        var sampaiValue = document.getElementById('sampai').value;
+
+        // Menggunakan fetch untuk Ajax
+        fetch('/Laporan/UpdatePemakaianObatData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ dari: dariValue, sampai: sampaiValue }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Memperbarui tabel dengan data yang diterima
+                updateTable(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    // Fungsi untuk memperbarui tabel dengan data yang sesuai
+    function updateTable(data) {
+        // Mendapatkan elemen tbody
+        var tbody = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+
+        // Hapus semua baris dari tbody
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        // Tambahkan baris baru sesuai data yang diterima
+        data.forEach(function (item, index) {
+            var row = tbody.insertRow(index);
+            row.insertCell(0).textContent = index + 1;
+            row.insertCell(1).textContent = item.pmo_nama_obat;
+            row.insertCell(2).textContent = item.pmo_jumlah;
+            row.insertCell(3).textContent = item.pmo_satuan;
+
+            // Parse and format the date using moment.js
+            var formattedDate = moment(item.tanggal, "DD/MM/YYYY HH:mm").format("DD/MM/YYYY HH:mm");
+            row.insertCell(4).textContent = formattedDate;
+        });
+    }
+    //END AJAX
 </script>

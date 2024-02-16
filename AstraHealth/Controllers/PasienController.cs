@@ -47,7 +47,10 @@ namespace AstraHealth.Controllers
             {
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
-          return View();
+
+            PasienModel pasienModel = new PasienModel();
+            pasienModel.Obats = _pasienRepository.getObatData();
+            return View(pasienModel);
         }
 
         [HttpPost]
@@ -62,8 +65,13 @@ namespace AstraHealth.Controllers
                 {
                     for (int i = 0; i < pasienModel.PemakaianObats.Count; i++)
                     {
-                        int id = _pasienRepository.getPemakaianObatId() + i;
-                        pasienModel.PemakaianObats[i].pmo_id = id.ToString();
+                        ObatModel obatModel = _pasienRepository.getObatDataById(pasienModel.PemakaianObats[i].pmo_id_obat);
+                        if (obatModel.obt_stok < pasienModel.PemakaianObats[i].pmo_jumlah)
+                        {
+                            TempData["ErrorMessage"] = "Obat " + obatModel.obt_nama_obat + " hanya memiliki stok: " + obatModel.obt_stok + " " + obatModel.obt_satuan;
+                            return RedirectToAction("Create");
+                        }
+
                         pasienModel.PemakaianObats[i].pmo_id_anamnesa = pasienModel.anm_id;
                     }
                 }

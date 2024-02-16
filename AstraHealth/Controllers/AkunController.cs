@@ -46,22 +46,28 @@ namespace AstraHealth.Controllers
             {
                 akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
             }
-            /*if (akunModel.akn_role == "admin")
-            {
-                return RedirectToAction("Index", "Pasien");
-            }*/
+
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(AkunModel akunModel)
         {
-
             if (ModelState.IsValid)
             {
-                _akunRepository.insertData(akunModel);
-                TempData["SuccessMessage"] = "Data berhasil ditambahkan";
-                return RedirectToAction("Index");
+                AkunModel existAkun = _akunRepository.getData(akunModel.akn_id);
+                if (existAkun != null)
+                {
+                    TempData["ErrorMessage"] = "Data dengan NPK tersebut sudah ada";
+                    return RedirectToAction("Create");
+                }
+                else
+                {
+                    akunModel.akn_password = _akunRepository.HashPassword(akunModel.akn_password);
+                    _akunRepository.insertData(akunModel);
+                    TempData["SuccessMessage"] = "Data berhasil ditambahkan";
+                    return RedirectToAction("Index");
+                }
             }
             return View(akunModel);
         }
@@ -108,12 +114,12 @@ namespace AstraHealth.Controllers
 
                 newAkunModel.akn_id = akunModel.akn_id;
                 newAkunModel.akn_nama = akunModel.akn_nama;
-                newAkunModel.akn_password = akunModel.akn_password;
+                newAkunModel.akn_password = _akunRepository.HashPassword(akunModel.akn_password);
                 newAkunModel.akn_role = akunModel.akn_role;
                 newAkunModel.akn_status = akunModel.akn_status;
 
                 _akunRepository.updateData(newAkunModel);
-                TempData["SuccessMessage"] = "PasienModel berhasil diupdate.";
+                TempData["SuccessMessage"] = "Data berhasil diedit.";
                 return RedirectToAction("Index");
             }
             return View(akunModel);
@@ -140,17 +146,17 @@ namespace AstraHealth.Controllers
             }
 
 
-            var response = new { success = false, message = "Gagal menghapus pasienModel." };
+            var response = new { success = false, message = "Gagal menghapus data." };
             try
             {
                 if (id != null)
                 {
                     _akunRepository.deleteData(id);
-                    response = new { success = true, message = "Berhasil menghapus data." };
+                    response = new { success = true, message = "Data berhasil dihapus." };
                 }
                 else
                 {
-                    response = new { success = false, message = "Akun tidak ditemukan" };
+                    response = new { success = false, message = "Data tidak ditemukan" };
                 }
             }
             catch (Exception ex)
@@ -158,6 +164,101 @@ namespace AstraHealth.Controllers
                 response = new { success = false, message = ex.Message };
             }
             return Json(response);
+        }
+
+        [HttpPost]
+        public IActionResult Activate(string id)
+        {
+            AkunModel akunModel = new AkunModel();
+
+            string serializedModel = HttpContext.Session.GetString("Identity");
+
+            if (serializedModel == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+            }
+            if (akunModel.akn_role == "admin")
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+
+            var response = new { success = false, message = "Gagal mengaktifkan data." };
+            try
+            {
+                if (id != null)
+                {
+                    _akunRepository.activateData(id);
+                    response = new { success = true, message = "Akun berhasil diaktifkan." };
+                }
+                else
+                {
+                    response = new { success = false, message = "Data tidak ditemukan" };
+                }
+            }
+            catch (Exception ex)
+            {
+                response = new { success = false, message = ex.Message };
+            }
+            return Json(response);
+        }
+
+        [HttpGet]
+        public IActionResult EditPassword(string id)
+        {
+            AkunModel akunModel = new AkunModel();
+
+            string serializedModel = HttpContext.Session.GetString("Identity");
+
+            if (serializedModel == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                akunModel = JsonConvert.DeserializeObject<AkunModel>(serializedModel);
+            }
+
+            AkunModel AkunModel = _akunRepository.getData(id);
+            if (AkunModel == null)
+            {
+                return NotFound();
+            }
+            return View(AkunModel);
+        }
+
+        [HttpPost]
+        public IActionResult EditPassword(AkunModel akunModel)
+        {
+            if (ModelState.IsValid)
+            {
+                AkunModel newAkunModel = _akunRepository.getData(akunModel.akn_id);
+                if (newAkunModel == null)
+                {
+                    return NotFound();
+                }
+
+                if (_akunRepository.HashPassword(akunModel.akn_password) != newAkunModel.akn_password)
+                {
+                    TempData["ErrorMessage"] = "Kata sandi lama tidak valid.";
+                    return View(akunModel);
+                }
+
+                newAkunModel.akn_id = akunModel.akn_id;
+                newAkunModel.akn_nama = akunModel.akn_nama;
+                newAkunModel.akn_password = _akunRepository.HashPassword(akunModel.akn_password_baru);
+                newAkunModel.akn_role = akunModel.akn_role;
+                newAkunModel.akn_status = akunModel.akn_status;
+
+                _akunRepository.updateData(newAkunModel);
+                TempData["SuccessMessage"] = "Kata sandi berhasil diganti.";
+                return RedirectToAction("Index", "Dashboard");
+            }
+            return View(akunModel);
         }
     }
 }

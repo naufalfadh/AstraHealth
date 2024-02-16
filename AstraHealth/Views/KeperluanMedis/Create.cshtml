@@ -40,14 +40,7 @@
                 <div class="col-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <div class="pagetitle">
-                                <nav>
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item">Keperluan Alat Medis</li>
-                                        <li class="breadcrumb-item active">Tambah Keperluan Alat Medis</li>
-                                    </ol>
-                                </nav>
-                            </div>
+                            <h2>Tambah Keperluan Alat Medis</h2>
                             <hr />
                             <form class="forms-sample" method="post">
                                 <div class="form-group">
@@ -57,19 +50,30 @@
                                         <table id="tblKeperluanMedis" class="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Nama Barang</th>
-                                                    <th>Jumlah</th>
-                                                    <th>Satuan</th>
+                                                    <th>Nama Barang
+                                                        <span style="color:red">*</span>
+                                                        <span id="nama_barang" style="color:red;display:none;">harus diisi</span>
+                                                    </th>
+                                                    <th>Jumlah
+                                                        <span style="color:red">*</span>
+                                                        <span id="jumlah" style="color:red;display:none;">harus diisi</span>
+                                                    </th>
+                                                    <th>Satuan
+                                                        <span style="color:red">*</span>
+                                                        <span id="satuan" style="color:red;display:none;">harus diisi</span>
+                                                    </th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><input asp-for="keperluanMedis[0].kpm_nama_barang" class="form-control" /></td>
-                                                    <td><input asp-for="keperluanMedis[0].kpm_jumlah" class="form-control" /></td>
+                                                    <td><input asp-for="keperluanMedis[0].kpm_nama_barang" id="nama_barang_1" class="form-control" /></td>
+                                                    <td><input asp-for="keperluanMedis[0].kpm_jumlah" id="jumlah_1" class="form-control" /></td>
                                                     <td>
-                                                        <select asp-for="keperluanMedis[0].kpm_satuan" class="form-control input-with-border">
-                                                            <option value="" selected disabled>Pilih Satuan Obat</option>
+                                                        <select asp-for="keperluanMedis[0].kpm_satuan" id="satuan_1" class="form-control form-control-lg">
+                                                            <option value="" selected disabled>Pilih Satuan</option>
+                                                            <option value="kapsul">Kapsul</option>
+                                                            <option value="tablet">Tablet</option>
                                                             <option value="buah">Buah</option>
                                                             <option value="kotak">Kotak</option>
                                                             <option value="strip">Strip</option>
@@ -114,11 +118,59 @@
             var newRow = $("<tr>");
             var cols = "";
 
+            $("#tblKeperluanMedis").on("blur", "input, select", function () {
+                document.getElementById('nama_barang').style.display = 'none';
+                document.getElementById('jumlah').style.display = 'none';
+                document.getElementById('satuan').style.display = 'none';
+
+                var namaBarangError = document.getElementById('nama_barang');
+                var jumlahError = document.getElementById('jumlah');
+                var satuanError = document.getElementById('satuan');
+
+                var obatRows = $("#tblKeperluanMedis tbody tr");
+                var hasError = false;
+
+                obatRows.each(function (i, row) {
+                    var namaBarang = $(row).find("input[name$='kpm_nama_barang']").val();
+                    var jumlah = $(row).find("input[name$='kpm_jumlah']").val();
+                    var satuan = $(row).find("select[name$='kpm_satuan']").val();
+
+                    if (!namaBarang) {
+                        namaBarangError.textContent = 'harus diisi';
+                        namaBarangError.style.display = 'inline';
+                        hasError = true;
+                    } else {
+                        namaBarangError.style.display = 'none';
+                    }
+
+                    if (!jumlah) {
+                        jumlahError.textContent = 'harus diisi';
+                        jumlahError.style.display = 'inline';
+                        hasError = true;
+                    } else {
+                        jumlahError.style.display = 'none';
+                    }
+
+                    if (!satuan) {
+                        satuanError.textContent = 'harus diisi';
+                        satuanError.style.display = 'inline';
+                        hasError = true;
+                    } else {
+                        satuanError.style.display = 'none';
+                    }
+                });
+
+                return !hasError;
+            });
+
+
             cols += '<td><input name="keperluanMedis[' + index + '].kpm_nama_barang" class="form-control" /></td>';
             cols += '<td><input name="keperluanMedis[' + index + '].kpm_jumlah" class="form-control" /></td>';
             cols += '<td>' +
                 '<select name="keperluanMedis[' + index + '].kpm_satuan" class="form-control input-with-border">' +
                 '<option value="" selected disabled>Pilih Satuan Obat</option>' +
+                '<option value="kapsul">Kapsul</option>' +
+                '<option value="Tablet">Tablet</option>' +
                 '<option value="buah">Buah</option>' +
                 '<option value="kotak">Kotak</option>' +
                 '<option value="strip">Strip</option>' +
@@ -153,22 +205,19 @@
         $(".submit-button").click(function (e) {
             if (!validateForm()) {
                 e.preventDefault();
+            } else {
+                // Tambahkan jeda 2 detik sebelum muncul alert
+                setTimeout(function () {
+                    Swal.fire("Sukses!", "Data berhasil disimpan.", "success").then(function () {
+                        // Setelah alert ditutup, refresh halaman
+                        window.location.reload();
+                    });
+                }, 2000);
             }
         });
 
         function validateForm() {
-            // Ganti dengan nama kolom yang sesuai
-            var requiredFields = ["anm_id_pasien", "anm_nama_pasien", "anm_prodi_atau_departemen", "anm_keluhan", "anm_diagnosa", "anm_prodi_atau_departemen"];
-
-            for (var i = 0; i < requiredFields.length; i++) {
-                var field = requiredFields[i];
-                var value = $("#" + field).val();
-                if (!value) {
-                    Swal.fire("Gagal!", "Isi data dengan lengkap!", "warning");
-                    return false;
-                }
-            }
-
+            var errors = [];
             // Validasi input nama barang, jumlah, dan satuan
             var obatRows = $("#tblKeperluanMedis tbody tr");
             obatRows.each(function (index, row) {
@@ -176,15 +225,85 @@
                 var jumlah = $(row).find("input[name$='kpm_jumlah']").val();
                 var satuan = $(row).find("select[name$='kpm_satuan']").val();
 
+                document.getElementById('nama_barang').style.display = 'none';
+                document.getElementById('jumlah').style.display = 'none';
+                document.getElementById('satuan').style.display = 'none';
+
                 if (!namaBarang || !jumlah || !satuan) {
-                    Swal.fire("Gagal!", "Isi data keperluan alat medis dengan lengkap pada baris " + (index + 1), "warning");
+                    errors.push("Isi data dengan lengkap pada baris " + (index + 1));
+
+                    if (!namaBarang) {
+                        document.getElementById('nama_barang').style.display = 'inline';
+                    }
+                    if (!jumlah) {
+                        document.getElementById('jumlah').style.display = 'inline';
+                    }
+                    if (!satuan) {
+                        document.getElementById('satuan').style.display = 'inline';
+                    }
+                }
+                if (jumlah <= 0) {
+                    Swal.fire("Gagal!", errors.join("<br>"), "warning");
                     return false;
                 }
+
+
             });
 
+            // Menampilkan pesan kesalahan obat jika ada
+            if (errors.length > 0) {
+                // Tambahkan jeda 2 detik sebelum muncul alert
+                setTimeout(function () {
+                    Swal.fire("Gagal!", errors.join("<br>"), "warning");
+                }, 0);
+                return false;
+            }
             return true;
         }
+    });
 
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById("nama_barang_1").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var namaBarangError = document.getElementById('nama_barang');
+            namaBarangError.style.display = 'none';
+
+            // Check username
+            var nama_barang = this.value.trim();
+
+            if (!nama_barang) {
+                namaBarangError.textContent = 'harus diisi';
+                namaBarangError.style.display = 'inline';
+            }
+        });
+
+        document.getElementById("jumlah_1").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var jumlahError = document.getElementById('jumlah');
+            jumlahError.style.display = 'none';
+
+            // Check username
+            var jumlah = this.value.trim();
+
+            if (!jumlah) {
+                jumlahError.textContent = 'harus diisi';
+                jumlahError.style.display = 'inline';
+            }
+        });
+
+        document.getElementById("satuan_1").addEventListener("blur", function (event) {
+            // Reset previous error messages
+            var satuanError = document.getElementById('satuan');
+            satuanError.style.display = 'none';
+
+            // Check username
+            var satuan = this.value.trim();
+
+            if (!satuan) {
+                satuanError.textContent = 'harus diisi';
+                satuanError.style.display = 'inline';
+            }
+        });
     });
 </script>
 
