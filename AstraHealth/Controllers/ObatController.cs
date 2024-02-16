@@ -155,6 +155,8 @@ namespace AstraHealth.Controllers
 
             if (file != null && file.Length > 0)
             {
+                var fileName = file.FileName;
+                var tempPath = Path.Combine(Path.GetTempPath(), fileName);
                 using (var stream = file.OpenReadStream())
                 {
                     using (var package = new ExcelPackage(stream))
